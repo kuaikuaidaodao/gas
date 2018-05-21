@@ -17,4 +17,6 @@ public interface IStationinfoService {
     int update(String device_id, String name);
 
     List<Stationinfo> selectStation(int pageNo, int pageSize, int user_id);
+
+    int insertStationAndUser(String user_id, String station_id);
 }

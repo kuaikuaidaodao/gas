@@ -150,6 +150,21 @@ public class UserinfoController {
         return stationinfoMapper.deleteStationAndUser(user_id,station_id);
     }
     /**
+     * 分配
+     */
+    @RequestMapping("insertStationAndUser")
+    int insertStationAndUser(String user_id,String station_id){
+        int k=1;
+        String[] strings=station_id.split(",");
+        for (String str: strings){
+            int i=iStationinfoService.insertStationAndUser(user_id,str);
+            if (i==0){
+                k=0;
+            }
+        }
+        return k;
+    }
+    /**
      * 置顶
      */
     @RequestMapping("setTop")

@@ -64,5 +64,9 @@
     <delete id="deleteStationAndUser" >
         delete  from tbl_user_station_relation where user_id=#{user_id} and station_id=#{station_id}
     </delete>
-
+    <insert id="insertStationAndUser" useGeneratedKeys="true" >
+        INSERT INTO `tbl_user_station_relation`
+        (`user_id`,`station_id`)
+        VALUES (#{user_id},#{station_id})
+    </insert>
 </mapper>

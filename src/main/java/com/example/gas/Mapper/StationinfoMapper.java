@@ -32,4 +32,6 @@ public interface StationinfoMapper {
     List<Stationinfo> selectStationNo(@Param("user_id") int user_id);
 
     int deleteStationAndUser(@Param("user_id") String user_id, @Param("station_id") String station_id);
+
+    int insertStationAndUser(@Param("user_id") String user_id, @Param("station_id") String station_id);
 }
