@@ -16,4 +16,6 @@ public interface IUserinfoService {
    List<Userinfo> findByNoPage();
     // 通过用户名查询
     List<Userinfo> searchByName(int i, int i1, String unit_name);
+
+    int setTop(String id, String set_top);
 }

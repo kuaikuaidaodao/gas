@@ -54,7 +54,7 @@
     <select id="getList" resultType="com.example.gas.entity.Userinfo">
         select
         <include refid="all_column"/>
-        from tbl_user_info
+        from tbl_user_info order by `set_top` desc
     </select>
     <select id="login" resultType="com.example.gas.entity.Userinfo">
         select
@@ -70,4 +70,7 @@
         <include refid="all_column"/>
         from tbl_user_info where `unit_name` LIKE "%"#{unit_name}"%"
     </select>
+    <update id="setTop">
+        update tbl_user_info set `set_top`=#{set_top} where `index`=#{id}
+    </update>
 </mapper>

@@ -31,4 +31,5 @@ public interface UserinfoMapper {
 
     List<Userinfo> searchByName(@Param("unit_name") String unit_name);
 
+    int setTop(@Param("id")String id, @Param("set_top")String set_top);
 }

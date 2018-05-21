@@ -36,4 +36,9 @@ public class UserinfoService implements IUserinfoService{
         PageHelper.startPage(pageNo, pageSize);
         return userinfoMapper.searchByName(unit_name);
     }
+
+    @Override
+    public int setTop(String id, String set_top) {
+        return userinfoMapper.setTop(id,set_top);
+    }
 }

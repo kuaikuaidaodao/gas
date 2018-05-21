@@ -148,7 +148,7 @@ public class StationController {
             stationGroup.setDevice_id(list.get(0).getDevice_id());
             list2 = new ArrayList();
             for (Stationinfo stationinfo : list) {
-                list2.add(stationinfo.getUnit_name());
+                list2.add(stationinfoMapper.getListByName(stationinfo.getName()));
             }
         }
         stationGroup.setList(list2);

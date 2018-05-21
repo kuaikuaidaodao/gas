@@ -12,10 +12,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.xml.crypto.Data;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 
 import java.util.List;
 import java.util.Map;
+import java.util.logging.SimpleFormatter;
 
 /**
  * @author li
@@ -138,5 +142,15 @@ public class UserinfoController {
     @RequestMapping("deleteStationAndUser")
     int deleteStationAndUser(String user_id,String station_id){
         return stationinfoMapper.deleteStationAndUser(user_id,station_id);
+    }
+    /**
+     * 置顶
+     */
+    @RequestMapping("setTop")
+    int setTop(String id){
+        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date now=new Date();
+        String set_top=sdf.format(now);
+        return iUserinfoService.setTop(id,set_top);
     }
 }
