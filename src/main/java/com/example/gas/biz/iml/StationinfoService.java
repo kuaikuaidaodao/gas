@@ -15,7 +15,7 @@ public class StationinfoService implements IStationinfoService {
     StationinfoMapper stationinfoMapper;
     @Override
     public int insert(Stationinfo stationinfo) {
-        return stationinfoMapper.insert(stationinfo);
+        return   stationinfoMapper.insert(stationinfo);
     }
 
 

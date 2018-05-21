@@ -11,7 +11,7 @@ import java.util.Map;
 @Service
 @Mapper
 public interface StationinfoMapper {
-    int insert(@Param("pojo") Stationinfo pojo);
+    int insert(Stationinfo stationinfo);
 
     int update(@Param("pojo") Stationinfo pojo);
 

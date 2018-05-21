@@ -22,13 +22,15 @@
     <!--auto generated Code  <selectKey resultType="java.lang.Long" order="AFTER" keyProperty="productId">
           SELECT LAST_INSERT_ID()
       </selectKey>-->
-    <insert id="insert" >
-        <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="index">
-            SELECT LAST_INSERT_ID()
-        </selectKey>
+    <insert id="insert"  parameterType="com.example.gas.entity.Stationinfo" useGeneratedKeys="true" keyProperty="index" >
+        <!--<selectKey resultType="Integer" order="AFTER" keyProperty="index">-->
+            <!--SELECT LAST_INSERT_ID()-->
+        <!--</selectKey>-->
         INSERT INTO `tbl_station_info`
         (<include refid="insert_column"/>)
-        VALUES (#{pojo.name},#{pojo.longitude},#{pojo.latitude},#{pojo.device_id})
+        VALUES (#{name},#{longitude},#{latitude},#{device_id})
+
+
     </insert>
 
     <insert id="update" >
