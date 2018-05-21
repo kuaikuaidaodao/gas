@@ -65,6 +65,11 @@ public class UserinfoController {
         return userinfoMapper.get(id);
     }
 
+    /**
+     * 用户分页
+     * @param pageNo
+     * @return
+     */
     @RequestMapping("getList")
     PageInfo<Userinfo> getList(int pageNo) {
         List<Userinfo> userinfos = iUserinfoService.findByPage(pageNo, Common.USERPAGESIZE);
@@ -73,6 +78,15 @@ public class UserinfoController {
         return pageInfo;
     }
 
+    /**
+     * 用户不分页
+     * @return
+     */
+    @RequestMapping("getListNoPage")
+    List<Userinfo> getListNoPage() {
+        List<Userinfo> userinfos = iUserinfoService.findByNoPage();
+        return userinfos;
+    }
     @RequestMapping("searchByName")
     PageInfo<Userinfo> searchByName(String unit_name, int pageNo) {
         List<Userinfo> userinfos = iUserinfoService.searchByName(pageNo, Common.USERPAGESIZE, unit_name);

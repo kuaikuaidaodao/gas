@@ -27,6 +27,11 @@ public class UserinfoService implements IUserinfoService{
     }
 
     @Override
+    public List<Userinfo> findByNoPage() {
+        return userinfoMapper.getList();
+    }
+
+    @Override
     public List<Userinfo> searchByName(int pageNo, int pageSize, String unit_name) {
         PageHelper.startPage(pageNo, pageSize);
         return userinfoMapper.searchByName(unit_name);

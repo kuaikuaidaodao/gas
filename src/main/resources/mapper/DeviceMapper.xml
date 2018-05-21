@@ -108,14 +108,21 @@
         <result column="medium" property="medium"/>
     </resultMap>
     <select id="getList" resultMap="DeviceResultMap">
-        select   *  from tbl_device_data_current where station_name in (select `name` from tbl_station_info where `UNIT_NAME`=#{unit_name})
+        select a.*,b.*,c.*,d.* from tbl_device_data_current a
+        LEFT JOIN tbl_station_info b ON a.DEVICE_ID=b.device_id
+ LEFT JOIN tbl_device_info c ON a.DEVICE_ID=c.DEVICE_ID LEFT JOIN tbl_warn_info d ON a.DEVICE_ID=d.DEVICE_ID
+ where a.station_name in (select `name` from tbl_station_info where `UNIT_NAME`=#{unit_name})
     </select>
     <select id="getListDefault" resultMap="DeviceResultMap">
         select   a.*,b.*,c.*,d.*  from tbl_device_data_current a LEFT JOIN tbl_station_info b ON a.DEVICE_ID=b.device_id
  LEFT JOIN tbl_device_info c ON a.DEVICE_ID=c.DEVICE_ID LEFT JOIN tbl_warn_info d ON a.DEVICE_ID=d.DEVICE_ID
     </select>
     <select id="searchBydevice_idOrstation" resultMap="DeviceResultMap">
-       select   *  from tbl_device_data_current where `device_id`=#{info} union select   *  from tbl_device_data_current where `station_name`=#{info}
+       select a.*,b.*,c.*,d.* from tbl_device_data_current a
+        LEFT JOIN tbl_station_info b ON a.DEVICE_ID=b.device_id
+ LEFT JOIN tbl_device_info c ON a.DEVICE_ID=c.DEVICE_ID LEFT JOIN tbl_warn_info d ON a.DEVICE_ID=d.DEVICE_ID where a.`device_id`=#{info} union select a.*,b.*,c.*,d.* from tbl_device_data_current a
+        LEFT JOIN tbl_station_info b ON a.DEVICE_ID=b.device_id
+ LEFT JOIN tbl_device_info c ON a.DEVICE_ID=c.DEVICE_ID LEFT JOIN tbl_warn_info d ON a.DEVICE_ID=d.DEVICE_ID where a.`station_name`=#{info}
     </select>
     <select id="getDetail" resultMap="DeviceResultMap">
        select   *  from tbl_device_data_current where `device_id`=#{device_id}
