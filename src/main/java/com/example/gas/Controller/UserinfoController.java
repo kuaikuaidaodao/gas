@@ -40,18 +40,18 @@ public class UserinfoController {
      * @return
      */
     @RequestMapping("login")
-    Userinfo login(String userName, String password) {
+    Map login(String userName, String password) {
         Userinfo userinfo = userinfoMapper.login(userName, password);
         Map map = new HashMap();
         if (userinfo != null) {
             map.put("status", "success");
-            map.put("登陆成功", userinfo);
+            map.put("msg", userinfo);
         } else {
             map.put("status", "error");
-            map.put("登陆失败", "用户名不存在或密码错误");
+            map.put("msg", "用户名不存在或密码错误");
 
         }
-        return userinfo;
+        return map;
     }
 
     /**
