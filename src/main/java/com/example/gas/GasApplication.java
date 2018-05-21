@@ -25,12 +25,8 @@ public class GasApplication {
     IUserinfoService iUserinfoService;
 
     @RequestMapping("/")
-    @ResponseBody
-    PageInfo<Userinfo> home() {
-        List<Userinfo> persons = iUserinfoService.findByPage(1, 2);
-        // 需要把Page包装成PageInfo对象才能序列化。该插件也默认实现了一个PageInfo
-        PageInfo<Userinfo> pageInfo = new PageInfo<Userinfo>(persons);
-        return pageInfo;
+    String home() {
+        return "index";
     }
 
     public static void main(String[] args) {
