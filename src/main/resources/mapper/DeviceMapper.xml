@@ -76,7 +76,6 @@
             <id column="device_id" property="device_id"/>
             <result column="name" property="name"/>
             <result column="index" property="index"/>
-            <result column="unit_name" property="unit_name"/>
             <result column="longitude" property="longitude"/>
             <result column="latitude" property="latitude"/>
         </association>
