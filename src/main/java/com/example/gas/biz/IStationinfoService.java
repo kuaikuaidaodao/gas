@@ -15,4 +15,6 @@ public interface IStationinfoService {
 
     // 站点修改
     int update(String device_id, String name);
+
+    List<Stationinfo> selectStation(int pageNo, int pageSize, int user_id);
 }

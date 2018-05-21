@@ -30,7 +30,11 @@ public class StationinfoService implements IStationinfoService {
         PageHelper.startPage(pageNo, pageSize);
         return stationinfoMapper.serchByUnitName(unit_name);
     }
-
+    @Override
+    public List<Stationinfo> selectStation(int pageNo, int pageSize, int user_id) {
+        PageHelper.startPage(pageNo, pageSize);
+        return stationinfoMapper.selectStation(user_id);
+    }
     @Override
     public int update(String device_id, String name) {
     return stationinfoMapper.update(device_id,name);

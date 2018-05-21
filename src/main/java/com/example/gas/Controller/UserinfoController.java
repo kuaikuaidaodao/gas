@@ -4,6 +4,7 @@ package com.example.gas.Controller;
 import com.example.gas.Config.Common;
 import com.example.gas.Mapper.StationinfoMapper;
 import com.example.gas.Mapper.UserinfoMapper;
+import com.example.gas.biz.IStationinfoService;
 import com.example.gas.biz.IUserinfoService;
 import com.example.gas.entity.Stationinfo;
 import com.example.gas.entity.Userinfo;
@@ -35,6 +36,8 @@ public class UserinfoController {
     IUserinfoService iUserinfoService;
     @Autowired
     StationinfoMapper stationinfoMapper;
+    @Autowired
+    IStationinfoService iStationinfoService;
 
     /**
      * 登录
@@ -126,8 +129,11 @@ public class UserinfoController {
      **通过userid查询user下站点
      */
     @RequestMapping("selectStation")
-    List<Stationinfo> selectStation(int user_id) {
-        return stationinfoMapper.selectStation(user_id);
+    PageInfo<Stationinfo> selectStation(int user_id ,int pageNo) {
+        List<Stationinfo> stationinfos=iStationinfoService.selectStation(pageNo,Common.DEVICEPAGESIZE,user_id);
+        // 需要把Page包装成PageInfo对象才能序列化。该插件也默认实现了一个PageInf0
+        PageInfo<Stationinfo> pageInfo = new PageInfo<Stationinfo>(stationinfos);
+        return pageInfo;
     }
     /**
      * 待分配站点
