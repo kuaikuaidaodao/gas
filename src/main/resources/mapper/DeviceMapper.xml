@@ -111,7 +111,7 @@
         select a.*,b.*,c.*,d.* from tbl_device_data_current a
         LEFT JOIN tbl_station_info b ON a.DEVICE_ID=b.device_id
  LEFT JOIN tbl_device_info c ON a.DEVICE_ID=c.DEVICE_ID LEFT JOIN tbl_warn_info d ON a.DEVICE_ID=d.DEVICE_ID
- where a.station_name in (select `name` from tbl_station_info where `UNIT_NAME`=#{unit_name})
+ where a.station_name in (select `name` from tbl_station_info where `index` in (select station_id from tbl_user_station_relation where `unit_name` = #{unit_name}))
     </select>
     <select id="getListDefault" resultMap="DeviceResultMap">
         select   a.*,b.*,c.*,d.*  from tbl_device_data_current a LEFT JOIN tbl_station_info b ON a.DEVICE_ID=b.device_id
