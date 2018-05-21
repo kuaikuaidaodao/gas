@@ -1,0 +1,230 @@
+<html lang="zh">
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta name="author" content="shihao">
+    <meta name="robots" content="index,follow">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta name="x-ua-compatible" content="id=edge,chrome=1">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="keywords" content="储气罐,智能监控,管理,云,智能,监控">
+    <link rel="stylesheet" href="/plugins/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="/plugins/bootstrap/css/bootstrap-table.css">
+    <link rel="stylesheet" href="/plugins/bootstrap/css/bootstrap-theme.css">
+    <link rel="stylesheet" href="/plugins/font-awesome-4.7.0/css/font-awesome.css">
+    <link rel="stylesheet" href="/css/index.css">
+    <title>云端控--站点管理</title>
+</head>
+<body>
+<div class="header">
+    <div class="logo-container">
+        <a href="/"><img src="/images/logo.png" alt=""><b>云端智控监测管理系统</b></a>
+    </div>
+    <ul class="nav">
+        <li><a href="/" class="stationMo">站点监控</a></li>
+        <li class="active"><a href="/html/stationManage.html" class="stationMan">站点管理</a></li>
+        <li><a href="/html/deviceManage.html" class="deviceMan">设备管理</a></li>
+        <li><a href="/html/sysSearch.html" class="systemSearch">系统查询</a></li>
+        <li><a href="/html/userManage.html" class="userMan">用户管理</a></li>
+        <li><a href="" class="authorityMan">权限管理</a></li>
+        <li><a href="/html/perCenter.html" class="perCenter">个人中心</a></li>
+    </ul>
+</div>
+<div class="content">
+    <div class="user-container">
+        <div class="row search-user">
+            <form action="">
+                <div class="col-md-offset-1 col-md-10">
+                    <div class="input-group">
+                        <input type="text" class="form-control user-search-input" id="searchUserList"
+                               placeholder="搜索用户关键字">
+                    </div>
+                </div>
+            </form>
+        </div>
+        <ul class="user-list" id="user-list"></ul>
+        <div id="user-page" class="user-page"></div>
+    </div>
+    <div class="data-container">
+        <div id="toolBar">
+            <div class="toolbar-left">
+                    <div class="form-group">
+                        <input type="text" placeholder="搜索IMEI号或站点名" class="form-control" id="searchById">
+                    </div>
+            </div>
+            <div class="toolbar-right">
+                <a href="javascript:void (0)" class="addStation" id="addStation" data-toggle="modal"
+                   data-target="#addStationModal"> 添加站点</a>
+                <a href="javascript:void (0)" class="station-map" id="stationMap">站点地图</a>
+            </div>
+        </div>
+        <div class="table-container">
+            <table id="table" class="table">
+                <thead>
+                <tr>
+                    <th>单位名称</th>
+                    <th>站点名称</th>
+                    <th>IMEI</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+        <div id="page"></div>
+    </div>
+</div>
+<div class="modal fade" id="editStation" tabindex="-1" role="dialog" aria-labelledby="editLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="editLabel">站点修改</h4>
+            </div>
+            <div class="modal-body">
+                <form action="">
+                    <div class="form-group">
+                        <label for="edit-station-input" class="control-label">站点名称</label>
+                        <input type="text" id="edit-station-input" class="form-control">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" id="submitEdit" class="btn btn-primary">提交更改</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="addStationModal" tabindex="-1" role="dialog" aria-labelledby="addLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="addLabel">新增站点</h4>
+            </div>
+            <div class="modal-body">
+                <form action="">
+                    <div class="form-group">
+                        <label for="edit-station-input" class="control-label">IMEI</label>
+                        <input type="text" id="add-station-IMEI" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label for="edit-station-input" class="control-label">站点名称</label>
+                        <input type="text" id="add-station-name" class="form-control">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" id="submitAdd" class="btn btn-primary">提交更改</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="/js/jquery-3.3.1.js"></script>
+<script type="text/javascript" src="/js/jquery.tmpl.js"></script>
+<script type="text/javascript" src="/plugins/bootstrap/js/bootstrap.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+<script id="tableList" type="text/x-jquery-tmpl">
+    <tr class="tableRow">
+        <td>${unit_name}</td>
+        <td>${name}</td>
+        <td>${device_id}</td>
+        <td><a class="btn editStation" data-toggle="modal" data-target="#editStation" data-name=${name} data-id=${device_id}>站点修改</a></td>
+    </tr>
+</script>
+<script type="text/javascript">
+    $(function () {
+        getUsers(1);
+        function getDataList(pageNo) {
+            $.getJSON("/station/getList", {"pageNo": pageNo}, function (data) {
+                $("#page").html(setPage(data, "table"));
+                $("#table tbody").html("");
+                $("#tableList").tmpl(data.list).appendTo("#table tbody");
+            });
+        }
+        getDataList(1);
+        $("#searchUserList").on("keypress", function (event) {
+            if (event.keyCode == '13') {
+                var val = $(this).val();
+                $.getJSON("/userinfo/searchByName", {"unit_name": val, "pageNo": 1}, function (data) {
+                    insertUserList(data);
+                });
+                return false;
+            }
+        });
+        $("#editStation").on("show.bs.modal", function (event) {
+            var btn = $(event.relatedTarget);
+            var name = btn.data("name");
+            var id = btn.data("id");
+            var modal = $(this);
+            modal.find(".modal-body input").val(name);
+            modal.find(".modal-footer button#submitEdit").attr("device_id", id)
+        });
+        $("#submitEdit").click(function () {
+            var name = $("#edit-station-input").val();
+            var id = $(this).attr("device_id");
+            $.get("/station/update", {"device_id": id, "name": name}, function (data) {
+                if (data) {
+                    $("#editStation").modal("hide");
+                    getDataList(parseInt($("#table-sur-page").html()))
+                } else {
+                    alert("修改失败")
+                }
+            })
+        });
+        $("#submitAdd").click(function () {
+            var deId = $("#add-station-IMEI").val(),
+                staName = $("#add-station-name").val();
+            if (deId.length == 0 || staName.length == 0) {
+                alert("请完成输入后再提交")
+            } else {
+                $.ajax({
+                    type: "get",
+                    url: "/station/insert",
+                    dataType: "text",
+                    data: {"device_id": deId, "name": staName},
+                    // contentType: "application/json;charset=UTF-8",
+                    success: function (data) {
+                        if(data=="1"){
+                            getDataList(1);
+                            $("#addStationModal").modal("hide")
+                        }
+
+                    }
+                })
+            }
+        });
+        $("#searchById").on("keypress", function (event) {
+            if (event.keyCode == '13') {
+                var val = $(this).val();
+                var pageNo=parseInt($("#table-cur-page").html());
+                $.getJSON("/station/getGroupListByNameOrImit", {"info": val, "pageNo": pageNo}, function (data) {
+                    var len=data.list.length;
+                    var unitArr=data.list;
+                    var tableHTml="<tr class='tableRow'>" +
+                        "<td>"+unitArr[0]+"</td>" +
+                        "<td rowspan='"+len+"'>"+data.name+"</td>" +
+                        "<td rowspan='"+len+"'>"+data.device_id+"</td>" +
+                        "<td rowspan='"+len+"'><a class=\"btn editStation\" data-toggle=\"modal\" data-target=\"#editStation\" data-name='"+data.name+"' data-id='"+data.device_id+"'>站点修改</a></td>" +
+                        "</tr>";
+                    if(len>1){
+                        for (var i=1;i<len;i++){
+                            tableHTml+="<tr class='tableRow'><td>"+unitArr[i]+"</td></tr>"
+                        }
+                    }
+                    // $("#page").html(setPage(data, "table"));
+                    $("#table tbody").html(tableHTml);
+                    // $("#tableList").tmpl(data).appendTo("#table tbody");
+                });
+            }
+        });
+    })
+</script>
+</body>
+</html>

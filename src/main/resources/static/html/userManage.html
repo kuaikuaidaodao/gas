@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta name="author" content="shihao">
+    <meta name="robots" content="index,follow">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta name="x-ua-compatible" content="id=edge,chrome=1">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="keywords" content="储气罐,智能监控,管理,云,智能,监控">
+    <link rel="stylesheet" href="/plugins/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="/plugins/bootstrap/css/bootstrap-table.css">
+    <link rel="stylesheet" href="/plugins/bootstrap/css/bootstrap-theme.css">
+    <link rel="stylesheet" href="/plugins/font-awesome-4.7.0/css/font-awesome.css">
+    <link rel="stylesheet" href="/css/index.css">
+    <title>云端智控--用户管理</title>
+</head>
+<body>
+<div class="header">
+    <div class="logo-container">
+        <a href="/"><img src="/images/logo.png" alt=""><b>云端智控监测管理系统</b></a>
+    </div>
+    <ul class="nav">
+        <li><a href="/" class="stationMo">站点监控</a></li>
+        <li><a href="/html/stationManage.html" class="stationMan">站点管理</a></li>
+        <li><a href="/html/deviceManage.html" class="deviceMan">设备管理</a></li>
+        <li><a href="/html/sysSearch.html" class="systemSearch">系统查询</a></li>
+        <li class="active"><a href="/html/userManage.html" class="userMan">用户管理</a></li>
+        <li><a href="" class="authorityMan">权限管理</a></li>
+        <li><a href="/html/perCenter.html" class="perCenter">个人中心</a></li>
+    </ul>
+</div>
+<div class="content">
+    <div class="data-container" style="width: 100%">
+        <div id="toolBar">
+            <div class="toolbar-left">
+                <div class="form-group">
+                    <input type="text" class="form-control" id="searchByName" placeholder="单位名称">
+                </div>
+
+            </div>
+            <div class="toolbar-right">
+                <a href="javascript:void (0)" class="add" id="add">添加用户</a>
+       <!--         <a href="javascript:void (0)" class="edit" id="edit">修改用户</a>
+                <a href="javascript:void (0)" class="dash" id="del">删除用户</a>
+     -->       </div>
+        </div>
+        <div class="table-container">
+            <table id="table" class="table">
+                <thead>
+                <tr>
+                    <th>单位名称</th>
+                    <th>用户名</th>
+                    <th>创建时间</th>
+                    <th>邮箱</th>
+                    <th>电话</th>
+                    <th>置顶</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+        <div id="page"></div>
+    </div>
+</div>
+<script type="text/javascript" src="/js/jquery-3.3.1.js"></script>
+<script type="text/javascript" src="/js/jquery.tmpl.js"></script>
+<script type="text/javascript" src="/js/echarts.js"></script>
+<script type="text/javascript" src="/plugins/bootstrap/js/bootstrap.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+<script type="text/x-jquery-tmpl" id="userList">
+    <tr class="tableRow">
+        <td>${unitName}</td>
+        <td>${userName}</td>
+        <td>${createTime}</td>
+        <td>${email}</td>
+        <td>${telePhone}</td>
+        <td><a class="btn">置顶</a></td>
+        <td><a class="btn" data=${index}>修改</a><a class="btn">删除</a><a class="btn">站点分配</a></td>
+    </tr>
+</script>
+<script>
+    $(function () {
+        function getDataList(pageNo){
+            $.getJSON("/userinfo/getList",{"pageNo":pageNo},function (data) {
+                $("#page").html(setPage(data,"table"));
+                $("#table tbody").html("");
+                $("#userList").tmpl(data.list).appendTo("#table tbody");
+            });
+        }
+       getDataList(1);
+        $("#searchByName").on("keypress", function (event) {
+            if (event.keyCode == '13') {
+                var val = $(this).val();
+                $.getJSON("/userinfo/searchByName", {"unit_name": val, "pageNo": 1}, function (data) {
+                    $("#page").html(setPage(data,"table"));
+                    $("#table tbody").html("");
+                    $("#userList").tmpl(data.list).appendTo("#table tbody");
+                });
+                return false;
+            }
+        });
+    })
+</script>
+</body>
+</html>

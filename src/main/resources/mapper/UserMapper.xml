@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.gas.Mapper.UserinfoMapper">
+
+    <!--auto generated Code-->
+    <resultMap id="AllColumnMap" type="com.example.gas.entity.Userinfo">
+        <result column="index" property="id"/>
+        <result column="unit_name" property="unitName"/>
+        <result column="user_name" property="userName"/>
+        <result column="email" property="email"/>
+        <result column="telephone" property="telePhone"/>
+        <result column="create_time" property="create_time"/>
+        <result column="password" property="password"/>
+    </resultMap>
+
+    <!--auto generated Code-->
+    <sql id="all_column">
+        `index` AS `index`,
+        `unit_name` AS `unitName`,
+        `user_name` AS `userName`,
+         `email` AS `email`,
+        `telePhone` AS `telePhone`,
+        `create_time` AS `create_time`,
+         `password` AS  `password`
+    </sql>
+
+    <!--auto generated Code-->
+    <insert id="insert">
+        <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="index">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        INSERT INTO `tbl_user_info`
+        (
+        `unit_name`,
+        `user_name`,
+        `email`,
+        `telephone`,
+        `create_time`,
+        `password`)
+        VALUES (#{pojo.unitName},#{pojo.userName},#{pojo.email},#{pojo.telePhone},#{pojo.create_time},#{pojo.password})
+    </insert>
+    <update id="update">
+       UPDATE `tbl_user_info`
+       SET
+        `unit_name`=#{pojo.unitName},`user_name`=#{pojo.userName},`email`=#{pojo.email},`telephone`=#{pojo.telePhone},`create_time`=#{pojo.create_time},`password`=#{pojo.password}
+        where `index`=#{pojo.index}
+    </update>
+    <!--auto generated Code-->
+    <select id="get" resultType="com.example.gas.entity.Userinfo">
+        select
+        <include refid="all_column"/>
+        from tbl_user_info where `index` = #{id}
+    </select>
+    <select id="getList" resultType="com.example.gas.entity.Userinfo">
+        select
+        <include refid="all_column"/>
+        from tbl_user_info
+    </select>
+    <select id="login" resultType="com.example.gas.entity.Userinfo">
+        select
+        <include refid="all_column"/>
+        from tbl_user_info WHERE `user_name` = #{userName} and `password` = #{password}
+    </select>
+    <delete id="delete">
+        delete  from tbl_user_info WHERE  `index` = #{index}
+    </delete>
+
+    <select id="searchByName" resultType="com.example.gas.entity.Userinfo">
+        select
+        <include refid="all_column"/>
+        from tbl_user_info where `unit_name` LIKE "%"#{unit_name}"%"
+    </select>
+</mapper>

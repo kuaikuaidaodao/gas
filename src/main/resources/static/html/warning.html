@@ -1,0 +1,258 @@
+<html lang="zh">
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta name="author" content="shihao">
+    <meta name="robots" content="index,follow">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta name="x-ua-compatible" content="id=edge,chrome=1">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="keywords" content="储气罐,智能监控,管理,云,智能,监控">
+    <link rel="stylesheet" href="/plugins/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="/plugins/bootstrap/css/bootstrap-table.css">
+    <link rel="stylesheet" href="/plugins/bootstrap/css/bootstrap-theme.css">
+    <link rel="stylesheet" href="/plugins/font-awesome-4.7.0/css/font-awesome.css">
+    <link rel="stylesheet" href="/css/index.css">
+    <title>云端智控--设备管理</title>
+</head>
+<body>
+<div class="header">
+    <div class="logo-container">
+        <a href="/"><img src="/images/logo.png" alt=""><b>云端智控监测管理系统</b></a>
+    </div>
+    <ul class="nav">
+        <li><a href="/" class="stationMo">站点监控</a></li>
+        <li><a href="/html/stationManage.html" class="stationMan">站点管理</a></li>
+        <li class="active"><a href="/html/deviceManage.html" class="deviceMan">设备管理</a></li>
+        <li><a href="/html/sysSearch.html" class="systemSearch">系统查询</a></li>
+        <li><a href="/html/userManage.html" class="userMan">用户管理</a></li>
+        <li><a href="" class="authorityMan">权限管理</a></li>
+        <li><a href="/html/perCenter.html" class="perCenter">个人中心</a></li>
+    </ul>
+</div>
+<div class="content">
+    <div class="data-container" style="width: 100%">
+        <div id="toolBar">
+            <div class="toolbar-left">
+                <a href="javascript:history.back()"><</a>
+            </div>
+            <div class="toolbar-right">
+                <div class="form-group">
+                    <input type="text" id="searchById" class="form-control" placeholder="搜索ID号">
+                </div>
+            </div>
+        </div>
+        <div class="table-container">
+            <table id="table" class="table">
+                <thead>
+                <tr>
+                    <th rowspan="2"><label for="checkAll">全选</label> <input type="checkbox" id="checkAll"></th>
+                    <th rowspan="2">ID号</th>
+                    <th rowspan="2">设备名称</th>
+                    <th colspan="2">质量百分比</th>
+                    <th colspan="2">压力(MPa)</th>
+                    <th colspan="2">温度(℃)</th>
+                    <th colspan="2">电池电压(V)</th>
+                    <th>修改</th>
+                </tr>
+                <tr>
+                    <th>低报警≤</th>
+                    <th>高报警≥</th>
+                    <th>低报警≤</th>
+                    <th>高报警≥</th>
+                    <th>低报警≤</th>
+                    <th>高报警≥</th>
+                    <th>低报警≤</th>
+                    <th>高报警≥</th>
+                    <th>
+                        <button class="btn" data-toggle="modal" data-target="#editModal">批量修改</button>
+                    </th>
+                </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+        <div id="page"></div>
+    </div>
+</div>
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title text-center" id="editLabel">报警修改</h4>
+            </div>
+            <div class="modal-body">
+                <form action="">
+                    <div class="row">
+                        <div class="col-md-2"></div>
+                        <div class="col-md-5 text-center"><i>低报警</i></div>
+                        <div class="col-md-5 text-center"><i>高报警</i></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2 text-right">质量百分比:</div>
+                        <div class="col-md-5">
+                            <div class="form-group"><input class="form-control" type="text" id="warn-lw"></div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="form-group"><input class="form-control" type="text" id="warn-hw"></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2 text-right">压力:</div>
+                        <div class="col-md-5">
+                            <div class="form-group"><input class="form-control" type="text" id="warn-lp"></div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="form-group"><input class="form-control" type="text" id="warn-hp"></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2 text-right">温度:</div>
+                        <div class="col-md-5">
+                            <div class="form-group"><input class="form-control" type="text" id="warn-lt"></div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="form-group"><input class="form-control" type="text" id="warn-ht"></div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2 text-right">电池电压:</div>
+                        <div class="col-md-5">
+                            <div class="form-group"><input class="form-control" type="text" id="warn-lv"></div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="form-group"><input class="form-control" type="text" id="warn-hv"></div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" id="submitAdd" class="btn btn-primary">提交更改</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="/js/jquery-3.3.1.js"></script>
+<script type="text/javascript" src="/js/jquery.tmpl.js"></script>
+<script type="text/javascript" src="/js/echarts.js"></script>
+<script type="text/javascript" src="/plugins/bootstrap/js/bootstrap.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+<script id="dataList" type="text/x-jquery-tmpl">
+    <tr class="tableRow">
+        <td><input type="checkbox" data-id=${device_id}></td>
+        <td>${device_id}</td>
+        <td>${type}</td>
+        <td>${warninfo.low_weight}</td>
+        <td>${warninfo.height_weight}</td>
+        <td>${warninfo.low_pressure}</td>
+        <td>${warninfo.height_pressure}</td>
+        <td>${warninfo.low_temperature}</td>
+        <td>${warninfo.height_temperature}</td>
+        <td>${warninfo.low_voltage}</td>
+        <td>${warninfo.height_voltage}</td>
+        <td><a class="btn" data-lw='${warninfo.low_weight}' data-hw='${warninfo.height_weight}' data-lp='${warninfo.low_pressure}' data-hp='${warninfo.height_pressure}'  data-lt='${warninfo.low_temperature}' data-ht='${warninfo.height_temperature}'  data-lv='${warninfo.low_voltage}' data-hv='${warninfo.height_voltage}' data-toggle="modal" data-target="#editModal" data-id=${device_id}>编辑</a></td>
+    </tr>
+</script>
+<script type="text/javascript">
+    $(function () {
+        function getDataList(pageNo) {
+            $.getJSON("/warn/getList", {"pageNo": pageNo}, function (data) {
+                $("#table tbody").html("");
+                $("#dataList").tmpl(data.list).appendTo("#table tbody");
+                delete data.list;
+                $("#page").html(setPage(data, "table"));
+            })
+        }
+
+        getDataList(1);
+        var chooseId = "";
+        $("#editModal").on("show.bs.modal", function (event) {
+            if (event.relatedTarget.tagName === "A") {
+                var btn = $(event.relatedTarget);
+                $("#warn-lw").val(btn.data("lw"));
+                $("#warn-hw").val(btn.data("hw"));
+                $("#warn-lp").val(btn.data("lp"));
+                $("#warn-hp").val(btn.data("hp"));
+                $("#warn-lt").val(btn.data("lt"));
+                $("#warn-ht").val(btn.data("ht"));
+                $("#warn-lv").val(btn.data("lv"));
+                $("#warn-hv").val(btn.data("hv"));
+                chooseId = btn.data("id").toString();
+            } else {
+                var idArr = [];
+                $("#table tbody input:checked").each(function () {
+                    idArr.push($(this).data("id"));
+                });
+                $(this).find(".modal-body input").val("");
+                chooseId = idArr.join(",");
+            }
+        });
+        $("#submitAdd").click(function () {
+            var lw = $("#warn-lw").val(),
+                hw = $("#warn-hw").val(),
+                lp = $("#warn-lp").val(),
+                hp = $("#warn-hp").val(),
+                lt = $("#warn-lt").val(),
+                ht = $("#warn-ht").val(),
+                lv = $("#warn-lv").val(),
+                hv = $("#warn-hv").val();
+            var data = {"device_id": chooseId};
+            if (lw.length > 0) {
+                data.low_weight = lw;
+            }
+            if (hw.length > 0) {
+                data.height_weight = hw;
+            }
+            if (lp.length > 0) {
+                data.low_pressure = lp;
+            }
+            if (hp.length > 0) {
+                data.height_pressure = hp;
+            }
+            if (lt.length > 0) {
+                data.low_temperature = lt;
+            }
+            if (ht.length > 0) {
+                data.height_temperature = ht;
+            }
+            if (lv.length > 0) {
+                data.low_voltage = lv;
+            }
+            if (hv.length > 0) {
+                data.height_voltage = hv;
+            }
+            data=JSON.stringify(data);
+            $.ajax({
+                type: "post",
+                url: "/warn/saveOrUpdate",
+                data: data,
+                dataType: "text",
+                contentType:"application/json;charset=UTF-8",
+                success: function (data) {
+                    if(data=="1"){
+                        $("#editModal").modal("hide");
+                        getDataList(parseInt($("#table-cur-page").html()))
+                    }
+                }
+            })
+        })
+        /*   $("#searchById").on("keypress", function (event) {
+               if (event.keyCode == '13') {
+                   var val = $(this).val();
+                   $.getJSON("/device/getDetail", {"device_id": val}, function (data) {
+                       $("#page").html("");
+                       $("#table tbody").html("");
+                       $("#dataList").tmpl(data).appendTo("#table tbody");
+                   });
+                   return false;
+               }
+           });*/
+    })
+</script>
+
+</body>
+</html>

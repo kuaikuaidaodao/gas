@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.gas.Mapper.WarninfoMapper">
+
+    <!--auto generated Code-->
+    <resultMap id="AllColumnMap" type="com.example.gas.entity.Warninfo">
+        <id column="device_id" property="device_id"/>
+        <result column="low_weight" property="low_weight"/>
+        <result column="height_weight" property="height_weight"/>
+        <result column="low_pressure" property="low_pressure"/>
+        <result column="height_pressure" property="height_pressure"/>
+        <result column="low_temperature" property="low_temperature"/>
+        <result column="height_temperature" property="height_temperature"/>
+        <result column="low_voltage" property="low_voltage"/>
+        <result column="height_voltage" property="height_voltage"/>
+    </resultMap>
+    <!--auto generated Code-->
+    <sql id="all_column">
+        `device_id`,
+        `low_weight`,
+        `height_weight`,
+         `low_pressure`,
+        `height_pressure`,
+        `low_temperature`,
+         `height_temperature`,
+          `low_voltage`,
+         `height_voltage`
+    </sql>
+    <resultMap id="DeviceWarninfoMap" type="com.example.gas.entity.DeviceWarninfo">
+        <id column="device_id" property="device_id"/>
+        <result column="type" property="type"/>
+        <association property="warninfo" javaType="com.example.gas.entity.Warninfo">
+            <id column="device_id" property="device_id"/>
+            <result column="low_weight" property="low_weight"/>
+            <result column="height_weight" property="height_weight"/>
+            <result column="low_pressure" property="low_pressure"/>
+            <result column="height_pressure" property="height_pressure"/>
+            <result column="low_temperature" property="low_temperature"/>
+            <result column="height_temperature" property="height_temperature"/>
+            <result column="low_voltage" property="low_voltage"/>
+            <result column="height_voltage" property="height_voltage"/>
+        </association>
+    </resultMap>
+    <!--auto generated Code-->
+    <insert id="insert">
+        INSERT INTO `tbl_warn_info`(
+        <include refid="all_column"/>)
+        VALUES
+        (#{pojo.device_id},#{pojo.low_weight},#{pojo.height_weight},#{pojo.low_pressure},#{pojo.height_pressure},#{pojo.low_temperature},#{pojo.height_temperature},#{pojo.low_voltage},#{pojo.height_voltage})
+    </insert>
+    <insert id="update">
+        update  `tbl_warn_info`
+        set
+       low_weight=#{pojo.low_weight},height_weight=#{pojo.height_weight},
+        low_pressure=#{pojo.low_pressure},height_pressure=#{pojo.height_pressure},low_temperature=#{pojo.low_temperature},
+        height_temperature=#{pojo.height_temperature},low_voltage=#{pojo.low_voltage},height_voltage=#{pojo.height_voltage}
+        where device_id = #{pojo.device_id}
+    </insert>
+    <insert id="saveOrUpdate">
+        <selectKey keyProperty="count" resultType="int" order="BEFORE">
+            select count(*) from tbl_warn_info where device_id = #{pojo.device_id}
+        </selectKey>
+        <if test="count > 0">
+            update `tbl_warn_info`
+            set
+            low_weight=#{pojo.low_weight},height_weight=#{pojo.height_weight},
+            low_pressure=#{pojo.low_pressure},height_pressure=#{pojo.height_pressure},low_temperature=#{pojo.low_temperature},
+            height_temperature=#{pojo.height_temperature},low_voltage=#{pojo.low_voltage},height_voltage=#{pojo.height_voltage}
+            where device_id = #{pojo.device_id}
+        </if>
+        <if test="count==0">
+            INSERT INTO `tbl_warn_info`(
+            <include refid="all_column"/>)
+            VALUES
+            (#{pojo.device_id},#{pojo.low_weight},#{pojo.height_weight},#{pojo.low_pressure},#{pojo.height_pressure},#{pojo.low_temperature},#{pojo.height_temperature},#{pojo.low_voltage},#{pojo.height_voltage})
+        </if>
+    </insert>
+    <!--auto generated Code-->
+    <insert id="insertList">
+        INSERT INTO `user`(
+        <include refid="all_column"/>
+        )VALUES
+        <foreach collection="pojos" item="pojo" index="index" separator=",">
+            (#{pojo.device_id},#{pojo.low_weight},#{pojo.height_weight},#{pojo.low_pressure},#{pojo.height_pressure},#{pojo.low_temperature},#{pojo.height_temperature},#{pojo.low_voltage},#{pojo.height_voltage})
+        </foreach>
+    </insert>
+    <select id="getList" resultMap="DeviceWarninfoMap">
+        SELECT a.device_id,a.type,b.* from tbl_device_info  a LEFT JOIN tbl_warn_info b on a.device_id=b.device_id
+    </select>
+    <select id="getById" resultMap="DeviceWarninfoMap">
+        SELECT a.device_id,a.type,b.* from tbl_device_info  a LEFT JOIN tbl_warn_info b on a.device_id=b.device_id where a.device_id=#{device_id}
+    </select>
+</mapper>

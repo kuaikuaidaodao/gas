@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.gas.Mapper.StationinfoMapper">
+
+    <!--auto generated Code-->
+    <sql id="all_column">
+        `index`,
+        `name` ,
+        `unit_name` ,
+         `longitude` ,
+        `latitude`,
+        `device_id`
+    </sql>
+    <sql id="insert_column">
+        `name` ,
+        `unit_name` ,
+         `longitude` ,
+        `latitude`,
+        `device_id`
+    </sql>
+    <resultMap id="unitNameMap"   type="HashMap">
+        <result column="unit_name" property="unit_name"/>
+    </resultMap>
+    <!--auto generated Code  <selectKey resultType="java.lang.Long" order="AFTER" keyProperty="productId">
+          SELECT LAST_INSERT_ID()
+      </selectKey>-->
+    <insert id="insert" >
+        <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="index">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+        INSERT INTO `tbl_station_info`
+        (<include refid="insert_column"/>)
+        VALUES (#{pojo.name},#{pojo.unit_name},#{pojo.longitude},#{pojo.latitude},#{pojo.device_id})
+    </insert>
+
+    <insert id="update" >
+        update  `tbl_station_info`
+        set
+         `name`=#{name} where `device_id`=#{device_id}
+    </insert>
+
+    <select id="getList" resultType="com.example.gas.entity.Stationinfo">
+        select   <include refid="all_column"/> from tbl_station_info
+    </select>
+    <select id="selectStation" resultType="com.example.gas.entity.Stationinfo">
+        select   <include refid="all_column"/> from tbl_station_info where `index` in (select station_id from tbl_user_station where `user_id`=#{user_id})
+    </select>
+    <select id="selectStationNo" resultType="com.example.gas.entity.Stationinfo">
+        select   <include refid="all_column"/> from tbl_station_info where `index` not in (select station_id from tbl_user_station_relation where `user_id`=#{user_id})
+    </select>
+    <select id="getGroupListByNameOrImit" resultType="com.example.gas.entity.Stationinfo">
+        select  * from tbl_station_info where name=#{info} union select * from tbl_station_info where device_id=#{info}
+    </select>
+
+    <select id="serchByUnitName" resultType="com.example.gas.entity.Stationinfo">
+        select   <include refid="all_column"/> from tbl_station_info  where `unit_name` = #{unit_name}
+    </select>
+    <select id="getStationList" resultType="com.example.gas.entity.Stationinfo">
+        select   <include refid="all_column"/> from tbl_station_info group by name
+    </select>
+    <select id="getListByName" resultMap="unitNameMap">
+        select unit_name from tbl_station_info where name=#{name}
+    </select>
+    <delete id="deleteStationAndUser" >
+        delete  from tbl_user_station_relation where user_id=#{user_id} and station_id=#{station_id}
+    </delete>
+
+</mapper>

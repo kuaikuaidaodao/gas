@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta name="author" content="shihao">
+    <meta name="robots" content="index,follow">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta name="x-ua-compatible" content="id=edge,chrome=1">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="keywords" content="储气罐,智能监控,管理,云,智能,监控">
+    <link rel="stylesheet" href="/plugins/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="/plugins/bootstrap/css/bootstrap-table.css">
+    <link rel="stylesheet" href="/plugins/bootstrap/css/bootstrap-theme.css">
+    <link rel="stylesheet" href="/plugins/font-awesome-4.7.0/css/font-awesome.css">
+    <link rel="stylesheet" href="/css/index.css">
+    <title>云端智控--系统查询</title>
+</head>
+<body>
+<div class="header">
+    <div class="logo-container">
+        <a href="/"><img src="/images/logo.png" alt=""><b>云端智控监测管理系统</b></a>
+    </div>
+    <ul class="nav">
+        <li><a href="/" class="stationMo">站点监控</a></li>
+        <li><a href="/html/stationManage.html" class="stationMan">站点管理</a></li>
+        <li><a href="/html/deviceManage.html" class="deviceMan">设备管理</a></li>
+        <li class="active"><a href="/html/sysSearch.html" class="systemSearch">系统查询</a></li>
+        <li><a href="/html/userManage.html" class="userMan">用户管理</a></li>
+        <li><a href="" class="authorityMan">权限管理</a></li>
+        <li><a href="/html/perCenter.html" class="perCenter">个人中心</a></li>
+    </ul>
+</div>
+<div class="content">
+    <div class="data-container" style="width: 100%">
+        <div id="toolBar">
+            <div class="toolbar-left">
+                <div class="form-group">
+                    <input type="text" id="searchById" class="form-control" placeholder="搜索ID号或站点">
+                </div>
+            </div>
+            <div class="toolbar-right"></div>
+        </div>
+        <div class="table-container">
+            <table id="table" class="table">
+                <thead>
+                <tr>
+                    <th>ID号</th>
+                    <th>IMEI</th>
+                    <th>位置信息</th>
+                    <th>设备名称</th>
+                    <th>站点名称</th>
+                    <th>介质质量(kg)</th>
+                    <th>质量(%\)</th>
+                    <th>压力(MPa)</th>
+                    <th>温度(℃)</th>
+                    <th>电池电压(V)</th>
+                    <th>
+                        <select name="cellSelect" id="cellSelect">
+                            <option value="">数据时间</option>
+                            <option value="">公升容积</option>
+                            <option value="">生产商</option>
+                            <option value="">容器编号</option>
+                            <option value="">介质</option>
+                        </select>
+                    </th>
+                    <th>详情</th>
+                </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+        <div id="page"></div>
+    </div>
+</div>
+<script type="text/javascript" src="/js/jquery-3.3.1.js"></script>
+<script type="text/javascript" src="/js/jquery.tmpl.js"></script>
+<script type="text/javascript" src="/js/echarts.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+<script type="text/x-jquery-tmpl" id="dataList">
+    <tr class="tableRow">
+        <td>${device_id}</td>
+        <td>${device_id}</td>
+         <td></td>
+        <td>${deviceinfo.type}</td>
+        <td>${station_name}</td>
+        <td>${weight}</td>
+        <td></td>
+        <td>${pressure_diff}</td>
+        <td>${temperature_liquid}</td>
+        <td>${electricity}</td>
+        <td class="showSelect">
+            <span>${date_time}</span>
+            <span>${deviceinfo.volume}</span>
+            <span>${deviceinfo.manufacturer}</span>
+            <span>${deviceinfo.container_id}</span>
+            <span>${deviceinfo.medium}</span>
+        </td>
+        <td><a class="btn" href="/html/sysSearchDetail.html?device_id=${device_id}">详情</a></td>
+    </tr>
+</script>
+<script type="text/javascript">
+    $(function () {
+        function getList(pageNo){
+            $.getJSON("/device/getListDefault",{"pageNo":pageNo},function (data) {
+                $("#table tbody").html("");
+                $("#dataList").tmpl(data.list).appendTo("#table tbody");
+                delete data.list;
+                $("#page").html(setPage(data,"table"))
+            })
+        }
+        getList(1);
+        $("#cellSelect").on("change", function () {
+            var index = this.selectedIndex;
+            $("#table td.showSelect").each(function () {
+                $(this)
+                    .children("span:eq(" + index + ")").css("display", "inline")
+                    .siblings("span").css("display", "none");
+            })
+        });
+        $("#searchById").on("keypress", function (event) {
+            if (event.keyCode == '13') {
+                var val = $(this).val();
+                var pageNo=parseInt($("#table-cur-page").html());
+                $.getJSON("/device/searchBydevice_idOrstation", {"info": val, "pageNo": pageNo}, function (data) {
+                    $("#table tbody").html("");
+                    $("#dataList").tmpl(data.list).appendTo("#table tbody");
+                    delete data.list;
+                    $("#page").html(setPage(data,"table"))
+                });
+            }
+        });
+    })
+</script>
+</body>
+</html>

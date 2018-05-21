@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.gas.Mapper.DeviceinfoMapper">
+    <resultMap id="DeviceHistoryResultMap" type="com.example.gas.entity.DeviceDateHistory" >
+        <id column="index" property="index"/>
+        <result column="device_id" property="device_id"/>
+        <result column="longitude" property="longitude"/>
+        <result column="latitude" property="latitude"/>
+        <result column="pressure_top" property="pressure_top"/>
+        <result column="pressure_bottom" property="pressure_bottom"/>
+        <result column="pressure_diff" property="pressure_diff"/>
+        <result column="level_liquid" property="level_liquid"/>
+        <result column="volume" property="volume"/>
+        <result column="weight" property="weight"/>
+        <result column="temperature_liquid" property="temperature_liquid"/>
+        <result column="temperature_gas" property="temperature_gas"/>
+        <result column="temperature_cpu" property="temperature_cpu"/>
+        <result column="electricity" property="electricity"/>
+        <result column="height" property="height"/>
+        <result column="speed" property="speed"/>
+        <result column="fill_rate" property="fill_rate"/>
+        <result column="consumption_thisday" property="consumption_thisday"/>
+        <result column="consumption_thismonth" property="consumption_thismonth"/>
+        <result column="consumption_thisyear" property="consumption_thisyear"/>
+        <result column="consumption_lastday" property="consumption_lastday"/>
+        <result column="consumption_lastmonth" property="consumption_lastmonth"/>
+        <result column="consumption_lastyear" property="consumption_lastyear"/>
+        <result column="data_time" property="data_time"/>
+        <result column="data_interval" property="data_interval"/>
+        <result column="station_name" property="station_name"/>
+    </resultMap>
+    <!--auto generated Code-->
+    <!-- 定义查询订单关联用户的 resultMap,将整个的查询结果映射到com.mybatis.entity.Orders中 -->
+    <resultMap id="DeviceResultMap" type="com.example.gas.entity.DeviceDateCurrent" >
+        <id column="device_id" property="device_id"/>
+        <result column="longitude" property="longitude"/>
+        <result column="latitude" property="latitude"/>
+        <result column="pressure_top" property="pressure_top"/>
+        <result column="pressure_bottom" property="pressure_bottom"/>
+        <result column="pressure_diff" property="pressure_diff"/>
+        <result column="level_liquid" property="level_liquid"/>
+        <result column="volume" property="volume"/>
+        <result column="weight" property="weight"/>
+        <result column="temperature_liquid" property="temperature_liquid"/>
+        <result column="temperature_gas" property="temperature_gas"/>
+        <result column="temperature_cpu" property="temperature_cpu"/>
+        <result column="electricity" property="electricity"/>
+        <result column="height" property="height"/>
+        <result column="speed" property="speed"/>
+        <result column="fill_rate" property="fill_rate"/>
+        <result column="consumption_thisday" property="consumption_thisday"/>
+        <result column="consumption_thismonth" property="consumption_thismonth"/>
+        <result column="consumption_thisyear" property="consumption_thisyear"/>
+        <result column="consumption_lastday" property="consumption_lastday"/>
+        <result column="consumption_lastmonth" property="consumption_lastmonth"/>
+        <result column="consumption_lastyear" property="consumption_lastyear"/>
+        <result column="data_time" property="data_time"/>
+        <result column="date_interval" property="date_interval"/>
+        <result column="station_name" property="station_name"/>
+        <association property="deviceinfo" javaType="com.example.gas.entity.Deviceinfo">
+        <id column="device_id" property="device_id"/>
+        <result column="type" property="type"/>
+        <result column="manufacturer" property="manufacturer"/>
+        <result column="container_num" property="container_num"/>
+        <result column="container_id" property="container_id"/>
+        <result column="container_type" property="container_type"/>
+        <result column="manufacturer_time" property="manufacturer_time"/>
+        <result column="volume" property="volume"/>
+        <result column="check_time" property="check_time"/>
+        <result column="version" property="version"/>
+        <result column="station_name" property="station_name"/>
+        <result column="energy" property="energy"/>
+            <result column="medium" property="medium"/>
+        </association>
+        <association property="stationinfo" javaType="com.example.gas.entity.Stationinfo">
+            <id column="device_id" property="device_id"/>
+            <result column="name" property="name"/>
+            <result column="index" property="index"/>
+            <result column="unit_name" property="unit_name"/>
+            <result column="longitude" property="longitude"/>
+            <result column="latitude" property="latitude"/>
+        </association>
+        <association property="warninfo" javaType="com.example.gas.entity.Warninfo">
+            <id column="device_id" property="device_id"/>
+            <result column="low_weight" property="low_weight"/>
+            <result column="height_weight" property="height_weight"/>
+            <result column="low_pressure" property="low_pressure"/>
+            <result column="height_pressure" property="height_pressure"/>
+            <result column="low_temperature" property="low_temperature"/>
+            <result column="height_temperature" property="height_temperature"/>
+            <result column="low_voltage" property="low_voltage"/>
+            <result column="height_voltage" property="height_voltage"/>
+        </association>
+    </resultMap>
+    <resultMap id="DeviceinfoMap" type="com.example.gas.entity.Deviceinfo" >
+        <id column="device_id" property="device_id"/>
+        <result column="type" property="type"/>
+        <result column="manufacturer" property="manufacturer"/>
+        <result column="container_num" property="container_num"/>
+        <result column="container_id" property="container_id"/>
+        <result column="container_type" property="container_type"/>
+        <result column="manufacturer_time" property="manufacturer_time"/>
+        <result column="volume" property="volume"/>
+        <result column="check_time" property="check_time"/>
+        <result column="version" property="version"/>
+        <result column="station_name" property="station_name"/>
+        <result column="energy" property="energy"/>
+        <result column="medium" property="medium"/>
+    </resultMap>
+    <select id="getList" resultMap="DeviceResultMap">
+        select   *  from tbl_device_data_current where station_name in (select `name` from tbl_station_info where `UNIT_NAME`=#{unit_name})
+    </select>
+    <select id="getListDefault" resultMap="DeviceResultMap">
+        select   a.*,b.*,c.*,d.*  from tbl_device_data_current a LEFT JOIN tbl_station_info b ON a.DEVICE_ID=b.device_id
+ LEFT JOIN tbl_device_info c ON a.DEVICE_ID=c.DEVICE_ID LEFT JOIN tbl_warn_info d ON a.DEVICE_ID=d.DEVICE_ID
+    </select>
+    <select id="searchBydevice_idOrstation" resultMap="DeviceResultMap">
+       select   *  from tbl_device_data_current where `device_id`=#{info} union select   *  from tbl_device_data_current where `station_name`=#{info}
+    </select>
+    <select id="getDetail" resultMap="DeviceResultMap">
+       select   *  from tbl_device_data_current where `device_id`=#{device_id}
+    </select>
+    <select id="getListHistory" resultMap="DeviceHistoryResultMap">
+        select   *  from tbl_device_data_history where `device_id`=#{device_id} order by `data_time`
+    </select>
+    <select id="getDeviceList" resultMap="DeviceinfoMap">
+        select   *  from tbl_device_info
+    </select>
+    <select id="searchDeviceList" resultMap="DeviceinfoMap">
+        select   *  from tbl_device_info where `container_id`=#{container_id}
+    </select>
+    <insert id="update" >
+        update  `tbl_device_info`
+        set
+         `type`=#{pojo.type},`manufacturer`=#{pojo.manufacturer},`container_num`=#{pojo.container_num},`container_id`=#{pojo.container_id}
+         ,`container_type`=#{pojo.container_type},`manufacturer_time`=#{pojo.manufacturer_time} ,`volume`=#{pojo.volume},
+         `check_time`=#{pojo.check_time},`version`=#{pojo.version} ,`station_name`=#{pojo.station_name},`energy`=#{pojo.energy} ,`medium`=#{pojo.medium}
+         where `device_id`=#{pojo.device_id}
+    </insert>
+    <select id="getItude" resultType="java.util.HashMap">
+        select longitude,latitude from `tbl_device_data_current`
+         where `device_id`=#{device_id}
+    </select>
+    <select id="getDeviceListByDervice_id" resultType="com.example.gas.entity.Deviceinfo">
+        select   *  from tbl_device_info where `device_id`=#{device_id}
+    </select>
+
+</mapper>

@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta name="author" content="shihao">
+    <meta name="robots" content="index,follow">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta name="x-ua-compatible" content="id=edge,chrome=1">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="keywords" content="储气罐,智能监控,管理,云,智能,监控">
+    <link rel="stylesheet" href="/plugins/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="/plugins/bootstrap/css/bootstrap-table.css">
+    <link rel="stylesheet" href="/plugins/bootstrap/css/bootstrap-theme.css">
+    <link rel="stylesheet" href="/plugins/font-awesome-4.7.0/css/font-awesome.css">
+    <link rel="stylesheet" href="/css/index.css">
+    <title>云端智控--系统查询</title>
+</head>
+<body>
+<div class="header">
+    <div class="logo-container">
+        <a href="/"><img src="/images/logo.png" alt=""><b>云端智控监测管理系统</b></a>
+    </div>
+    <ul class="nav">
+        <li><a href="/" class="stationMo">站点监控</a></li>
+        <li><a href="/html/stationManage.html" class="stationMan">站点管理</a></li>
+        <li><a href="/html/deviceManage.html" class="deviceMan">设备管理</a></li>
+        <li class="active"><a href="/html/sysSearch.html" class="systemSearch">系统查询</a></li>
+        <li><a href="/html/userManage.html" class="userMan">用户管理</a></li>
+        <li><a href="" class="authorityMan">权限管理</a></li>
+        <li><a href="/html/perCenter.html" class="perCenter">个人中心</a></li>
+    </ul>
+</div>
+<div class="content">
+    <div class="data-container" style="width: 100%">
+        <div class="device-info row" id="device-info"></div>
+        <div class="history-container">
+            <ul class="nav nav-tabs nav-justified" id="myTab" role="tablist">
+                <li role="presentation" class="active"><a href="#list" aria-controls="list" role="tab"
+                                                          data-toggle="tab">数据显示</a></li>
+                <li role="presentation"><a href="#charts" aria-controls="charts" role="tab" data-toggle="tab">图表显示</a>
+                </li>
+                <li role="presentation"><a href="#map" aria-controls="map" role="tab" data-toggle="tab">轨迹显示</a></li>
+            </ul>
+            <div class="tab-content">
+                <div role="tabpanel" class="tab-pane active" id="list">
+                    <div class="table-container">
+                        <table id="table" class="table">
+                            <thead>
+                            <tr>
+                                <th>数据时间</th>
+                                <th>介质重量(kg)</th>
+                                <th>质量(%)</th>
+                                <th>压力(MPa)</th>
+                                <th>温度(℃)</th>
+                                <th>电池电压(V)</th>
+                            </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                    <div id="page"></div>
+                </div>
+                <div role="tabpanel" class="tab-pane data-charts" id="charts">
+                    <div id="chart-container" class="chart-container" style="width: 1000px;height: 400px"></div>
+                </div>
+                <div role="tabpanel" class="tab-pane" id="map"></div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="/js/jquery-3.3.1.js"></script>
+<script type="text/javascript" src="/js/jquery.tmpl.js"></script>
+<script type="text/javascript" src="/js/echarts.js"></script>
+<script type="text/javascript" src="/plugins/bootstrap/js/bootstrap.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+<script type="text/x-jquery-tmpl" id="device">
+    <div class="device-item">
+        <div class="crile-type">${type}</div>
+        <div class="info-detail">
+            <span>ID号:${device_id}</span>
+            <span>IMEI号:${device_id}</span>
+            <span>站点名称:${station_name}</span>
+        </div>
+    </div>
+    <div class="device-item">
+        <div class="info-detail">
+             <span>容器类型:${container_type}</span>
+            <span>生产商:${manufacturer}</span>
+            <span>介质类型:${medium}</span>
+        </div>
+    </div>
+    <div class="device-item">
+        <div class="info-detail">
+        <span>公升容积:${volume}</span>
+        <span>容器编号:${container_num}</span>
+        <span>检查日期:${check_time}</span>
+        </div>
+    </div>
+
+</script>
+<script type="text/x-jquery-tmpl" id="dataList">
+    <tr class="tableRow">
+        <td>${data_time}</td>
+        <td>${weight}</td>
+        <td></td>
+        <td>${pressure_diff}</td>
+        <td>${temperature_liquid}</td>
+        <td>${electricity}</td>
+    </tr>
+
+</script>
+<script type="text/javascript">
+    $(function () {
+        var targetId = location.search.split("=")[1];
+
+        function getInfo(pageNo) {
+            var dataCharts = echarts.init($("#chart-container")[0]);
+            dataCharts.setOption({
+                title: {text: "历史数据"},
+                tooltip: {trigger: "axis"},
+                legend: {
+                    data: ["质量", "压力", "温度", "电池电压"]
+                },
+                grid: {
+                    left: '3%',
+                    right: '4%',
+                    bottom: '3%',
+                    containLabel: true
+                },
+                toolbox: {
+                    feature: {
+                        saveAsImage: {}
+                    }
+                },
+                xAxis: [
+                    {
+                        type: 'category',
+                        boundaryGap: false,
+                        data: []
+                    }
+                ],
+                yAxis: {type: 'value'},
+                series: [
+                    {
+                        name: "质量",
+                        type: "line",
+                        stack: "总量",
+                        data: []
+                    },
+                    {
+                        name: "压力",
+                        type: "line",
+                        stack: "总量",
+                        data: []
+                    },
+                    {
+                        name: "温度",
+                        type: "line",
+                        stack: "总量",
+                        data: []
+                    },
+                    {
+                        name: "电池电压",
+                        type: "line",
+                        stack: "总量",
+                        data: []
+                    }
+                ]
+            });
+            $.getJSON("/device/getListHistory", {"device_id": targetId, "pageNo": pageNo}, function (data) {
+                $("#device-info").html("");
+                $("#device").tmpl(data.deviceinfo).appendTo("#device-info");
+                $("#table tbody").html("");
+                $("#dataList").tmpl(data.deviceHistoryinfo.list).appendTo("#table tbody");
+                // delete  data.deviceHistoryinfo.list;
+                $("#page").html(setPage(data.deviceHistoryinfo, "table"));
+            }).done(function (data) {
+                var times = [], weight = [], diff = [], liquid = [], elec = [];
+                var datalist = data.deviceHistoryinfo.list;
+                for (var i = 0; i < datalist.length; i++) {
+                    times.push(datalist[i].data_time);
+                    weight.push(datalist[i].weight);
+                    diff.push(datalist[i].pressure_diff);
+                    liquid.push(datalist[i].temperature_liquid);
+                    elec.push(datalist[i].electricity)
+                }
+                dataCharts.setOption({
+                    xAxis: {data: times},
+                    series: [
+                        {
+                            name: "质量",
+                            data: weight
+                        },
+                        {
+                            name: "压力",
+                            data: diff
+                        },
+                        {
+                            name: "温度",
+                            data: liquid
+                        },
+                        {
+                            name: "电池电压",
+                            data: elec
+                        }
+                    ]
+
+                })
+            })
+        }
+
+        getInfo(1);
+        $("#page").on("click", "ul a", function () {
+            var $itemid = $(this).attr("itemid");
+            if (typeof($itemid) != "undefined") {
+                getInfo(parseInt($itemid))
+            }
+        })
+    })
+</script>
+</body>
+</html>
