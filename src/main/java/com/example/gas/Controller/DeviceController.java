@@ -26,13 +26,13 @@ public class DeviceController {
     /**
      * 查询目前设备实时数据（根据单位名称查询）
      *
-     * @param unit_name
+     * @param index
      * @param pageNo
      * @return
      */
     @RequestMapping("getList")
-    public PageInfo<DeviceDateCurrent> getList(String unit_name, int pageNo) {
-        List<DeviceDateCurrent> deviceDateCurrents = iDeviceDateCurrentService.getList(pageNo, Common.DEVICEPAGESIZE, unit_name);
+    public PageInfo<DeviceDateCurrent> getList(String index, int pageNo) {
+        List<DeviceDateCurrent> deviceDateCurrents = iDeviceDateCurrentService.getList(pageNo, Common.DEVICEPAGESIZE, index);
         // 需要把Page包装成PageInfo对象才能序列化。该插件也默认实现了一个PageInf0
         PageInfo<DeviceDateCurrent> pageInfo = new PageInfo<DeviceDateCurrent>(deviceDateCurrents);
         return pageInfo;

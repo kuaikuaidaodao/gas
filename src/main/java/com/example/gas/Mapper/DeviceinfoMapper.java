@@ -13,7 +13,7 @@ import java.util.Map;
 @Mapper
 @Service
 public interface DeviceinfoMapper {
-    List<DeviceDateCurrent> getList(@Param("unit_name") String unit_name);
+    List<DeviceDateCurrent> getList(@Param("index") String index);
 
     List<DeviceDateCurrent> getListDefault();
 
