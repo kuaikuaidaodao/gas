@@ -9,11 +9,9 @@
     <meta name="renderer" content="webkit|ie-comp|ie-stand">
     <meta name="keywords" content="储气罐,智能监控,管理,云,智能,监控">
     <link rel="stylesheet" href="/plugins/bootstrap/css/bootstrap.css">
-    <link rel="stylesheet" href="/plugins/bootstrap/css/bootstrap-table.css">
     <link rel="stylesheet" href="/plugins/bootstrap/css/bootstrap-theme.css">
-    <link rel="stylesheet" href="/plugins/font-awesome-4.7.0/css/font-awesome.css">
     <link rel="stylesheet" href="/css/index.css">
-    <title>云端控--站点管理</title>
+    <title>云端智控--站点管理</title>
 </head>
 <body>
 <div class="header">
@@ -48,9 +46,9 @@
     <div class="data-container">
         <div id="toolBar">
             <div class="toolbar-left">
-                    <div class="form-group">
-                        <input type="text" placeholder="搜索IMEI号或站点名" class="form-control" id="searchById">
-                    </div>
+                <div class="form-group">
+                    <input type="text" placeholder="搜索IMEI号或站点名" class="form-control" id="searchById">
+                </div>
             </div>
             <div class="toolbar-right">
                 <a href="javascript:void (0)" class="addStation" id="addStation" data-toggle="modal"
@@ -137,17 +135,21 @@
         <td>${device_id}</td>
         <td><a class="btn editStation" data-toggle="modal" data-target="#editStation" data-name=${name} data-id=${device_id}>站点修改</a></td>
     </tr>
+
 </script>
 <script type="text/javascript">
     $(function () {
-        getUsers(1);
+        getUsers();
+
         function getDataList(pageNo) {
             $.getJSON("/station/getList", {"pageNo": pageNo}, function (data) {
-                $("#page").html(setPage(data, "table"));
                 $("#table tbody").html("");
                 $("#tableList").tmpl(data.list).appendTo("#table tbody");
+                delete  data.list;
+                $("#page").html(setPage(data));
             });
         }
+
         getDataList(1);
         $("#searchUserList").on("keypress", function (event) {
             if (event.keyCode == '13') {
@@ -191,7 +193,7 @@
                     data: {"device_id": deId, "name": staName},
                     // contentType: "application/json;charset=UTF-8",
                     success: function (data) {
-                        if(data=="1"){
+                        if (data == "1") {
                             getDataList(1);
                             $("#addStationModal").modal("hide")
                         }
@@ -203,24 +205,22 @@
         $("#searchById").on("keypress", function (event) {
             if (event.keyCode == '13') {
                 var val = $(this).val();
-                var pageNo=parseInt($("#table-cur-page").html());
+                var pageNo = parseInt($("#table-cur-page").html());
                 $.getJSON("/station/getGroupListByNameOrImit", {"info": val, "pageNo": pageNo}, function (data) {
-                    var len=data.list.length;
-                    var unitArr=data.list;
-                    var tableHTml="<tr class='tableRow'>" +
-                        "<td>"+unitArr[0]+"</td>" +
-                        "<td rowspan='"+len+"'>"+data.name+"</td>" +
-                        "<td rowspan='"+len+"'>"+data.device_id+"</td>" +
-                        "<td rowspan='"+len+"'><a class=\"btn editStation\" data-toggle=\"modal\" data-target=\"#editStation\" data-name='"+data.name+"' data-id='"+data.device_id+"'>站点修改</a></td>" +
+                    var len = data.list.length;
+                    var unitArr = data.list;
+                    var tableHTml = "<tr class='tableRow'>" +
+                        "<td>" + unitArr[0] + "</td>" +
+                        "<td rowspan='" + len + "'>" + data.name + "</td>" +
+                        "<td rowspan='" + len + "'>" + data.device_id + "</td>" +
+                        "<td rowspan='" + len + "'><a class=\"btn editStation\" data-toggle=\"modal\" data-target=\"#editStation\" data-name='" + data.name + "' data-id='" + data.device_id + "'>站点修改</a></td>" +
                         "</tr>";
-                    if(len>1){
-                        for (var i=1;i<len;i++){
-                            tableHTml+="<tr class='tableRow'><td>"+unitArr[i]+"</td></tr>"
+                    if (len > 1) {
+                        for (var i = 1; i < len; i++) {
+                            tableHTml += "<tr class='tableRow'><td>" + unitArr[i] + "</td></tr>"
                         }
                     }
-                    // $("#page").html(setPage(data, "table"));
                     $("#table tbody").html(tableHTml);
-                    // $("#tableList").tmpl(data).appendTo("#table tbody");
                 });
             }
         });

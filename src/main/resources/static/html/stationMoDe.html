@@ -10,9 +10,7 @@
     <meta name="renderer" content="webkit|ie-comp|ie-stand">
     <meta name="keywords" content="储气罐,智能监控,管理,云,智能,监控">
     <link rel="stylesheet" href="/plugins/bootstrap/css/bootstrap.css">
-    <link rel="stylesheet" href="/plugins/bootstrap/css/bootstrap-table.css">
     <link rel="stylesheet" href="/plugins/bootstrap/css/bootstrap-theme.css">
-    <link rel="stylesheet" href="/plugins/font-awesome-4.7.0/css/font-awesome.css">
     <link rel="stylesheet" href="/css/index.css">
     <title>云端智能监控管理系统</title>
 </head>
@@ -22,43 +20,38 @@
         <a href="/"><img src="/images/logo.png" alt=""><b>云端智控监测管理系统</b></a>
     </div>
     <ul class="nav">
-        <ul class="nav">
-            <li><a href="/" class="stationMo">站点监控</a></li>
-            <li class="active"><a href="/html/stationManage.html" class="stationMan">站点管理</a></li>
+            <li class="active"><a href="/" class="stationMo">站点监控</a></li>
+            <li><a href="/html/stationManage.html" class="stationMan">站点管理</a></li>
             <li><a href="/html/deviceManage.html" class="deviceMan">设备管理</a></li>
             <li><a href="/html/sysSearch.html" class="systemSearch">系统查询</a></li>
             <li><a href="/html/userManage.html" class="userMan">用户管理</a></li>
             <li><a href="" class="authorityMan">权限管理</a></li>
             <li><a href="/html/perCenter.html" class="perCenter">个人中心</a></li>
-        </ul>
     </ul>
 </div>
 <div class="content">
     <div class="user-container">
         <div class="row search-user">
-            <form action="">
                 <div class="col-md-offset-1 col-md-10">
                     <div class="input-group">
                         <input type="text" class="form-control user-search-input" id="searchUserList"
                                placeholder="搜索用户关键字">
                     </div>
                 </div>
-            </form>
         </div>
         <ul class="user-list" id="user-list"></ul>
         <div id="user-page" class="user-page"></div>
     </div>
     <div class="data-container">
-
         <div id="toolBar">
             <div class="toolbar-left"></div>
             <div class="toolbar-right">
                 <a href="javascript:void (0)" class="station-map" id="stationMap">站点地图</a>
             </div>
         </div>
-        <div class="row detail-container">
-            <div class="row detail-header"></div>
-            <div class="row detail-content">
+        <div class="detail-container">
+            <div class="detail-header"></div>
+            <div class="detail-content">
                 <div class="col-md-6 detail-dashboard" id="dashboard"></div>
                 <ul class="col-md-6 detail-list" id="detail-list"></ul>
             </div>
@@ -81,6 +74,7 @@
     <li><span>容器编号</span><span>${deviceinfo.container_num}</span></li>
     <li><span>容器类型</span><span>${deviceinfo.container_type}</span></li>
     <li><span>制造日期</span><span>${deviceinfo.manufacturer_time}</span></li>
+
 </script>
 <script id="str1" type="text/x-jquery-tmpl">
     <span>${temperature_liquid}℃</span>
@@ -93,6 +87,7 @@
     <span>${deviceinfo.type}</span>
     <span>${deviceinfo.container_num}</span>
     <span>IMEI: ${device_id}</span>
+
 </script>
 <script type="text/javascript">
     $(function () {
@@ -103,16 +98,25 @@
             $("#str2").tmpl(data).appendTo("#detail-list");
             $("#str3").tmpl(data).appendTo(".detail-header");
         });
-        $.getJSON("/userinfo/getList", {"pageNo": 1}, function (data) {
-            insertUserList(data)
-        });
+        getUsers();
         $("#searchUserList").on("keypress", function (event) {
             if (event.keyCode == '13') {
                 var val = $(this).val();
-                $.getJSON("/userinfo/searchByName", {"unit_name": val, "pageNo": 1}, function (data) {
-                    insertUserList(data);
-                });
-                return false;
+                val = val.trim();
+                if (val === "") {
+                    getUsers();
+                } else {
+                    $.ajax({
+                        type:"get",
+                        url:"/userinfo/searchByName",
+                        data:{"unit_name": val, "pageNo": 1},
+                        dataType:"json",
+                        contentType:"text/html;charset=UTF-8",
+                        success:function (data) {
+                            insertUserList(data.list);
+                        }
+                    })
+                }
             }
         });
     })

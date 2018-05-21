@@ -10,9 +10,7 @@
     <meta name="renderer" content="webkit|ie-comp|ie-stand">
     <meta name="keywords" content="储气罐,智能监控,管理,云,智能,监控">
     <link rel="stylesheet" href="/plugins/bootstrap/css/bootstrap.css">
-    <link rel="stylesheet" href="/plugins/bootstrap/css/bootstrap-table.css">
     <link rel="stylesheet" href="/plugins/bootstrap/css/bootstrap-theme.css">
-    <link rel="stylesheet" href="/plugins/font-awesome-4.7.0/css/font-awesome.css">
     <link rel="stylesheet" href="/css/index.css">
     <title>云端智控--用户管理</title>
 </head>
@@ -85,7 +83,7 @@
     $(function () {
         function getDataList(pageNo){
             $.getJSON("/userinfo/getList",{"pageNo":pageNo},function (data) {
-                $("#page").html(setPage(data,"table"));
+                $("#page").html(setPage(data));
                 $("#table tbody").html("");
                 $("#userList").tmpl(data.list).appendTo("#table tbody");
             });
@@ -95,9 +93,10 @@
             if (event.keyCode == '13') {
                 var val = $(this).val();
                 $.getJSON("/userinfo/searchByName", {"unit_name": val, "pageNo": 1}, function (data) {
-                    $("#page").html(setPage(data,"table"));
                     $("#table tbody").html("");
                     $("#userList").tmpl(data.list).appendTo("#table tbody");
+                    delete data.list;
+                    $("#page").html(setPage(data));
                 });
                 return false;
             }
