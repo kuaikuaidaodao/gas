@@ -150,5 +150,7 @@
     <select id="getDeviceListByDervice_id" resultType="com.example.gas.entity.Deviceinfo">
         select   *  from tbl_device_info where `device_id`=#{device_id}
     </select>
-
+    <select id="getListDefaultNo" resultType="com.example.gas.entity.DeviceMap">
+        select   *  from tbl_device_data_current
+    </select>
 </mapper>

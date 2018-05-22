@@ -32,4 +32,6 @@ public interface DeviceinfoMapper {
     Map getItude(long device_id);
 
     Deviceinfo getDeviceListByDervice_id(@Param("device_id") String device_id);
+
+    List<DeviceDateCurrent> getListDefaultNo();
 }

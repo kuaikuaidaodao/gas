@@ -55,7 +55,7 @@ public class DeviceController {
     /**
      * 查询目前设备所有实时数据不分页（站点地图）
      *
-     * @param pageNo
+     * @param
      * @return
      */
     @RequestMapping("getListDefaultNo")
