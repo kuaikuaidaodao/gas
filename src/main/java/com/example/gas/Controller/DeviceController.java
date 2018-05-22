@@ -59,7 +59,7 @@ public class DeviceController {
      * @return
      */
     @RequestMapping("getListDefaultNo")
-    public List<DeviceDateCurrent> getListDefaultNo(int pageNo) {
+    public List<DeviceDateCurrent> getListDefaultNo() {
         List<DeviceDateCurrent> deviceDateCurrents = iDeviceDateCurrentService.getListDefaultNo();
         return deviceDateCurrents;
     }
