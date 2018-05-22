@@ -102,34 +102,6 @@ public class StationController {
         PageInfo<StationGroup> pageInfo = new PageInfo<StationGroup>(stationGroups);
         return pageInfo;
     }
-    /**
-     * 备用
-     *
-     * @param pageNo
-     * @param unit_name
-     * @return
-     */
-//    @RequestMapping("getGroupListBEI")
-//    PageInfo<StationGroup> getGroupListBEI(int pageNo, String unit_name) {
-//        List<Stationinfo> stationinfos = null;
-//        if (unit_name != null && unit_name != "") {
-//            stationinfos = stationinfoMapper.serchByUnitName(unit_name);
-//        } else {
-//            stationinfos = stationinfoMapper.getStationList();
-//        }
-//        List<StationGroup> stationGroups = new ArrayList<>();
-//        StationGroup stationGroup;
-//        for (Stationinfo station : stationinfos) {
-//            stationGroup = new StationGroup();
-//            stationGroup.setName(station.getName());
-//            stationGroup.setList(stationinfoMapper.getListByName(station.getName()));
-//            stationGroups.add(stationGroup);
-//        }
-//        PageHelper.startPage(pageNo, Common.DEVICEPAGESIZE);
-//        // 需要把Page包装成PageInfo对象才能序列化。该插件也默认实现了一个PageInf0
-//        PageInfo<StationGroup> pageInfo = new PageInfo<StationGroup>(stationGroups);
-//        return pageInfo;
-//    }
 
     /**
      * IMIT 站点名称
