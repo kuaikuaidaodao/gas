@@ -26,7 +26,7 @@ public class GasApplication {
 
     @RequestMapping("/")
     String home() {
-        return "index";
+        return "login";
     }
 
     public static void main(String[] args) {

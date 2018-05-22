@@ -10,9 +10,7 @@
     <meta name="renderer" content="webkit|ie-comp|ie-stand">
     <meta name="keywords" content="储气罐,智能监控,管理,云,智能,监控">
     <link rel="stylesheet" href="plugins/bootstrap/css/bootstrap.css">
-    <link rel="stylesheet" href="plugins/bootstrap/css/bootstrap-table.css">
     <link rel="stylesheet" href="plugins/bootstrap/css/bootstrap-theme.css">
-    <link rel="stylesheet" href="plugins/font-awesome-4.7.0/css/font-awesome.css">
     <link rel="stylesheet" href="css/index.css">
     <title>云端智能监控管理系统--站点监控</title>
 </head>
@@ -22,16 +20,16 @@
         <a href="/"><img src="images/logo.png" alt=""><b>云端智控监测管理系统</b></a>
     </div>
     <ul class="nav">
-        <li class="active"><a href="#/index" class="stationMo">站点监控</a></li>
-        <li><a href="#/stationManage" class="stationMan">站点管理</a></li>
-        <li><a href="#/deviceManage" class="deviceMan">设备管理</a></li>
-        <li><a href="#/sysSearch" class="systemSearch">系统查询</a></li>
-        <li><a href="#/userManage" class="userMan">用户管理</a></li>
+        <li class="active"><a href="index" data-pjax class="stationMo">站点监控</a></li>
+        <li><a href="/stationManage" data-pjax class="stationMan">站点管理</a></li>
+        <li><a href="/deviceManage" data-pjax class="deviceMan">设备管理</a></li>
+        <li><a href="/sysSearch" data-pjax class="systemSearch">系统查询</a></li>
+        <li><a href="/userManage" data-pjax class="userMan">用户管理</a></li>
         <li><a href="" class="authorityMan">权限管理</a></li>
-        <li><a href="#/perCenter" class="perCenter">个人中心</a></li>
+        <li><a href="/perCenter" data-pjax class="perCenter">个人中心</a></li>
     </ul>
 </div>
-<div class="content">
+<div class="content" id="content">
     <div class="user-container">
         <div class="row search-user">
             <form action="">
@@ -98,15 +96,17 @@
     </div>
 </div>
 <script type="text/javascript" src="js/jquery-3.3.1.js"></script>
+<script type="text/javascript" src="js/signals.js"></script>
+<script type="text/javascript" src="js/hasher.js"></script>
+<script type="text/javascript" src="js/crossroads.js"></script>
 <script type="text/javascript" src="js/jquery.tmpl.js"></script>
-<script type="text/javascript" src="js/router.js"></script>
 <script type="text/javascript" src="js/jquery.tablesort.js"></script>
 <script type="text/javascript" src="plugins/bootstrap/js/bootstrap.js"></script>
-<script type="text/javascript">
+<!--<script type="text/javascript">
     var router=new Router();
     router.add("index",function () {
         $.getJSON("/device/getListDefault", {"pageNo": 1}, function (data) {
-            $("#page").html(setPage(data, "table"));
+            $("#page").html(setPage(data));
             $("#table tbody").html("");
             $("#dataList").tmpl(data.list, {
                 reID: function (id) {
@@ -148,7 +148,7 @@
     });
     router.setIndex("index");
     router.start();
-</script>
+</script>-->
 <script type="text/javascript" src="js/index.js"></script>
 <script type="text/x-jquery-tmpl" id="dataList">
     <tr class="tableRow">
@@ -171,7 +171,13 @@
         <td>{{html $item.option($data.device_id)}}</td>
     </tr>
 
-
+</script>
+<script type="text/javascript">
+    $(function () {
+        crossroads.addRoute("/index",function () {
+            $("#content").load("/html/warning.html");
+        })
+    })
 </script>
 </body>
 </html>

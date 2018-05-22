@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface IDeviceDateCurrentService {
 //    设备信息实时查询（通过单位名称）
-    List<DeviceDateCurrent> getList(int pageNo, int pageSize,String unit_name);
+    List<DeviceDateCurrent> getList(int pageNo, int pageSize,int index);
 //    设备信息实时查询 全部
     List<DeviceDateCurrent> getListDefault(int pageNo, int pageSize);
 // 设备历史信息查询（通过device_id)
