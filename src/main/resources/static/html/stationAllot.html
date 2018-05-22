@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta name="author" content="shihao">
+    <meta name="robots" content="index,follow">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta name="x-ua-compatible" content="id=edge,chrome=1">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="keywords" content="储气罐,智能监控,管理,云,智能,监控">
+    <link rel="stylesheet" href="/plugins/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="/plugins/bootstrap/css/bootstrap-theme.css">
+    <link rel="stylesheet" href="/css/index.css">
+    <title>云端智控--用户管理</title>
+</head>
+<body>
+<div class="header">
+    <div class="logo-container">
+        <a href="/"><img src="/images/logo.png" alt=""><b>云端智控监测管理系统</b></a>
+    </div>
+    <ul class="nav">
+        <li><a href="/" class="stationMo">站点监控</a></li>
+        <li><a href="/html/stationManage.html" class="stationMan">站点管理</a></li>
+        <li><a href="/html/deviceManage.html" class="deviceMan">设备管理</a></li>
+        <li><a href="/html/sysSearch.html" class="systemSearch">系统查询</a></li>
+        <li class="active"><a href="/html/userManage.html" class="userMan">用户管理</a></li>
+        <li><a href="" class="authorityMan">权限管理</a></li>
+        <li><a href="/html/perCenter.html" class="perCenter">个人中心</a></li>
+    </ul>
+</div>
+<div class="content">
+    <div class="data-container" style="width: 100%">
+        <div id="toolBar">
+            <div class="toolbar-left">
+                <div class="form-group">
+                    <input type="text" class="form-control" id="searchByName" placeholder="">
+                </div>
+
+            </div>
+            <div class="toolbar-right">
+                <a href="javascript:void (0)" class="btn add" id="add" data-toggle="modal" data-target="#stations">分配站点</a>
+            </div>
+        </div>
+        <div class="table-container">
+            <table id="table" class="table">
+                <thead>
+                <tr>
+                    <th>IMEI号</th>
+                    <th>站点名称</th>
+                    <th>操作</th>
+                </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+        <div id="page"></div>
+    </div>
+</div>
+<div class="modal fade" id="stations" tabindex="-1" role="dialog" aria-labelledby="stationsHead" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                    &times;
+                </button>
+                <h4 class="modal-title" id="stationsHead">站点分配</h4></div>
+            <div class="modal-body">
+                <ul class="station-list"></ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" id="submitEdit" class="btn btn-primary">提交更改</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="/js/jquery-3.3.1.js"></script>
+<script type="text/javascript" src="/js/jquery.tmpl.js"></script>
+<script type="text/javascript" src="/js/echarts.js"></script>
+<script type="text/javascript" src="/plugins/bootstrap/js/bootstrap.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+<script type="text/x-jquery-tmpl" id="userList">
+    <tr class="tableRow">
+        <td>${device_id}</td>
+        <td>${name}</td>
+        <td><a class="btn cancelAllot" data-id=${index}>取消分配</a></td>
+    </tr>
+</script>
+<script>
+    $(function () {
+        var userId=parseInt(location.search.split("=")[1]);
+        function getDataList(Id,pageNo){
+            $.getJSON("/userinfo/selectStation",{"user_id":Id,"pageNo":pageNo},function (data) {
+                $("#table tbody").html("");
+                $("#userList").tmpl(data.list).appendTo("#table tbody");
+                delete  data.list;
+                $("#page").html(setPage(data));
+            });
+        }
+
+        getDataList(userId,1);
+        $("#stations").on("show.bs.modal",function (event) {
+            var modal=$(this);
+            $.getJSON("/userinfo/selectStationNo",{"user_id":userId},function (data) {
+                var str="";
+                for (var i=0;i<data.length;i++){
+                    str+="<li><input type='checkbox' class='selectedStation' data-id='"+data[i].index+"'>"+data[i].name+"</li>"
+                }
+                modal.find(".modal-body ul").html(str);
+            })
+        });
+        $("#searchByName").on("keypress", function (event) {
+            if (event.keyCode == '13') {
+                var val = $(this).val();
+                $.getJSON("/userinfo/searchByName", {"unit_name": val, "pageNo": 1}, function (data) {
+                    $("#table tbody").html("");
+                    $("#userList").tmpl(data.list).appendTo("#table tbody");
+                    delete data.list;
+                    $("#page").html(setPage(data));
+                });
+                return false;
+            }
+        });
+        $(".station-list").on("click","li",function () {
+            if($(this).hasClass("active")){
+                $(this).removeClass("active");
+                $(this).find("input").prop("checked",false)
+            }else{
+                $(this).addClass("active");
+                $(this).find("input").prop("checked",true);
+            }
+        });
+        $("#submitEdit").click(function () {
+            var  ids="";
+            $("ul.station-list input.selectedStation:checked").each(function () {
+                ids+=$(this).attr("data-id")+",";
+            });
+            ids=ids.slice(0,-1);
+            $.get("/userinfo/insertStationAndUser",{"user_id":userId,"station_id":ids},function (data) {
+                if(data==1){
+                    $("#stations").modal("hide");
+                    getDataList(userId,1);
+                }
+            })
+        });
+        $("#table").on("click","a.cancelAllot",function () {
+            var stationId=$(this).attr("data-id");
+            Ewin.confirm({message:"确定要取消该分配吗?"}).on(function (e) {
+                if(!e){
+                    return;
+                }
+                $.ajax({
+                    type:"post",
+                    url:"/userinfo/deleteStationAndUser",
+                    data:{"user_id":userId,"station_id":stationId},
+                    dataType:"text",
+                    success:function (data) {
+                        if(data==1){
+                           getDataList(userId,parseInt($("#table-cur-page").html()));
+                        }
+                    }
+                })
+            })
+        })
+    })
+</script>
+</body>
+</html>

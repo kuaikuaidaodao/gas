@@ -39,10 +39,8 @@
 
             </div>
             <div class="toolbar-right">
-                <a href="javascript:void (0)" class="add" id="add">添加用户</a>
-       <!--         <a href="javascript:void (0)" class="edit" id="edit">修改用户</a>
-                <a href="javascript:void (0)" class="dash" id="del">删除用户</a>
-     -->       </div>
+                <a href="/html/userEdit.html" class="add" id="add">添加用户</a>
+           </div>
         </div>
         <div class="table-container">
             <table id="table" class="table">
@@ -75,8 +73,12 @@
         <td>${createTime}</td>
         <td>${email}</td>
         <td>${telePhone}</td>
-        <td><a class="btn">置顶</a></td>
-        <td><a class="btn" data=${index}>修改</a><a class="btn">删除</a><a class="btn">站点分配</a></td>
+        <td><a class="btn setTop" data-id=${index}>置顶</a></td>
+        <td>
+            <a class="btn edit-user" href="/html/userEdit.html?id=${index}" data-id=${index}>修改</a>
+            <a class="btn del-user" data-id=${index}>删除</a>
+            <a class="btn" href="/html/stationAllot.html?user_id=${index}">站点分配</a>
+        </td>
     </tr>
 </script>
 <script>
@@ -89,6 +91,14 @@
             });
         }
        getDataList(1);
+        $("#table").on("click","a.setTop",function () {
+            var id=$(this).attr("data-id");
+            $.get("/userinfo/setTop",{"id":id},function (data) {
+                if(data==1){
+                    getDataList(parseInt($("#table-cur-page").html()));
+                }
+            })
+        })
         $("#searchByName").on("keypress", function (event) {
             if (event.keyCode == '13') {
                 var val = $(this).val();

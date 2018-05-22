@@ -189,8 +189,8 @@
             $("#user-list li").removeClass("active");
             $(this).parent("li").addClass("active");
             if ($(this).attr("item") === "one") {
-                var name = $(this).html();
-                $.getJSON("/device/getList", {"unit_name": name, "pageNo": 1}, function (data) {
+                var name = $(this).attr("data-item");
+                $.getJSON("/device/getList", {"index": name, "pageNo": 1}, function (data) {
                     showDatalist(data)
                 })
             } else {

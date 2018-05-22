@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8"/>
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <meta name="author" content="shihao">
+    <meta name="robots" content="index,follow">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta name="x-ua-compatible" content="id=edge,chrome=1">
+    <meta name="renderer" content="webkit|ie-comp|ie-stand">
+    <meta name="keywords" content="储气罐,智能监控,管理,云,智能,监控">
+    <link rel="stylesheet" href="/plugins/bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="/plugins/bootstrap/css/bootstrap-theme.css">
+    <link rel="stylesheet" href="/css/index.css">
+    <title>云端智控--用户管理</title>
+</head>
+<body>
+<div class="header">
+    <div class="logo-container">
+        <a href="/"><img src="/images/logo.png" alt=""><b>云端智控监测管理系统</b></a>
+    </div>
+    <ul class="nav">
+        <li><a href="/" class="stationMo">站点监控</a></li>
+        <li><a href="/html/stationManage.html" class="stationMan">站点管理</a></li>
+        <li><a href="/html/deviceManage.html" class="deviceMan">设备管理</a></li>
+        <li><a href="/html/sysSearch.html" class="systemSearch">系统查询</a></li>
+        <li class="active"><a href="/html/userManage.html" class="userMan">用户管理</a></li>
+        <li><a href="" class="authorityMan">权限管理</a></li>
+        <li><a href="/html/perCenter.html" class="perCenter">个人中心</a></li>
+    </ul>
+</div>
+<div class="content">
+    <div class="data-container" style="width: 100%">
+        <div id="toolBar">
+            <div class="toolbar-left">
+                <a href="javascript:history.back()"><</a>
+            </div>
+            <div class="toolbar-center"></div>
+            <div class="toolbar-right"></div>
+        </div>
+        <div class="table-container">
+            <div class="container-fluid">
+                <div class="container">
+                    <form class="form-horizontal">
+                        <div class="form-group">
+                            <label for="companyname" class="col-sm-2 control-label">单位名称</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="companyname" placeholder="建议填写单位全称">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="username" class="col-sm-2 control-label">登录名</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="username" placeholder="6-16位数字/字母">
+                            </div>
+                        </div>
+                        <div class="form-group addUser">
+                            <label for="password" class="col-sm-2 control-label">登录密码</label>
+                            <div class="col-sm-10">
+                                <input type="password" class="form-control" id="password" placeholder="6-16位数字/字母">
+                            </div>
+                        </div>
+                        <div class="form-group addUser">
+                            <label for="password2" class="col-sm-2 control-label">确认密码</label>
+                            <div class="col-sm-10">
+                                <input type="password" class="form-control" id="password2" placeholder="6-16位数字/字母">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="setpermission" class="col-sm-2 control-label">设置权限</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="setpermission" placeholder="权限选择">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="address" class="col-sm-2 control-label">详细地址</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="address" placeholder="请填写详细地址">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="information" class="col-sm-2 control-label">联系方式</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="information"
+                                       placeholder="手机号或电话号 电话格式:010-67856126">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="email" class="col-sm-2 control-label">注册邮箱</label>
+                            <div class="col-sm-10">
+                                <input type="email" class="form-control" id="email">
+                            </div>
+                        </div>
+                    </form>
+                    <div class="form-group">
+                        <div class="col-sm-12">
+                            <button class="btn btn-info col-sm-12" id="submit">确认</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="/js/jquery-3.3.1.js"></script>
+<script type="text/javascript" src="/js/jquery.tmpl.js"></script>
+<script type="text/javascript" src="/js/echarts.js"></script>
+<script type="text/javascript" src="/plugins/bootstrap/js/bootstrap.js"></script>
+<script type="text/javascript" src="/js/index.js"></script>
+<script type="text/javascript">
+    $(function () {
+        var menuData={};
+        $.getJSON("/menu/getList",function (data) {
+            menuData=data;
+        });
+        var searchText=location.search;
+        if(searchText.length>0){
+
+        }else {
+
+        }
+    })
+</script>
+</body>
+</html>
