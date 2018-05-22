@@ -50,8 +50,19 @@ public class DeviceController {
         // 需要把Page包装成PageInfo对象才能序列化。该插件也默认实现了一个PageInf0
         PageInfo<DeviceDateCurrent> pageInfo = new PageInfo<DeviceDateCurrent>(deviceDateCurrents);
         return pageInfo;
-    }
 
+    }
+    /**
+     * 查询目前设备所有实时数据不分页（站点地图）
+     *
+     * @param pageNo
+     * @return
+     */
+    @RequestMapping("getListDefaultNo")
+    public List<DeviceDateCurrent> getListDefaultNo(int pageNo) {
+        List<DeviceDateCurrent> deviceDateCurrents = iDeviceDateCurrentService.getListDefaultNo();
+        return deviceDateCurrents;
+    }
     @RequestMapping("searchBydevice_idOrstation")
     public PageInfo<DeviceDateCurrent> searchBydevice_idOrstation(int pageNo, String info) {
         List<DeviceDateCurrent> deviceDateCurrents = iDeviceDateCurrentService.searchBydevice_idOrstation(pageNo, Common.DEVICEPAGESIZE, info);
