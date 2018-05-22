@@ -56,6 +56,6 @@ public class DeviceDateCurrentService implements IDeviceDateCurrentService {
 
     @Override
     public List<DeviceDateCurrent> getListDefaultNo() {
-        return deviceinfoMapper.getListDefault();
+        return deviceinfoMapper.getListDefaultNo();
     }
 }
