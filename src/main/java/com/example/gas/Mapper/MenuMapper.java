@@ -1,6 +1,8 @@
 package com.example.gas.Mapper;
 
 import com.example.gas.entity.Menu;
+import com.example.gas.entity.UserMenu;
+import com.example.gas.entity.Userinfo;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +13,7 @@ import java.util.List;
 public interface MenuMapper {
     int deleteByPrimaryKey(Integer id);
 
-    int insert(Menu record);
+    int insert(UserMenu userMenu);
 
     int insertSelective(Menu record);
 

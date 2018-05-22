@@ -2,6 +2,7 @@ package com.example.gas.Controller;
 
 
 import com.example.gas.Config.Common;
+import com.example.gas.Mapper.MenuMapper;
 import com.example.gas.Mapper.StationinfoMapper;
 import com.example.gas.Mapper.UserinfoMapper;
 import com.example.gas.biz.IStationinfoService;
@@ -40,6 +41,8 @@ public class UserinfoController {
     StationinfoMapper stationinfoMapper;
     @Autowired
     IStationinfoService iStationinfoService;
+    @Autowired
+    MenuMapper menuMapper;
 
     /**
      * 登录
@@ -113,10 +116,15 @@ public class UserinfoController {
      * 增加
      */
     @RequestMapping("insert")
-    int insert(Userinfo userinfo) {
+    int insert(Userinfo userinfo, List<UserMenu> list) {
        int k= userinfoMapper.insert(userinfo);
        if (k==1){
            System.out.println(userinfo.getIndex());
+           for (UserMenu userMenu:list){
+               userMenu.setUser_id(userinfo.getIndex());
+               menuMapper.insert(userMenu);
+
+           }
        }
         return 1;
     }

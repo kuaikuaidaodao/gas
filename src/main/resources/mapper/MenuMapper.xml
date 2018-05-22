@@ -8,4 +8,16 @@
   <select id="getListByParentId" resultType="com.example.gas.entity.Menu">
     select * from tbl_menu_info where parent_id=#{parent_id}
   </select>
+  <insert id="insert"     parameterType="com.example.gas.entity.UserMenu" useGeneratedKeys="true" keyProperty="id">
+    <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="id">
+      SELECT LAST_INSERT_ID()
+    </selectKey>
+    INSERT INTO `tbl_user_menu_info`
+    (
+    `user_id`,
+    `parent_id`,
+    `child_id`,
+   )
+    VALUES (#{user_id},#{parent_id},#{child_id})
+  </insert>
 </mapper>
