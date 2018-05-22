@@ -16,7 +16,6 @@ import java.util.List;
  * @desc
  **/
 @Service
-@Transactional(readOnly = true)
 public class UserinfoService implements IUserinfoService{
     @Autowired
     private UserinfoMapper userinfoMapper;
