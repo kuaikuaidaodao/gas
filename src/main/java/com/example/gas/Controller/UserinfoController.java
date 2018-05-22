@@ -6,7 +6,9 @@ import com.example.gas.Mapper.StationinfoMapper;
 import com.example.gas.Mapper.UserinfoMapper;
 import com.example.gas.biz.IStationinfoService;
 import com.example.gas.biz.IUserinfoService;
+import com.example.gas.entity.Menuinfo;
 import com.example.gas.entity.Stationinfo;
+import com.example.gas.entity.UserMenu;
 import com.example.gas.entity.Userinfo;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -68,8 +70,13 @@ public class UserinfoController {
      * @return
      */
     @RequestMapping("getById")
-    Userinfo getById(int id) {
-        return userinfoMapper.get(id);
+    Map getById(int id) {
+            Userinfo userinfo= userinfoMapper.get(id);
+            List<UserMenu> list= userinfoMapper.getMenuByUserId(id);
+        Map map=new HashMap();
+        map.put("userinfo",userinfo);
+        map.put("userMenu",list);
+        return map;
     }
 
     /**
@@ -107,7 +114,11 @@ public class UserinfoController {
      */
     @RequestMapping("insert")
     int insert(Userinfo userinfo) {
-        return userinfoMapper.insert(userinfo);
+       int k= userinfoMapper.insert(userinfo);
+       if (k==1){
+           System.out.println(userinfo.getIndex());
+       }
+        return 1;
     }
 
     /**
@@ -117,7 +128,6 @@ public class UserinfoController {
     int update(Userinfo userinfo) {
         return userinfoMapper.update(userinfo);
     }
-
     /**
      * 删除
      */

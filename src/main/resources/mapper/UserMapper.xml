@@ -25,7 +25,7 @@
     </sql>
 
     <!--auto generated Code-->
-    <insert id="insert">
+    <insert id="insert"  parameterType="com.example.gas.entity.Userinfo" useGeneratedKeys="true" keyProperty="index">
         <selectKey resultType="java.lang.Integer" order="AFTER" keyProperty="index">
             SELECT LAST_INSERT_ID()
         </selectKey>
@@ -37,7 +37,7 @@
         `telephone`,
         `create_time`,
         `password`)
-        VALUES (#{pojo.unitName},#{pojo.userName},#{pojo.email},#{pojo.telePhone},#{pojo.create_time},#{pojo.password})
+        VALUES (#{unitName},#{userName},#{email},#{telePhone},#{create_time},#{password})
     </insert>
     <update id="update">
        UPDATE `tbl_user_info`
@@ -73,4 +73,7 @@
     <update id="setTop">
         update tbl_user_info set `set_top`=#{set_top} where `index`=#{id}
     </update>
+    <select id="getMenuByUserId" resultType="com.example.gas.entity.UserMenu">
+        select * from tbl_user_menu_info where user_id=#{user_id}
+    </select>
 </mapper>

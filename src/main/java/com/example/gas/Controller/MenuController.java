@@ -16,6 +16,11 @@ import java.util.List;
 public class MenuController {
     @Autowired
     IMenuService iMenuService;
+
+    /**
+     * 菜单
+     * @return
+     */
     @RequestMapping("getList")
     List<Menuinfo> getList(){
         List<Menuinfo> menuinfos=new ArrayList<>();

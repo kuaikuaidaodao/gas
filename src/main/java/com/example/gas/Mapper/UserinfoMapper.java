@@ -1,5 +1,6 @@
 package com.example.gas.Mapper;
 
+import com.example.gas.entity.UserMenu;
 import com.example.gas.entity.Userinfo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -16,7 +17,7 @@ import java.util.List;
 @Mapper
 @Service
 public interface UserinfoMapper {
-    int insert(@Param("pojo") Userinfo pojo);
+    int insert(Userinfo userinfo);
 
 
     int update(@Param("pojo") Userinfo pojo);
@@ -32,4 +33,6 @@ public interface UserinfoMapper {
     List<Userinfo> searchByName(@Param("unit_name") String unit_name);
 
     int setTop(@Param("id")String id, @Param("set_top")String set_top);
+
+    List<UserMenu> getMenuByUserId(@Param("user_id") int user_id);
 }
