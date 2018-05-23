@@ -60,7 +60,7 @@
                     <div id="page"></div>
                 </div>
                 <div role="tabpanel" class="tab-pane data-charts" id="charts">
-                    <div id="chart-container" class="chart-container" style="width: 100%;height: 95%"></div>
+                    <div id="chart-container" class="chart-container"></div>
                 </div>
                 <div role="tabpanel" class="tab-pane" id="map">
                     <div class="chart-container" id="map-container"></div>
@@ -70,6 +70,7 @@
     </div>
 </div>
 <script type="text/javascript" src="/js/jquery-3.3.1.js"></script>
+<script type="text/javascript" src="/js/jquery.cookie.js"></script>
 <script type="text/javascript" src="/js/jquery.tmpl.js"></script>
 <script type="text/javascript" src="/js/echarts.js"></script>
 <script type="text/javascript" src="/plugins/bootstrap/js/bootstrap.js"></script>
@@ -113,59 +114,7 @@
     $(function () {
         var targetId = location.search.split("=")[1];
         function getInfo(pageNo) {
-            var dataCharts = echarts.init($("#chart-container")[0]);
-            dataCharts.setOption({
-                title: {text: "历史数据"},
-                tooltip: {trigger: "axis"},
-                legend: {
-                    data: ["质量", "压力", "温度", "电池电压"]
-                },
-                grid: {
-                    left: '3%',
-                    right: '4%',
-                    bottom: '3%',
-                    containLabel: true
-                },
-                toolbox: {
-                    feature: {
-                        saveAsImage: {}
-                    }
-                },
-                xAxis: [
-                    {
-                        type: 'category',
-                        boundaryGap: false,
-                        data: []
-                    }
-                ],
-                yAxis: {type: 'value'},
-                series: [
-                    {
-                        name: "质量",
-                        type: "line",
-                        stack: "总量",
-                        data: []
-                    },
-                    {
-                        name: "压力",
-                        type: "line",
-                        stack: "总量",
-                        data: []
-                    },
-                    {
-                        name: "温度",
-                        type: "line",
-                        stack: "总量",
-                        data: []
-                    },
-                    {
-                        name: "电池电压",
-                        type: "line",
-                        stack: "总量",
-                        data: []
-                    }
-                ]
-            });
+
             $.getJSON("/device/getListHistory", {"device_id": targetId, "pageNo": pageNo}, function (data) {
                 var list = data.deviceHistoryinfo.list;
                 $("#device-info").html("");
@@ -203,6 +152,8 @@
                     strokeStyle: "solid"//线样式
                 });
             }).done(function (data) {
+                $("#chart-container").css({width:$(".tab-content").width()+"px",height:$(".tab-content").height()*0.95+"px"});
+                var dataCharts = echarts.init($("#chart-container")[0]);
                 var times = [], weight = [], diff = [], liquid = [], elec = [];
                 var datalist = data.deviceHistoryinfo.list;
                 for (var i = 0; i < datalist.length; i++) {
@@ -212,28 +163,54 @@
                     liquid.push(datalist[i].temperature_liquid);
                     elec.push(datalist[i].electricity)
                 }
-                dataCharts.setOption({
-                    xAxis: {data: times},
+                var option= {
+                    title: {text: "历史数据"},
+                    tooltip: {trigger: "axis"},
+                    legend: {
+                        data: ["质量", "压力", "温度", "电池电压"],
+                    },
+                    toolbox: {
+                        feature: {
+                            saveAsImage: {}
+                        }
+                    },
+                    xAxis: [
+                        {
+                            type: 'category',
+                            boundaryGap: false,
+                            data:times
+                        }
+                    ],
+                    yAxis: {type: 'value'},
                     series: [
                         {
                             name: "质量",
+                            type: "line",
+                            stack: "总量",
                             data: weight
                         },
                         {
                             name: "压力",
+                            type: "line",
+                            stack: "总量",
                             data: diff
                         },
                         {
                             name: "温度",
-                            data: liquid
+                            type: "line",
+                            stack: "总量",
+                            data:liquid
                         },
                         {
                             name: "电池电压",
-                            data: elec
+                            type: "line",
+                            stack: "总量",
+                            data:elec
                         }
                     ]
-
-                })
+                };
+                dataCharts.setOption(option);
+                dataCharts.resize();
             })
         }
 

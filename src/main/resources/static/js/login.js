@@ -1,5 +1,5 @@
 "use strict";
-(function () {
+/*(function () {
     var lastTime = 0;
     var vendors = ['ms', 'moz', 'webkit', 'o'];
     for (var x = 0; x < vendors.length && !window.requestAnimationFrame; ++x) {
@@ -211,7 +211,7 @@
         return Math.pow(p1.x - p2.x, 2) + Math.pow(p1.y - p2.y, 2);
     }
 
-})();
+})();*/
 $(function () {
     $("#login").click(function () {
         var user = $("#userName").val();
@@ -226,7 +226,8 @@ $(function () {
             dataType: "json",
             success: function (data) {
                 if(data.status==="success"){
-                    window.location.href="/index.html"
+                    $.cookie("userinfo",data.msg);
+                    window.location.href="/index.html";
                 }else {
                     $("#login-tip").html(data)
                 }
