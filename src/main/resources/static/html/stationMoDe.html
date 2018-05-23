@@ -92,7 +92,7 @@
 <script type="text/javascript">
     $(function () {
         var param = location.search;
-        var url = "/device/getDetail" + param;
+        var url = rootOrigin+"/device/getDetail" + param;
         $("#stationMap").attr("href","/html/stationMap.html"+param);
         $.getJSON(url, function (data) {
             $("#str1").tmpl(data).appendTo("#dashboard");
@@ -109,7 +109,7 @@
                 } else {
                     $.ajax({
                         type:"get",
-                        url:"/userinfo/searchByName",
+                        url:rootOrigin+"/userinfo/searchByName",
                         data:{"unit_name": val, "pageNo": 1},
                         dataType:"json",
                         contentType:"text/html;charset=UTF-8",

@@ -115,7 +115,7 @@
         var targetId = location.search.split("=")[1];
         function getInfo(pageNo) {
 
-            $.getJSON("/device/getListHistory", {"device_id": targetId, "pageNo": pageNo}, function (data) {
+            $.getJSON(rootOrigin+"/device/getListHistory", {"device_id": targetId, "pageNo": pageNo}, function (data) {
                 var list = data.deviceHistoryinfo.list;
                 $("#device-info").html("");
                 $("#device").tmpl(data.deviceinfo).appendTo("#device-info");

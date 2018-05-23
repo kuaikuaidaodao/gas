@@ -111,7 +111,7 @@
 <script type="text/javascript">
     $(function () {
         var menuData={};
-        $.getJSON("/menu/getList",function (data) {
+        $.getJSON(rootOrigin+"/menu/getList",function (data) {
             menuData=data;
         });
         var searchText=location.search;

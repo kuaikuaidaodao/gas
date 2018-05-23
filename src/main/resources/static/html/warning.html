@@ -159,7 +159,7 @@
 <script type="text/javascript">
     $(function () {
         function getDataList(pageNo) {
-            $.getJSON("/warn/getList", {"pageNo": pageNo}, function (data) {
+            $.getJSON(rootOrigin+"/warn/getList", {"pageNo": pageNo}, function (data) {
                 $("#table tbody").html("");
                 $("#dataList").tmpl(data.list).appendTo("#table tbody");
                 delete data.list;
@@ -227,7 +227,7 @@
             data=JSON.stringify(data);
             $.ajax({
                 type: "post",
-                url: "/warn/saveOrUpdate",
+                url: rootOrigin+"/warn/saveOrUpdate",
                 data: data,
                 dataType: "text",
                 contentType:"application/json;charset=UTF-8",

@@ -271,6 +271,14 @@ th.sorted.descending:after {
 #table td.showSelect span:first-child{
     display: inline;
 }
+#table td span.warn{
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    background: #f00;
+    color: #ffffff;
+}
 #page{
     display: flex;
     justify-content: center;

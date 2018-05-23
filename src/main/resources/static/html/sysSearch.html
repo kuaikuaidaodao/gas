@@ -101,7 +101,7 @@
 <script type="text/javascript">
     $(function () {
         function getList(pageNo){
-            $.getJSON("/device/getListDefault",{"pageNo":pageNo},function (data) {
+            $.getJSON(rootOrigin+"/device/getListDefault",{"pageNo":pageNo},function (data) {
                 $("#table tbody").html("");
                 $("#dataList").tmpl(data.list).appendTo("#table tbody");
                 delete data.list;
@@ -121,7 +121,7 @@
             if (event.keyCode == '13') {
                 var val = $(this).val();
                 var pageNo=parseInt($("#table-cur-page").html());
-                $.getJSON("/device/searchBydevice_idOrstation", {"info": val, "pageNo": pageNo}, function (data) {
+                $.getJSON(rootOrigin+"/device/searchBydevice_idOrstation", {"info": val, "pageNo": pageNo}, function (data) {
                     $("#table tbody").html("");
                     $("#dataList").tmpl(data.list).appendTo("#table tbody");
                     delete data.list;

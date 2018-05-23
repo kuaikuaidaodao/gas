@@ -1,4 +1,5 @@
 "use strict";
+const rootOrigin = "http://localhost:8080";
 (function ($) {
     window.Ewin = function () {
         var html = '<div id="[Id]" class="modal fade" role="dialog" aria-labelledby="modalLabel">' +
@@ -159,7 +160,7 @@
         }
     }();
     (function () {
-        if (!$.cookie("userId").length > 0) {
+        if (typeof $.cookie("userId") == 'undefined') {
             alert("您尚未登录,请登录");
             window.location.href = "/login.html";
         }
@@ -231,7 +232,7 @@ function insertUserList(data) {
 }
 
 function getUsers() {
-    $.getJSON("/userinfo/getListNoPage", function (data) {
+    $.getJSON(rootOrigin + "/userinfo/getListNoPage", function (data) {
         insertUserList(data)
     });
 }

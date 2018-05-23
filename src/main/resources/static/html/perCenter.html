@@ -120,7 +120,7 @@
 <script type="text/javascript" src="/plugins/bootstrap/js/bootstrap.js"></script>
 <script type="text/javascript" src="/js/index.js"></script>
 <script type="text/javascript">
-    $.getJSON("/userinfo/getById",{"id":parseInt($.cookie("userId"))},function (data) {
+    $.getJSON(rootOrigin+"/userinfo/getById",{"id":parseInt($.cookie("userId"))},function (data) {
         for(var key in data.userinfo){
             $("#"+key).val(data.userinfo[key]);
         }
@@ -150,7 +150,7 @@
                 "emial":$("#email").val(),
                 "address":$("#address").val()
             };
-            $.get("/userinfo/update",updateInfo,function (data) {
+            $.get(rootOrigin+"/userinfo/update",updateInfo,function (data) {
                 if (data){
                     $("#update").removeAttr("disabled");
                     $("#updates").hide();

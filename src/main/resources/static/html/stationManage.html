@@ -141,7 +141,7 @@
     $(function () {
         getUsers();
         function getDataList(pageNo,index) {
-            $.getJSON("/station/getGroupList", {"pageNo": pageNo,"index":index}, function (data) {
+            $.getJSON(rootOrigin+"/station/getGroupList", {"pageNo": pageNo,"index":index}, function (data) {
                 $("#table tbody").html("");
                 $("#tableList").tmpl(data.list).appendTo("#table tbody");
                 delete  data.list;
@@ -153,7 +153,7 @@
         $("#searchUserList").on("keypress", function (event) {
             if (event.keyCode == '13') {
                 var val = $(this).val();
-                $.getJSON("/userinfo/searchByName", {"unit_name": val, "pageNo": 1}, function (data) {
+                $.getJSON(rootOrigin+"/userinfo/searchByName", {"unit_name": val, "pageNo": 1}, function (data) {
                     insertUserList(data);
                 });
                 return false;
@@ -170,7 +170,7 @@
         $("#submitEdit").click(function () {
             var name = $("#edit-station-input").val();
             var id = $(this).attr("device_id");
-            $.get("/station/update", {"device_id": id, "name": name}, function (data) {
+            $.get(rootOrigin+"/station/update", {"device_id": id, "name": name}, function (data) {
                 if (data) {
                     $("#editStation").modal("hide");
                     getDataList(parseInt($("#table-sur-page").html()))
@@ -187,7 +187,7 @@
             } else {
                 $.ajax({
                     type: "get",
-                    url: "/station/insert",
+                    url: rootOrigin+"/station/insert",
                     dataType: "text",
                     data: {"device_id": deId, "name": staName},
                     // contentType: "application/json;charset=UTF-8",
@@ -205,7 +205,7 @@
             if (event.keyCode == '13') {
                 var val = $(this).val();
                 var pageNo = parseInt($("#table-cur-page").html());
-                $.getJSON("/station/getGroupListByNameOrImit", {"info": val, "pageNo": pageNo}, function (data) {
+                $.getJSON(rootOrigin+"/station/getGroupListByNameOrImit", {"info": val, "pageNo": pageNo}, function (data) {
                     var len = data.list.length;
                     var unitArr = data.list;
                     var tableHTml = "<tr class='tableRow'>" +

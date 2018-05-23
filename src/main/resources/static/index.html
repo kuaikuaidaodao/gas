@@ -105,8 +105,8 @@
         <td>${$data.station_name}</td>
         <td>${$data.weight}</td>
         <td></td>
-        <td>${$data.pressure_top}</td>
-        <td>${$data.temperature_liquid}</td>
+        <td>{{html $item.warn($data.warninfo.low_pressure,$data.pressure_top,$data.warninfo.height_pressure)}}</td>
+        <td>{{html $item.warn($data.warninfo.low_temperature,$data.temperature_liquid,$data.warninfo.height_temperature)}}</td>
         <td>${$data.deviceinfo.manufacturer}</td>
         <td class="showSelect">
             <span class='rqbh'>${$data.deviceinfo.container_num}</span>
@@ -122,7 +122,7 @@
 <script type="text/javascript">
     $(function () {
         function getDataList(pageNo) {
-            $.getJSON("/device/getListDefault", {"pageNo": pageNo}, function (data) {
+            $.getJSON(rootOrigin+"/device/getListDefault", {"pageNo": pageNo}, function (data) {
                 showDatalist(data)
             });
         }
@@ -136,8 +136,14 @@
                     a += id.split('').slice(-4).join('');
                     return a;
                 },
-                wran: function (low, cur, high) {
-
+                warn: function (low, cur, high) {
+                    if(low&&cur<low){
+                        return "<span class='warn'>"+cur+"</span>";
+                    }
+                    if(high&&cur>high){
+                        return "<span class='warn'>"+cur+"</span>";
+                    }
+                    return "<span>"+cur+"</span>"
                 }
             }).appendTo("#table tbody");
             delete data.list;
@@ -162,7 +168,7 @@
                 } else {
                     $.ajax({
                         type:"get",
-                        url:"/userinfo/searchByName",
+                        url:rootOrigin+"/userinfo/searchByName",
                         data:{"unit_name": val, "pageNo": 1},
                         dataType:"json",
                         contentType:"text/html;charset=UTF-8",
@@ -176,7 +182,7 @@
         $("#searchDataList").click(function () {
             var pageNo = parseInt($("#table-cur-page").html());
             var searchText = $(this).parent().find("input").val();
-            $.getJSON("/device/searchBydevice_idOrstation", {"pageNo": pageNo, "info": searchText}, function (data) {
+            $.getJSON(rootOrigin+"/device/searchBydevice_idOrstation", {"pageNo": pageNo, "info": searchText}, function (data) {
                 showDatalist(data);
             })
         });
@@ -191,14 +197,13 @@
             $(this).parent("li").addClass("active");
             if ($(this).attr("item") === "one") {
                 var name = $(this).attr("data-item");
-                $.getJSON("/device/getList", {"index": name, "pageNo": 1}, function (data) {
+                $.getJSON(rootOrigin+"/device/getList", {"index": name, "pageNo": 1}, function (data) {
                     showDatalist(data)
                 })
             } else {
                 getDataList(1);
             }
         })
-
     })
 </script>
 </body>

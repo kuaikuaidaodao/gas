@@ -65,7 +65,7 @@
             });
         var param = location.search;
         if (param.trim().length > 0) {
-            $.getJSON("/device/getDetail" + param, function (data) {
+            $.getJSON(rootOrigin+"/device/getDetail" + param, function (data) {
                 var sitData = [];
                 sitData[0] = {};
                 sitData[0].device_id = data.device_id;
@@ -75,7 +75,7 @@
                 setMapSit(sitData);
             })
         } else {
-            $.getJSON("/device/getListDefaultNo", function (data) {
+            $.getJSON(rootOrigin+"/device/getListDefaultNo", function (data) {
                 setMapSit(data);
             });
         }

@@ -85,7 +85,7 @@
 <script>
     $(function () {
         function getDataList(pageNo){
-            $.getJSON("/userinfo/getList",{"pageNo":pageNo},function (data) {
+            $.getJSON(rootOrigin+"/userinfo/getList",{"pageNo":pageNo},function (data) {
                 $("#page").html(setPage(data));
                 $("#table tbody").html("");
                 $("#userList").tmpl(data.list).appendTo("#table tbody");
@@ -94,7 +94,7 @@
        getDataList(1);
         $("#table").on("click","a.setTop",function () {
             var id=$(this).attr("data-id");
-            $.get("/userinfo/setTop",{"id":id},function (data) {
+            $.get(rootOrigin+"/userinfo/setTop",{"id":id},function (data) {
                 if(data==1){
                     getDataList(parseInt($("#table-cur-page").html()));
                 }
@@ -103,7 +103,7 @@
         $("#searchByName").on("keypress", function (event) {
             if (event.keyCode == '13') {
                 var val = $(this).val();
-                $.getJSON("/userinfo/searchByName", {"unit_name": val, "pageNo": 1}, function (data) {
+                $.getJSON(rootOrigin+"/userinfo/searchByName", {"unit_name": val, "pageNo": 1}, function (data) {
                     $("#table tbody").html("");
                     $("#userList").tmpl(data.list).appendTo("#table tbody");
                     delete data.list;

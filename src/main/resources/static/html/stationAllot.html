@@ -92,7 +92,7 @@
     $(function () {
         var userId=parseInt(location.search.split("=")[1]);
         function getDataList(Id,pageNo){
-            $.getJSON("/userinfo/selectStation",{"user_id":Id,"pageNo":pageNo},function (data) {
+            $.getJSON(rootOrigin+"/userinfo/selectStation",{"user_id":Id,"pageNo":pageNo},function (data) {
                 $("#table tbody").html("");
                 $("#userList").tmpl(data.list).appendTo("#table tbody");
                 delete  data.list;
@@ -103,7 +103,7 @@
         getDataList(userId,1);
         $("#stations").on("show.bs.modal",function (event) {
             var modal=$(this);
-            $.getJSON("/userinfo/selectStationNo",{"user_id":userId},function (data) {
+            $.getJSON(rootOrigin+"/userinfo/selectStationNo",{"user_id":userId},function (data) {
                 var str="";
                 for (var i=0;i<data.length;i++){
                     str+="<li><input type='checkbox' class='selectedStation' data-id='"+data[i].index+"'>"+data[i].name+"</li>"
@@ -114,7 +114,7 @@
         $("#searchByName").on("keypress", function (event) {
             if (event.keyCode == '13') {
                 var val = $(this).val();
-                $.getJSON("/userinfo/searchByName", {"unit_name": val, "pageNo": 1}, function (data) {
+                $.getJSON(rootOrigin+"/userinfo/searchByName", {"unit_name": val, "pageNo": 1}, function (data) {
                     $("#table tbody").html("");
                     $("#userList").tmpl(data.list).appendTo("#table tbody");
                     delete data.list;
@@ -138,7 +138,7 @@
                 ids+=$(this).attr("data-id")+",";
             });
             ids=ids.slice(0,-1);
-            $.get("/userinfo/insertStationAndUser",{"user_id":userId,"station_id":ids},function (data) {
+            $.get(rootOrigin+"/userinfo/insertStationAndUser",{"user_id":userId,"station_id":ids},function (data) {
                 if(data==1){
                     $("#stations").modal("hide");
                     getDataList(userId,1);
@@ -153,7 +153,7 @@
                 }
                 $.ajax({
                     type:"post",
-                    url:"/userinfo/deleteStationAndUser",
+                    url:rootOrigin+"/userinfo/deleteStationAndUser",
                     data:{"user_id":userId,"station_id":stationId},
                     dataType:"text",
                     success:function (data) {

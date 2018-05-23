@@ -88,7 +88,7 @@
 <script type="text/javascript">
     $(function () {
         function getDataList(pageNo) {
-            $.getJSON("/device/getDeviceList",{"pageNo":pageNo},function (data) {
+            $.getJSON(rootOrigin+"/device/getDeviceList",{"pageNo":pageNo},function (data) {
                 $("#table tbody").html("");
                 $("#dataList").tmpl(data.list).appendTo("#table tbody");
                 delete data.list;
@@ -99,7 +99,7 @@
         $("#searchById").on("keypress", function (event) {
             if (event.keyCode == '13') {
                 var val = $(this).val();
-                $.getJSON("/device/getDetail", {"device_id": val}, function (data) {
+                $.getJSON(rootOrigin+"/device/getDetail", {"device_id": val}, function (data) {
                     $("#page").html("");
                     $("#table tbody").html("");
                     $("#dataList").tmpl(data).appendTo("#table tbody");
