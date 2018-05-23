@@ -39,8 +39,8 @@
          `name`=#{name} where `device_id`=#{device_id}
     </insert>
 
-    <select id="getList" resultType="com.example.gas.entity.Stationinfo">
-        select   <include refid="all_column"/> from tbl_station_info
+    <select id="getList" resultType="com.example.gas.entity.StationinfoList">
+        SELECT a.*,c.UNIT_NAME from tbl_station_info a LEFT JOIN tbl_user_station_relation b on a.`INDEX`=b.station_id LEFT JOIN tbl_user_info c ON b.user_id=c.`INDEX`
     </select>
     <select id="selectStation" resultType="com.example.gas.entity.Stationinfo">
         select   <include refid="all_column"/> from tbl_station_info where `index` in (select station_id from tbl_user_station_relation where `user_id`=#{user_id})
