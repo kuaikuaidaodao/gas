@@ -75,17 +75,17 @@ public class StationController {
     }
 
     /**
-     * 查询
+     * 查询(通过user_id 查站点)
      *
      * @param pageNo
-     * @param unit_name
+     * @param
      * @return
      */
     @RequestMapping("getGroupList")
-    PageInfo<StationGroup> getGroupList(int pageNo, String unit_name) {
+    PageInfo<StationGroup> getGroupList(int pageNo, String index) {
         List<Stationinfo> stationinfos = null;
-        if (unit_name != null && unit_name != "") {
-            stationinfos = stationinfoMapper.serchByUnitName(unit_name);
+        if (index != null && index != "") {
+            stationinfos = stationinfoMapper.serchByUserId(index);
         } else {
             stationinfos = stationinfoMapper.getStationList();
         }
@@ -125,20 +125,5 @@ public class StationController {
         }
         stationGroup.setList(list2);
         return stationGroup;
-    }
-
-    /**
-     * 通过所属单位名称查询站点
-     *
-     * @param unit_name
-     * @param pageNo
-     * @return
-     */
-    @RequestMapping("serchByUnitName")
-    public PageInfo<Stationinfo> serchByUnitName(String unit_name, int pageNo) {
-        List<Stationinfo> stationinfos = iStationinfoService.serchByUnitName(pageNo, Common.STATIONPAGESIZE, unit_name);
-        // 需要把Page包装成PageInfo对象才能序列化。该插件也默认实现了一个PageInf0
-        PageInfo<Stationinfo> pageInfo = new PageInfo<Stationinfo>(stationinfos);
-        return pageInfo;
     }
 }

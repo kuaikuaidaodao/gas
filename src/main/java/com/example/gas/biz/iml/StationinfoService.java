@@ -26,11 +26,6 @@ public class StationinfoService implements IStationinfoService {
     }
 
     @Override
-    public List<Stationinfo> serchByUnitName(int pageNo, int pageSize, String unit_name) {
-        PageHelper.startPage(pageNo, pageSize);
-        return stationinfoMapper.serchByUnitName(unit_name);
-    }
-    @Override
     public List<Stationinfo> selectStation(int pageNo, int pageSize, int user_id) {
         PageHelper.startPage(pageNo, pageSize);
         return stationinfoMapper.selectStation(user_id);

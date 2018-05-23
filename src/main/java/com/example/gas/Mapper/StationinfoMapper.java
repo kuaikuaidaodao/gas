@@ -17,8 +17,9 @@ public interface StationinfoMapper {
 
     List<Stationinfo> getList();
 
-    List<Stationinfo> serchByUnitName(@Param("unit_name") String unit_name);
+    List<Stationinfo> serchByUserId(@Param("index") String index);
 
+    List<Stationinfo> serchByUnitName(@Param("unit_name") String unit_name);
     List<Stationinfo> getStationList();
 
     List<Map> getListByName(@Param("name") String name);
