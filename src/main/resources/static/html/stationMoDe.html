@@ -85,14 +85,14 @@
 </script>
 <script id="str3" type="text/x-jquery-tmpl">
     <span>${deviceinfo.type}</span>
-    <span>${deviceinfo.container_num}</span>
+    <span>${deviceinfo.station_name}</span>
     <span>IMEI: ${device_id}</span>
-
 </script>
 <script type="text/javascript">
     $(function () {
         var param = location.search;
         var url = "/device/getDetail" + param;
+        $("#stationMap").attr("href","/html/stationMap.html"+param);
         $.getJSON(url, function (data) {
             $("#str1").tmpl(data).appendTo("#dashboard");
             $("#str2").tmpl(data).appendTo("#detail-list");

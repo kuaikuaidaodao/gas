@@ -208,7 +208,22 @@ ul.user-list a:hover{
     padding: 0 20px;
     background-color: #f3f3f3;
 }
-
+.map-container{
+    padding: 0 20px;
+    background-color: #f3f3f3;
+    min-height: calc( 100% - 80px );
+}
+#main_center{
+    width: 90%;
+    margin: 0 auto;
+    height: 90%;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    border: 1px solid #3E8AC4;
+    border-radius: 10px;
+    min-height: 450px;
+}
 #table thead{
     background: -moz-linear-gradient(top, #e4ecf2,#f3f3f3);
     background: -webkit-gradient(linear,0 0,0 bottom,from(#e4ecf2) ,to(#f3f3f3));

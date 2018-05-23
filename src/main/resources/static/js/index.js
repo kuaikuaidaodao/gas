@@ -151,6 +151,42 @@
         }
     }();
 })(jQuery);
+function dus(s){
+    let arr = [];
+    var str = '';
+    str = s.slice(0,s.lastIndexOf());
+    arr = str.split('');
+    arr.reverse();
+    arr.splice(0,0,'\"');
+    arr.splice(3,0,'.');
+    arr.splice(6,1,'\'');
+    arr.splice(9,0,'°');
+    arr.reverse();
+//-----------------------------------------------
+    str = arr.join('');
+//------------------------------------------------
+    return str;
+}
+function arrays(s){
+    let arr = [];
+    let newstr = '';
+    var str = '';
+    str = s.slice(0,s.lastIndexOf());
+    arr = str.split('');
+    arr.reverse();
+    arr.splice(0,0,'\"');
+    arr.splice(3,0,'.');
+    arr.splice(6,1,'\'');
+    arr.splice(9,0,'°');
+    arr.reverse();
+    str = arr.join('');
+//------------------------------------------------
+    arr = str.split(/[°\'\"]/);
+    newstr = parseInt(arr[0])+parseInt(arr[1])/60 + parseFloat(arr[2])/3600;
+    return newstr;
+}
+
+
 
 function setPage(opt) {
     var pageHTML = "<span class='total'>共" + opt.total + "条" + opt.pages + "页</span>" +
