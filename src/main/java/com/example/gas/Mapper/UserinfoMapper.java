@@ -20,7 +20,7 @@ public interface UserinfoMapper {
     int insert(Userinfo userinfo);
 
 
-    int update(@Param("pojo") Userinfo pojo);
+    int update(Userinfo userinfo);
 
     Userinfo get(@Param("id") int id);
 

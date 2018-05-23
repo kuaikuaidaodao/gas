@@ -42,14 +42,15 @@
     <update id="update">
        UPDATE `tbl_user_info`
         <set>
-            <if test="unit_name != null"> `unit_name`=#{pojo.unitName}, </if>
-            <if test="user_name != null">`user_name`=#{pojo.userName}, </if>
-            <if test="email != null">`email`=#{pojo.email}, </if>
-            <if test="telephone != null">`telephone`=#{pojo.telePhone}, </if>
-            <if test="create_time != null">`create_time`=#{pojo.create_time}, </if>
-            <if test="password != null">`password`=#{pojo.password}, </if>
+            <if test="unit_name != null"> `unit_name`=#{unitName}, </if>
+            <if test="user_name != null">`user_name`=#{userName}, </if>
+            <if test="email != null">`email`=#{email}, </if>
+            <if test="telephone != null">`telephone`=#{telePhone}, </if>
+            <if test="create_time != null">`create_time`=#{create_time}, </if>
+            <if test="password != null">`password`=#{password}, </if>
+            <if test="set_top != null">`set_top`=#{set_top} </if>
         </set>
-        where `index`=#{pojo.index}
+        where `index`=#{index}
     </update>
     <!--auto generated Code-->
     <select id="get" resultType="com.example.gas.entity.Userinfo">

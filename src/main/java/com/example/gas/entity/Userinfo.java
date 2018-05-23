@@ -7,13 +7,13 @@ package com.example.gas.entity;
  **/
 public class Userinfo {
     private Integer index;
-    private String unitName;
-    private String userName;
+    private String unit_name;
+    private String user_name;
     private String email;
     private String telePhone;
     private String create_time;
     private String password;
-
+    private String set_top;
     public Integer getIndex() {
         return index;
     }
@@ -22,21 +22,7 @@ public class Userinfo {
         this.index = index;
     }
 
-    public String getUnitName() {
-        return unitName;
-    }
 
-    public void setUnitName(String unitName) {
-        this.unitName = unitName;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
 
     public String getEmail() {
         return email;
@@ -68,5 +54,29 @@ public class Userinfo {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getUnit_name() {
+        return unit_name;
+    }
+
+    public void setUnit_name(String unit_name) {
+        this.unit_name = unit_name;
+    }
+
+    public String getUser_name() {
+        return user_name;
+    }
+
+    public void setUser_name(String user_name) {
+        this.user_name = user_name;
+    }
+
+    public String getSet_top() {
+        return set_top;
+    }
+
+    public void setSet_top(String set_top) {
+        this.set_top = set_top;
     }
 }
