@@ -62,9 +62,15 @@ public class DeviceController {
     @RequestMapping("getListWarn")
     public List<WarnListinfo> getListWarn() {
         List<WarnListinfo> deviceDateCurrents = iDeviceDateCurrentService.getListWarn();
+        boolean warn=false;
+        Map map=null;
         for (WarnListinfo warnListinfo:deviceDateCurrents){
+            map=new HashMap();
             if (warnListinfo.getHeight_temperature()!=null){
-
+                if (warnListinfo.getDaviceInfoCurrent().getTemperature_liquid()>Float.parseFloat(warnListinfo.getHeight_temperature())){
+                    warn=true;
+                    map.put("温度",warnListinfo.getDaviceInfoCurrent().getTemperature_liquid());
+                }
             }
         }
         return deviceDateCurrents;

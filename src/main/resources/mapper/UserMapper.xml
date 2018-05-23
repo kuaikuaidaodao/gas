@@ -8,7 +8,7 @@
         <result column="unit_name" property="unitName"/>
         <result column="user_name" property="userName"/>
         <result column="email" property="email"/>
-        <result column="telephone" property="telePhone"/>
+        <result column="telePhone" property="telePhone"/>
         <result column="create_time" property="create_time"/>
         <result column="password" property="password"/>
     </resultMap>
@@ -34,7 +34,7 @@
         `unit_name`,
         `user_name`,
         `email`,
-        `telephone`,
+        `telePhone`,
         `create_time`,
         `password`,`address`,`set_top`)
         VALUES (#{unitName},#{userName},#{email},#{telePhone},#{create_time},#{password},#{address},#{create_time})
@@ -45,7 +45,7 @@
             <if test="unit_name != null"> `unit_name`=#{unitName}, </if>
             <if test="user_name != null">`user_name`=#{userName}, </if>
             <if test="email != null">`email`=#{email}, </if>
-            <if test="telephone != null">`telephone`=#{telePhone}, </if>
+            <if test="telePhone != null">`telePhone`=#{telePhone}, </if>
             <if test="create_time != null">`create_time`=#{create_time}, </if>
             <if test="password != null">`password`=#{password}, </if>
             <if test="address != null">`address`=#{address}, </if>
