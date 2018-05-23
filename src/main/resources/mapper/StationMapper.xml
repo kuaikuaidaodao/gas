@@ -53,7 +53,7 @@
     </select>
 
     <select id="serchByUserId" resultType="com.example.gas.entity.Stationinfo">
-        select   <include refid="all_column"/> from tbl_station_info  where `index` in (select station_id from tbl_user_station_relation where `user_id` = #{user_id})
+        select   <include refid="all_column"/> from tbl_station_info  where `index` in (select station_id from tbl_user_station_relation where `user_id` = #{index})
     </select>
     <select id="getStationList" resultType="com.example.gas.entity.Stationinfo">
         select   <include refid="all_column"/> from tbl_station_info group by name
