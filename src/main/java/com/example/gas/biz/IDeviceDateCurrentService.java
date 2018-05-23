@@ -19,7 +19,7 @@ public interface IDeviceDateCurrentService {
 
     List<Deviceinfo> searchDeviceList(int pageNo, int pageSize,String container_id);
 
-    List<DeviceDateCurrent> searchBydevice_idOrstation(int pageNo, int devicepagesize, String searchinfo);
+    List<DeviceDateCurrent> searchBydevice_idOrstation(int pageNo, int pagesize, String info);
 
     List<DeviceDateCurrent> getListDefaultNo();
 
