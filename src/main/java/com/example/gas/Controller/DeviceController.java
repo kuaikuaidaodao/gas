@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -60,20 +61,59 @@ public class DeviceController {
      * @return
      */
     @RequestMapping("getListWarn")
-    public List<WarnListinfo> getListWarn() {
+    public List getListWarn() {
         List<WarnListinfo> deviceDateCurrents = iDeviceDateCurrentService.getListWarn();
         boolean warn=false;
         Map map=null;
+        Map map3=null;
+        Map map2=null;
+        List list=null;
+        List list2=new ArrayList();
         for (WarnListinfo warnListinfo:deviceDateCurrents){
             map=new HashMap();
+            map3=new HashMap();
+            map2=new HashMap();
+            list=new ArrayList();
+            warn=false;
             if (warnListinfo.getHeight_temperature()!=null){
                 if (warnListinfo.getDaviceInfoCurrent().getTemperature_liquid()>Float.parseFloat(warnListinfo.getHeight_temperature())){
                     warn=true;
-                    map.put("温度",warnListinfo.getDaviceInfoCurrent().getTemperature_liquid());
+                    map.put("name","温度");
+                    map.put("value",warnListinfo.getDaviceInfoCurrent().getTemperature_liquid());
+                    list.add(map);
                 }
             }
+            if (warnListinfo.getLow_temperature()!=null){
+                if (warnListinfo.getDaviceInfoCurrent().getTemperature_liquid()<Float.parseFloat(warnListinfo.getLow_temperature())){
+                    warn=true;
+                    map.put("name","温度");
+                    map.put("value",warnListinfo.getDaviceInfoCurrent().getTemperature_liquid());
+                    list.add(map);
+                }
+            }
+            if (warnListinfo.getHeight_temperature()!=null){
+                if (Integer.valueOf(warnListinfo.getDaviceInfoCurrent().getPressure_top())>Integer.valueOf(warnListinfo.getHeight_pressure())){
+                    warn=true;
+                    map3.put("name","压力");
+                    map3.put("value",warnListinfo.getDaviceInfoCurrent().getPressure_top());
+                    list.add(map3);
+                }
+            }
+            if (warnListinfo.getLow_temperature()!=null){
+                if (Integer.valueOf(warnListinfo.getDaviceInfoCurrent().getPressure_top())<Integer.valueOf(warnListinfo.getLow_pressure())){
+                    warn=true;
+                    map3.put("name","压力");
+                    map3.put("value",warnListinfo.getDaviceInfoCurrent().getPressure_top());
+                    list.add(map3);
+                }
+            }
+            if (warn){
+                map2.put("device_id",warnListinfo.getDevice_id());
+                map2.put("msg",list);
+                list2.add(map2);
+            }
         }
-        return deviceDateCurrents;
+        return list2;
 
     }
     /**

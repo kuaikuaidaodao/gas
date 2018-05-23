@@ -49,7 +49,7 @@
         select   <include refid="all_column"/> from tbl_station_info where `index` not in (select station_id from tbl_user_station_relation where `user_id`=#{user_id})
     </select>
     <select id="getGroupListByNameOrImit" resultType="com.example.gas.entity.Stationinfo">
-        select  * from tbl_station_info where name=#{info} union select * from tbl_station_info where device_id=#{info}
+        select  * from tbl_station_info where `name`=#{info} or `device_id`=#{info}
     </select>
 
     <select id="serchByUserId" resultType="com.example.gas.entity.Stationinfo">

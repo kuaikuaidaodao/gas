@@ -157,9 +157,8 @@
     <select id="searchBydevice_idOrstation" resultMap="DeviceResultMap">
        select a.*,b.*,c.*,d.* from tbl_device_data_current a
         LEFT JOIN tbl_station_info b ON a.DEVICE_ID=b.device_id
- LEFT JOIN tbl_device_info c ON a.DEVICE_ID=c.DEVICE_ID LEFT JOIN tbl_warn_info d ON a.DEVICE_ID=d.DEVICE_ID where a.`device_id`=#{info} union select a.*,b.*,c.*,d.* from tbl_device_data_current a
-        LEFT JOIN tbl_station_info b ON a.DEVICE_ID=b.device_id
- LEFT JOIN tbl_device_info c ON a.DEVICE_ID=c.DEVICE_ID LEFT JOIN tbl_warn_info d ON a.DEVICE_ID=d.DEVICE_ID where a.`station_name`=#{info}
+ LEFT JOIN tbl_device_info c ON a.DEVICE_ID=c.DEVICE_ID LEFT JOIN tbl_warn_info d ON a.DEVICE_ID=d.DEVICE_ID where a.`device_id`=#{info}
+  or a.`station_name`=#{info}
     </select>
     <select id="getDetail" resultMap="DeviceResultMap">
        select   *  from tbl_device_data_current where `device_id`=#{device_id}
