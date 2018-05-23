@@ -43,17 +43,22 @@
                     <button class="btn btn-warning" id="update">修改信息</button>
                     <form class="form-horizontal">
                         <fieldset disabled="" class="fieldset">
-                            <div class="form-group">
-                                <label class="col-sm-2 control-label">登录名</label>
+                            <div class="form-group hidden">
+                                <label for="index" class="col-sm-2 control-label">ID</label>
                                 <div class="col-sm-9">
-                                    <span id="username">zhgj2016</span>
-                                    <!-- <input type="text" class="form-control" id="username" value="zhgj2016"> -->
+                                    <input type="text" id="index" value="">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="companyname" class="col-sm-2 control-label">单位名称</label>
+                                <label class="col-sm-2 control-label">登录名</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control" id="companyname" value="中化国际">
+                                    <span id="user_name">zhgj2016</span>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="unit_name" class="col-sm-2 control-label">单位名称</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="unit_name" value="中化国际">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -63,22 +68,22 @@
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="formation" class="col-sm-2 control-label">电话</label>
+                                <label for="telePhone" class="col-sm-2 control-label">电话</label>
                                 <div class="col-sm-9">
-                                    <input type="text" class="form-control" id="formation" value="18911066871">
+                                    <input type="text" class="form-control" id="telePhone" value="18911066871">
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="registeremail" class="col-sm-2 control-label">邮箱</label>
+                                <label for="email" class="col-sm-2 control-label">邮箱</label>
                                 <div class="col-sm-9">
-                                    <input type="email" class="form-control" id="registeremail" value="libaojiang@deleetech.com">
+                                    <input type="email" class="form-control" id="email" value="libaojiang@deleetech.com">
                                 </div>
                             </div>
                         </fieldset>
                     </form>
                     <div class="form-group" id="updates">
                         <div class="col-sm-12">
-                            <button class="btn col-sm-2 col-sm-offset-2" id=" cancel">取消</button>
+                            <button class="btn col-sm-2 col-sm-offset-2" id="cancel">取消</button>
                             <button class="btn btn-primary col-sm-2 col-sm-offset-1" id="affirm">确认修改</button>
                         </div>
                     </div>
@@ -115,6 +120,12 @@
 <script type="text/javascript" src="/plugins/bootstrap/js/bootstrap.js"></script>
 <script type="text/javascript" src="/js/index.js"></script>
 <script type="text/javascript">
+    $.getJSON("/userinfo/getById",{"id":parseInt($.cookie("userId"))},function (data) {
+        for(var key in data.userinfo){
+            $("#"+key).val(data.userinfo[key]);
+        }
+        $("#user_name").html(data.userinfo.user_name)
+    });
     function tabs(){
         var $top_li = $('#main_top').find('ul li');
         var $center_div = $('#main_center').find('.dev');
@@ -130,8 +141,24 @@
             $(this).attr("disabled","disabled");
             $("#updates").show();
             $(".fieldset").removeAttr("disabled");
-        })
+        });
         $("#affirm").on('click',function(){
+            var updateInfo={
+                "index":$("#index").val(),
+                "telePhone":$("#telePhone").val(),
+                "unit_name":$("#unit_name").val(),
+                "emial":$("#email").val(),
+                "address":$("#address").val()
+            };
+            $.get("/userinfo/update",updateInfo,function (data) {
+                if (data){
+                    $("#update").removeAttr("disabled");
+                    $("#updates").hide();
+                    $(".fieldset").attr("disabled","disabled");
+                }
+            });
+        });
+        $("#cancel").on('click',function(){
             $("#update").removeAttr("disabled");
             $("#updates").hide();
             $(".fieldset").attr("disabled","disabled");

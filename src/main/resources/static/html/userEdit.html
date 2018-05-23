@@ -35,7 +35,7 @@
             <div class="toolbar-left">
                 <a href="javascript:history.back()"><</a>
             </div>
-            <div class="toolbar-center"></div>
+            <div class="toolbar-center"><h3></h3></div>
             <div class="toolbar-right"></div>
         </div>
         <div class="table-container">
@@ -116,9 +116,10 @@
         });
         var searchText=location.search;
         if(searchText.length>0){
-
+            $(".toolbar-center h3").html("用户管理--编辑用户");
+            $(".form-group.addUser").addClass("hidden")
         }else {
-
+            $(".toolbar-center h3").html("用户管理--添加用户");
         }
     })
 </script>

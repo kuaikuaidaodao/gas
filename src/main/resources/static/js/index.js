@@ -83,7 +83,9 @@
                     id: id,
                     on: function (callback) {
                         if (callback && callback instanceof Function) {
-                            modal.find('.ok').click(function () { callback(true); });
+                            modal.find('.ok').click(function () {
+                                callback(true);
+                            });
                         }
                     },
                     hide: function (callback) {
@@ -104,8 +106,12 @@
                     id: id,
                     on: function (callback) {
                         if (callback && callback instanceof Function) {
-                            modal.find('.ok').click(function () { callback(true); });
-                            modal.find('.cancel').click(function () { callback(false); });
+                            modal.find('.ok').click(function () {
+                                callback(true);
+                            });
+                            modal.find('.cancel').click(function () {
+                                callback(false);
+                            });
                         }
                     },
                     hide: function (callback) {
@@ -123,8 +129,10 @@
                     url: '',
                     width: 800,
                     height: 550,
-                    onReady: function () { },
-                    onShown: function (e) { }
+                    onReady: function () {
+                    },
+                    onShown: function (e) {
+                    }
                 }, options || {});
                 var modalId = generateId();
 
@@ -151,47 +159,48 @@
         }
     }();
     (function () {
-        if(!$.cookie("userinfo")){
+        if (!$.cookie("userId").length > 0) {
             alert("您尚未登录,请登录");
-            window.location.href="/login.html";
+            window.location.href = "/login.html";
         }
     })()
 })(jQuery);
-function dus(s){
+
+function dus(s) {
     let arr = [];
     var str = '';
-    str = s.slice(0,s.lastIndexOf());
+    str = s.slice(0, s.lastIndexOf());
     arr = str.split('');
     arr.reverse();
-    arr.splice(0,0,'\"');
-    arr.splice(3,0,'.');
-    arr.splice(6,1,'\'');
-    arr.splice(9,0,'°');
+    arr.splice(0, 0, '\"');
+    arr.splice(3, 0, '.');
+    arr.splice(6, 1, '\'');
+    arr.splice(9, 0, '°');
     arr.reverse();
 //-----------------------------------------------
     str = arr.join('');
 //------------------------------------------------
     return str;
 }
-function arrays(s){
+
+function arrays(s) {
     let arr = [];
     let newstr = '';
     var str = '';
-    str = s.slice(0,s.lastIndexOf());
+    str = s.slice(0, s.lastIndexOf());
     arr = str.split('');
     arr.reverse();
-    arr.splice(0,0,'\"');
-    arr.splice(3,0,'.');
-    arr.splice(6,1,'\'');
-    arr.splice(9,0,'°');
+    arr.splice(0, 0, '\"');
+    arr.splice(3, 0, '.');
+    arr.splice(6, 1, '\'');
+    arr.splice(9, 0, '°');
     arr.reverse();
     str = arr.join('');
 //------------------------------------------------
     arr = str.split(/[°\'\"]/);
-    newstr = parseInt(arr[0])+parseInt(arr[1])/60 + parseFloat(arr[2])/3600;
+    newstr = parseInt(arr[0]) + parseInt(arr[1]) / 60 + parseFloat(arr[2]) / 3600;
     return newstr;
 }
-
 
 
 function setPage(opt) {
@@ -216,7 +225,7 @@ function setPage(opt) {
 function insertUserList(data) {
     var userHTml = "<li class='active'><a href='javascript:void(0)' item='all'>所有用户</a></li>";
     for (var i = 0; i < data.length; i++) {
-        userHTml += "<li><a title='" + data[i].unitName + "' href='javascript:void(0)' item='one' data-item='" + data[i].index + "'>" + data[i].unitName + "</a></li>"
+        userHTml += "<li><a title='" + data[i].unit_name + "' href='javascript:void(0)' item='one' data-item='" + data[i].index + "'>" + data[i].unit_name + "</a></li>"
     }
     $("#user-list").html(userHTml);
 }
