@@ -444,3 +444,89 @@ ul.station-list input.selectedStation{
     margin: 0;
 }
 /******************↑↑↑↑用户管理↑↑↑↑↑*********************/
+
+/**************************main*************************/
+main{
+    background:linear-gradient(#30A0FB,#fff);
+    background:-webkit-linear-gradient(#30A0FB,#fff);
+}
+main #main_top{
+    margin:10px 0 ;
+    overflow: hidden;
+}
+main #main_top ul li{
+    display: inline-block;
+    float:left;
+    width:10%;
+    height:30px;
+    line-height: 30px;
+    text-align: center;
+    font-size:16px;
+    color:#ccc;
+    border-radius: 35px;
+    transition:all 1s linear 0s;
+    -webkit-transition:all 1s linear 0s;
+    margin:0 5px;
+}
+main #main_top ul li.show{
+    box-shadow:1px 1px 30px #6DBEFC inset,-1px -1px 30px #6DBEFC inset;
+    color:#fff;
+    transition:all 0.5s linear 0s;
+    -webkit-transition:all 0.5s linear 0s;
+}
+main #main_center{
+    position:relative;
+    width:100%;
+    height:400px;
+    background:#fff;
+    border-radius: 30px;
+
+}
+main #main_center #information,main #main_center #synchronization,main #main_center #feedback{
+    position:absolute;
+    width:100%;
+    height:100%;
+    display: none;
+    transition:1s;
+    transition:all 0.5s linear 0s;
+    -webkit-transition:all 0.5s linear 0s;
+}
+main #main_center .show{
+    display:block;
+    transition:all 0.5s linear 0s;
+    -webkit-transition:all 0.5s linear 0s;
+}
+main #main_center #information_text{
+    width:90%;
+    height:100%;
+    margin:20px auto 0;
+}
+main #main_center #information_text #update{
+    float:right;
+}
+main #main_center #information_text form{
+    margin-top:30px;
+}
+main #main_center #information_text form .form-group{
+    margin-top:25px;
+}
+main #main_center #information_text form legend{
+    margin-bottom:0;
+}
+main #main_center #information_text form #username{
+    display: inline-block;
+    margin-top:7px;
+    padding-left:10px;
+}
+main #main_center #information_text #updates{
+    display:none;
+}
+/*意见反馈*/
+main #main_center #feedback{
+    padding:0 30px;
+}
+main #main_center #feedback textarea{
+    resize: none;
+    height:150px;
+}
+/**************************main*************************/

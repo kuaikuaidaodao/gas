@@ -53,7 +53,7 @@
             <div class="toolbar-right">
                 <a href="javascript:void (0)" class="addStation" id="addStation" data-toggle="modal"
                    data-target="#addStationModal"> 添加站点</a>
-                <a href="javascript:void (0)" class="station-map" id="stationMap">站点地图</a>
+                <a href="/html/stationMap.html" class="station-map" id="stationMap">站点地图</a>
             </div>
         </div>
         <div class="table-container">
@@ -125,12 +125,13 @@
     </div>
 </div>
 <script type="text/javascript" src="/js/jquery-3.3.1.js"></script>
+<script type="text/javascript" src="/js/jquery.cookie.js"></script>
 <script type="text/javascript" src="/js/jquery.tmpl.js"></script>
 <script type="text/javascript" src="/plugins/bootstrap/js/bootstrap.js"></script>
 <script type="text/javascript" src="/js/index.js"></script>
 <script id="tableList" type="text/x-jquery-tmpl">
     <tr class="tableRow">
-        <td>${unit_name}</td>
+        <td>${list[0].unit_name}</td>
         <td>${name}</td>
         <td>${device_id}</td>
         <td><a class="btn editStation" data-toggle="modal" data-target="#editStation" data-name=${name} data-id=${device_id}>站点修改</a></td>
@@ -139,9 +140,8 @@
 <script type="text/javascript">
     $(function () {
         getUsers();
-
-        function getDataList(pageNo) {
-            $.getJSON("/station/getList", {"pageNo": pageNo}, function (data) {
+        function getDataList(pageNo,index) {
+            $.getJSON("/station/getGroupList", {"pageNo": pageNo,"index":index}, function (data) {
                 $("#table tbody").html("");
                 $("#tableList").tmpl(data.list).appendTo("#table tbody");
                 delete  data.list;

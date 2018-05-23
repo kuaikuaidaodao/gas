@@ -150,6 +150,12 @@
             }
         }
     }();
+    (function () {
+        if(!$.cookie("userinfo")){
+            alert("您尚未登录,请登录");
+            window.location.href="/login.html";
+        }
+    })()
 })(jQuery);
 function dus(s){
     let arr = [];

@@ -29,9 +29,115 @@
         <li class="active"><a href="/html/perCenter.html" class="perCenter">个人中心</a></li>
     </ul>
 </div>
+<main class="container-fluid">
+    <div class="container">
+        <div id="main_top">
+            <ul>
+                <li class="show">基本信息</li>
+                <li>意见反馈</li>
+            </ul>
+        </div>
+        <div id="main_center">
+            <div id="information" class="dev show">
+                <div id="information_text">
+                    <button class="btn btn-warning" id="update">修改信息</button>
+                    <form class="form-horizontal">
+                        <fieldset disabled="" class="fieldset">
+                            <div class="form-group">
+                                <label class="col-sm-2 control-label">登录名</label>
+                                <div class="col-sm-9">
+                                    <span id="username">zhgj2016</span>
+                                    <!-- <input type="text" class="form-control" id="username" value="zhgj2016"> -->
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="companyname" class="col-sm-2 control-label">单位名称</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="companyname" value="中化国际">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="address" class="col-sm-2 control-label">详细地址</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="address" value="上海">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="formation" class="col-sm-2 control-label">电话</label>
+                                <div class="col-sm-9">
+                                    <input type="text" class="form-control" id="formation" value="18911066871">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="registeremail" class="col-sm-2 control-label">邮箱</label>
+                                <div class="col-sm-9">
+                                    <input type="email" class="form-control" id="registeremail" value="libaojiang@deleetech.com">
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
+                    <div class="form-group" id="updates">
+                        <div class="col-sm-12">
+                            <button class="btn col-sm-2 col-sm-offset-2" id=" cancel">取消</button>
+                            <button class="btn btn-primary col-sm-2 col-sm-offset-1" id="affirm">确认修改</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="feedback" class="dev">
+                <div class="page-header">
+                    <h1>意见反馈</h1>
+                </div>
+                <form class="form-horizontal">
+                    <fieldset>
+                        <div class="form-group">
+                            <label   class="col-sm-2 control-label">意见</label>
+                            <div class="col-sm-7 col-sm-offset-1">
+                                <textarea class="form-control" placeholder="请提出您宝贵的意见!"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="linkWay" class="col-sm-2 control-label">联系方式</label>
+                            <div class="col-sm-7 col-sm-offset-1">
+                                <input type="text" class="form-control" id="linkWay">
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+                <button class="btn btn-info col-sm-7 col-sm-offset-3">提交</button>
+            </div>
+        </div>
+    </div>
+</main>
 <script type="text/javascript" src="/js/jquery-3.3.1.js"></script>
+<script type="text/javascript" src="/js/jquery.cookie.js"></script>
 <script type="text/javascript" src="/js/echarts.js"></script>
 <script type="text/javascript" src="/plugins/bootstrap/js/bootstrap.js"></script>
 <script type="text/javascript" src="/js/index.js"></script>
+<script type="text/javascript">
+    function tabs(){
+        var $top_li = $('#main_top').find('ul li');
+        var $center_div = $('#main_center').find('.dev');
+        $top_li.on('click',function(){
+            $(this).attr('class','show dev').siblings().attr('class','dev');
+            $center_div.eq($(this).index()).attr('class','show').siblings().attr('class','');
+        })
+    }
+    tabs();
+    function update(){
+        var updatebtn = $('#update');
+        updatebtn.on('click',function(){
+            $(this).attr("disabled","disabled");
+            $("#updates").show();
+            $(".fieldset").removeAttr("disabled");
+        })
+        $("#affirm").on('click',function(){
+            $("#update").removeAttr("disabled");
+            $("#updates").hide();
+            $(".fieldset").attr("disabled","disabled");
+        })
+    }
+    update()
+</script>
 </body>
 </html>
