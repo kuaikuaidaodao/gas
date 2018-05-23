@@ -16,8 +16,8 @@
     <!--auto generated Code-->
     <sql id="all_column">
         `index` AS `index`,
-        `unit_name` AS `unitName`,
-        `user_name` AS `userName`,
+        `unit_name` AS `unit_name`,
+        `user_name` AS `user_name`,
          `email` AS `email`,
         `telePhone` AS `telePhone`,
         `create_time` AS `create_time`,
@@ -36,8 +36,8 @@
         `email`,
         `telephone`,
         `create_time`,
-        `password`)
-        VALUES (#{unitName},#{userName},#{email},#{telePhone},#{create_time},#{password})
+        `password`,`address`,`set_top`)
+        VALUES (#{unitName},#{userName},#{email},#{telePhone},#{create_time},#{password},#{address},#{create_time})
     </insert>
     <update id="update">
        UPDATE `tbl_user_info`
@@ -48,24 +48,24 @@
             <if test="telephone != null">`telephone`=#{telePhone}, </if>
             <if test="create_time != null">`create_time`=#{create_time}, </if>
             <if test="password != null">`password`=#{password}, </if>
+            <if test="address != null">`address`=#{address}, </if>
             <if test="set_top != null">`set_top`=#{set_top} </if>
         </set>
         where `index`=#{index}
     </update>
     <!--auto generated Code-->
     <select id="get" resultType="com.example.gas.entity.Userinfo">
-        select
-        <include refid="all_column"/>
+        select  *
         from tbl_user_info where `index` = #{id}
     </select>
     <select id="getList" resultType="com.example.gas.entity.Userinfo">
         select
-        <include refid="all_column"/>
+       *
         from tbl_user_info order by `set_top` desc
     </select>
     <select id="login" resultType="com.example.gas.entity.Userinfo">
         select
-        <include refid="all_column"/>
+        *
         from tbl_user_info WHERE `user_name` = #{userName} and `password` = #{password}
     </select>
     <delete id="delete">
@@ -74,7 +74,7 @@
 
     <select id="searchByName" resultType="com.example.gas.entity.Userinfo">
         select
-        <include refid="all_column"/>
+       *
         from tbl_user_info where `unit_name` LIKE "%"#{unit_name}"%"
     </select>
     <update id="setTop">

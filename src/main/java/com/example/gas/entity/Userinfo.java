@@ -14,6 +14,7 @@ public class Userinfo {
     private String create_time;
     private String password;
     private String set_top;
+    private String address;
     public Integer getIndex() {
         return index;
     }
@@ -78,5 +79,13 @@ public class Userinfo {
 
     public void setSet_top(String set_top) {
         this.set_top = set_top;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 }
