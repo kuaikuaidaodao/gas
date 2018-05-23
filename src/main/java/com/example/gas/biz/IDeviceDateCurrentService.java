@@ -3,6 +3,7 @@ package com.example.gas.biz;
 import com.example.gas.entity.DeviceDateCurrent;
 import com.example.gas.entity.DeviceDateHistory;
 import com.example.gas.entity.Deviceinfo;
+import com.example.gas.entity.WarnListinfo;
 
 import java.util.List;
 
@@ -21,4 +22,6 @@ public interface IDeviceDateCurrentService {
     List<DeviceDateCurrent> searchBydevice_idOrstation(int pageNo, int devicepagesize, String searchinfo);
 
     List<DeviceDateCurrent> getListDefaultNo();
+
+    List<WarnListinfo> getListWarn();
 }

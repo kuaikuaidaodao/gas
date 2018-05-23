@@ -30,7 +30,7 @@
         <result column="station_name" property="station_name"/>
     </resultMap>
     <!--auto generated Code-->
-    <!-- 定义查询订单关联用户的 resultMap,将整个的查询结果映射到com.mybatis.entity.Orders中 -->
+    <!-- 实时数据 -->
     <resultMap id="DeviceResultMap" type="com.example.gas.entity.DeviceDateCurrent" >
         <id column="device_id" property="device_id"/>
         <result column="longitude" property="longitude"/>
@@ -106,6 +106,44 @@
         <result column="energy" property="energy"/>
         <result column="medium" property="medium"/>
     </resultMap>
+    <!-- 报警信息查询-->
+    <resultMap id="DeviceWarninfo" type="com.example.gas.entity.WarnListinfo" >
+        <id column="device_id" property="device_id"/>
+        <result column="low_weight" property="low_weight"/>
+        <result column="height_weight" property="height_weight"/>
+        <result column="low_pressure" property="low_pressure"/>
+        <result column="height_pressure" property="height_pressure"/>
+        <result column="low_temperature" property="low_temperature"/>
+        <result column="height_temperature" property="height_temperature"/>
+        <result column="low_voltage" property="low_voltage"/>
+        <result column="height_voltage" property="height_voltage"/>
+        <association property="daviceInfoCurrent" javaType="com.example.gas.entity.DaviceInfoCurrent">
+            <id column="device_id" property="device_id"/>
+            <result column="longitude" property="longitude"/>
+            <result column="latitude" property="latitude"/>
+            <result column="pressure_top" property="pressure_top"/>
+            <result column="pressure_bottom" property="pressure_bottom"/>
+            <result column="pressure_diff" property="pressure_diff"/>
+            <result column="level_liquid" property="level_liquid"/>
+            <result column="volume" property="volume"/>
+            <result column="weight" property="weight"/>
+            <result column="temperature_liquid" property="temperature_liquid"/>
+            <result column="temperature_gas" property="temperature_gas"/>
+            <result column="temperature_cpu" property="temperature_cpu"/>
+            <result column="electricity" property="electricity"/>
+            <result column="height" property="height"/>
+            <result column="fill_rate" property="fill_rate"/>
+            <result column="consumption_thisday" property="consumption_thisday"/>
+            <result column="consumption_thismonth" property="consumption_thismonth"/>
+            <result column="consumption_thisyear" property="consumption_thisyear"/>
+            <result column="consumption_lastday" property="consumption_lastday"/>
+            <result column="consumption_lastmonth" property="consumption_lastmonth"/>
+            <result column="consumption_lastyear" property="consumption_lastyear"/>
+            <result column="data_time" property="data_time"/>
+            <result column="date_interval" property="date_interval"/>
+            <result column="station_name" property="station_name"/>
+        </association>
+    </resultMap>
     <select id="getList" resultMap="DeviceResultMap">
         select a.*,b.*,c.*,d.* from tbl_device_data_current a
         LEFT JOIN tbl_station_info b ON a.DEVICE_ID=b.device_id
@@ -152,5 +190,8 @@
     </select>
     <select id="getListDefaultNo" resultType="com.example.gas.entity.DeviceMap">
         select `device_id`,`station_name`,`longitude`,`latitude`  from tbl_device_data_current
+    </select>
+    <select id="getListWarn" resultMap="DeviceWarninfo">
+        select a.*,b.* from tbl_warn_info a left join tbl_device_data_current b on a.device_id=b.device_id
     </select>
 </mapper>

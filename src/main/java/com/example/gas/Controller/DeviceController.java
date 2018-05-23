@@ -6,6 +6,7 @@ import com.example.gas.biz.IDeviceDateCurrentService;
 import com.example.gas.entity.DeviceDateCurrent;
 import com.example.gas.entity.DeviceDateHistory;
 import com.example.gas.entity.Deviceinfo;
+import com.example.gas.entity.WarnListinfo;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -50,6 +51,23 @@ public class DeviceController {
         // 需要把Page包装成PageInfo对象才能序列化。该插件也默认实现了一个PageInf0
         PageInfo<DeviceDateCurrent> pageInfo = new PageInfo<DeviceDateCurrent>(deviceDateCurrents);
         return pageInfo;
+
+    }
+    /**
+     * 查询目前设备所有实时数据中报警项
+     *
+     * @param
+     * @return
+     */
+    @RequestMapping("getListWarn")
+    public List<WarnListinfo> getListWarn() {
+        List<WarnListinfo> deviceDateCurrents = iDeviceDateCurrentService.getListWarn();
+        for (WarnListinfo warnListinfo:deviceDateCurrents){
+            if (warnListinfo.getHeight_temperature()!=null){
+
+            }
+        }
+        return deviceDateCurrents;
 
     }
     /**

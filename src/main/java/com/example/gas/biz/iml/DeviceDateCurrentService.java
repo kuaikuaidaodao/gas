@@ -5,6 +5,7 @@ import com.example.gas.biz.IDeviceDateCurrentService;
 import com.example.gas.entity.DeviceDateCurrent;
 import com.example.gas.entity.DeviceDateHistory;
 import com.example.gas.entity.Deviceinfo;
+import com.example.gas.entity.WarnListinfo;
 import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -57,5 +58,10 @@ public class DeviceDateCurrentService implements IDeviceDateCurrentService {
     @Override
     public List<DeviceDateCurrent> getListDefaultNo() {
         return deviceinfoMapper.getListDefaultNo();
+    }
+
+    @Override
+    public List<WarnListinfo> getListWarn() {
+        return deviceinfoMapper.getListWarn();
     }
 }

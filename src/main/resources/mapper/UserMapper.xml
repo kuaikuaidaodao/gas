@@ -41,8 +41,14 @@
     </insert>
     <update id="update">
        UPDATE `tbl_user_info`
-       SET
-        `unit_name`=#{pojo.unitName},`user_name`=#{pojo.userName},`email`=#{pojo.email},`telephone`=#{pojo.telePhone},`create_time`=#{pojo.create_time},`password`=#{pojo.password}
+        <set>
+            <if test="unit_name != null"> `unit_name`=#{pojo.unitName}, </if>
+            <if test="user_name != null">`user_name`=#{pojo.userName}, </if>
+            <if test="email != null">`email`=#{pojo.email}, </if>
+            <if test="telephone != null">`telephone`=#{pojo.telePhone}, </if>
+            <if test="create_time != null">`create_time`=#{pojo.create_time}, </if>
+            <if test="password != null">`password`=#{pojo.password}, </if>
+        </set>
         where `index`=#{pojo.index}
     </update>
     <!--auto generated Code-->

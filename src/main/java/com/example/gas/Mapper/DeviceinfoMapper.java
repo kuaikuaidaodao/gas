@@ -3,6 +3,7 @@ package com.example.gas.Mapper;
 import com.example.gas.entity.DeviceDateCurrent;
 import com.example.gas.entity.DeviceDateHistory;
 import com.example.gas.entity.Deviceinfo;
+import com.example.gas.entity.WarnListinfo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
@@ -34,4 +35,6 @@ public interface DeviceinfoMapper {
     Deviceinfo getDeviceListByDervice_id(@Param("device_id") String device_id);
 
     List<DeviceDateCurrent> getListDefaultNo();
+
+    List<WarnListinfo> getListWarn();
 }
