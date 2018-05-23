@@ -17,10 +17,10 @@
 <body>
 <div class="header">
     <div class="logo-container">
-        <a href="/"><img src="/images/logo.png" alt=""><b>云端智控监测管理系统</b></a>
+        <a href="/index.html"><img src="/images/logo.png" alt=""><b>云端智控监测管理系统</b></a>
     </div>
     <ul class="nav">
-        <li><a href="/" class="stationMo">站点监控</a></li>
+        <li><a href="/index.html" class="stationMo">站点监控</a></li>
         <li><a href="/html/stationManage.html" class="stationMan">站点管理</a></li>
         <li><a href="/html/deviceManage.html" class="deviceMan">设备管理</a></li>
         <li class="active"><a href="/html/sysSearch.html" class="systemSearch">系统查询</a></li>
@@ -60,9 +60,11 @@
                     <div id="page"></div>
                 </div>
                 <div role="tabpanel" class="tab-pane data-charts" id="charts">
-                    <div id="chart-container" class="chart-container" style="width: 1000px;height: 400px"></div>
+                    <div id="chart-container" class="chart-container" style="width: 100%;height: 95%"></div>
                 </div>
-                <div role="tabpanel" class="tab-pane" id="map"></div>
+                <div role="tabpanel" class="tab-pane" id="map">
+                    <div class="chart-container" id="map-container"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -71,6 +73,7 @@
 <script type="text/javascript" src="/js/jquery.tmpl.js"></script>
 <script type="text/javascript" src="/js/echarts.js"></script>
 <script type="text/javascript" src="/plugins/bootstrap/js/bootstrap.js"></script>
+<script type="text/javascript" src="http://webapi.amap.com/maps?v=1.3&key=e69ad10fd1829396fa5a218671535068"></script>
 <script type="text/javascript" src="/js/index.js"></script>
 <script type="text/x-jquery-tmpl" id="device">
     <div class="device-item">
@@ -95,7 +98,6 @@
         <span>检查日期:${check_time}</span>
         </div>
     </div>
-
 </script>
 <script type="text/x-jquery-tmpl" id="dataList">
     <tr class="tableRow">
@@ -106,12 +108,10 @@
         <td>${temperature_liquid}</td>
         <td>${electricity}</td>
     </tr>
-
 </script>
 <script type="text/javascript">
     $(function () {
         var targetId = location.search.split("=")[1];
-
         function getInfo(pageNo) {
             var dataCharts = echarts.init($("#chart-container")[0]);
             dataCharts.setOption({
@@ -167,12 +167,41 @@
                 ]
             });
             $.getJSON("/device/getListHistory", {"device_id": targetId, "pageNo": pageNo}, function (data) {
+                var list = data.deviceHistoryinfo.list;
                 $("#device-info").html("");
                 $("#device").tmpl(data.deviceinfo).appendTo("#device-info");
                 $("#table tbody").html("");
-                $("#dataList").tmpl(data.deviceHistoryinfo.list).appendTo("#table tbody");
-                // delete  data.deviceHistoryinfo.list;
+                $("#dataList").tmpl(list).appendTo("#table tbody");
                 $("#page").html(setPage(data.deviceHistoryinfo));
+                var map=new AMap.Map("map-container",{
+                    zoom:5,
+                    mapStyle:"normal",
+                    center:[arrays(list[0].longitude),arrays(list[0].latitude)]
+                })
+                AMap.plugin(['AMap.ToolBar','AMap.Scale'],
+                    function(){
+                        map.addControl(new AMap.ToolBar());
+                        map.addControl(new AMap.Scale());
+                        // map.addControl(new AMap.OverView({isOpen:true}));//'AMap.OverView' 天眼
+                    });
+                var marker = new AMap.Marker({
+                    map:map,
+                    position:[arrays(list[0].longitude),arrays(list[0].latitude)],
+                    title:data.deviceinfo.station_name
+                });
+                var lineArr = [];
+                for(let i=0;i<list.length;i++){
+                    lineArr.push([arrays(list[i].longitude),arrays(list[i].latitude)]);
+                }
+
+                new AMap.Polyline({
+                    map: map,
+                    path: lineArr,
+                    strokeColor: "#F00",//线颜色
+                    strokeOpacity: 1,//线透明度
+                    strokeWeight: 2,//线宽
+                    strokeStyle: "solid"//线样式
+                });
             }).done(function (data) {
                 var times = [], weight = [], diff = [], liquid = [], elec = [];
                 var datalist = data.deviceHistoryinfo.list;

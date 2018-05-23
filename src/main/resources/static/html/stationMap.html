@@ -62,24 +62,41 @@
                 map.addControl(new AMap.ToolBar());
                 map.addControl(new AMap.Scale());
             });
-        $.getJSON("/device/getListDefaultNo", function (data) {
+        var param = location.search;
+        if (param.trim().length > 0) {
+            $.getJSON("/device/getDetail" + param, function (data) {
+                var sitData = [];
+                sitData[0] = {};
+                sitData[0].device_id = data.device_id;
+                sitData[0].longitude = data.longitude;
+                sitData[0].latitude = data.latitude;
+                sitData[0].station_name = data.deviceinfo.station_name;
+                setMapSit(sitData);
+            })
+        } else {
+            $.getJSON("/device/getListDefaultNo", function (data) {
+                setMapSit(data);
+            });
+        }
+        function setMapSit(data) {
             for (var i = 0; i < data.length; i++) {
                 if (data[i].longitude && data[i].latitude) {
-                    var infoWindow = new AMap.InfoWindow({offset: new AMap.Pixel(0,-30)});
+                    var infoWindow = new AMap.InfoWindow({offset: new AMap.Pixel(0, -30)});
                     var marker = new AMap.Marker({
                         map: map,
                         position: [arrays(data[i].longitude), arrays(data[i].latitude)],
                     });
-                    marker.content=getHTML(data[i].station_name,dus(data[i].longitude),dus(data[i].latitude),data[i].device_id);
-                    marker.on("mouseover",function (e) {
+                    marker.content = getHTML(data[i].station_name, dus(data[i].longitude), dus(data[i].latitude), data[i].device_id);
+                    marker.on("mouseover", function (e) {
                         infoWindow.setContent(e.target.content);
-                        infoWindow.open(map,e.target.getPosition())
+                        infoWindow.open(map, e.target.getPosition())
                     })
                 }
             }
-        });
-        function getHTML(name,long,lat,id) {
-            return "<b>"+name+"</b><div>经度:"+long+"</div><div>纬度:"+lat+"</div><div><a href='/html/stationMoDe.html?device_id="+id+"'>详情</a></div>"
+        }
+
+        function getHTML(name, long, lat, id) {
+            return "<b>" + name + "</b><div>经度:" + long + "</div><div>纬度:" + lat + "</div><div><a href='/html/stationMoDe.html?device_id=" + id + "'>详情</a></div>"
         }
     }());
 </script>
