@@ -1,5 +1,5 @@
 "use strict";
-const rootOrigin = "http://localhost:8080";
+const rootOrigin = "http://47.96.154.234";
 (function ($) {
     window.Ewin = function () {
         var html = '<div id="[Id]" class="modal fade" role="dialog" aria-labelledby="modalLabel">' +
