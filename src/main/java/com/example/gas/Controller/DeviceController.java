@@ -3,19 +3,14 @@ package com.example.gas.Controller;
 import com.example.gas.Config.Common;
 import com.example.gas.Mapper.DeviceinfoMapper;
 import com.example.gas.biz.IDeviceDateCurrentService;
-import com.example.gas.entity.DeviceDateCurrent;
-import com.example.gas.entity.DeviceDateHistory;
-import com.example.gas.entity.Deviceinfo;
-import com.example.gas.entity.WarnListinfo;
+import com.example.gas.entity.*;
 import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @RestController
 @RequestMapping("/device")
@@ -123,8 +118,8 @@ public class DeviceController {
      * @return
      */
     @RequestMapping("getListDefaultNo")
-    public List<DeviceDateCurrent> getListDefaultNo() {
-        List<DeviceDateCurrent> deviceDateCurrents = iDeviceDateCurrentService.getListDefaultNo();
+    public List<DaviceInfoCurrent> getListDefaultNo() {
+        List<DaviceInfoCurrent> deviceDateCurrents = iDeviceDateCurrentService.getListDefaultNo();
         return deviceDateCurrents;
     }
     @RequestMapping("searchBydevice_idOrstation")
@@ -164,7 +159,26 @@ public class DeviceController {
         map.put("deviceHistoryinfo", pageInfo);
         return map;
     }
-
+    /**
+     * 根据时间段查询设备历史数据
+     *
+     * @param
+     * @param pageNo
+     * @return
+     */
+    @RequestMapping("getListHistoryByDate")
+    public Map getListHistoryByDate(String device_id,Date startTime,Date endTime, int pageNo) {
+        SimpleDateFormat sdf=new SimpleDateFormat("yy/MM/dd,HH:mm:ss");
+        String startTimeFormart=sdf.format(startTime);
+        String endTimeFormart=sdf.format(endTime);
+        List<DeviceDateHistory> deviceDateHistory = iDeviceDateCurrentService.getListHistoryByDate(pageNo, Common.DEVICEPAGESIZE,device_id,startTimeFormart,endTimeFormart);
+        Map map = new HashMap();
+        // 需要把Page包装成PageInfo对象才能序列化。该插件也默认实现了一个PageInf0
+        PageInfo<DeviceDateHistory> pageInfo = new PageInfo<DeviceDateHistory>(deviceDateHistory);
+        map.put("deviceinfo", deviceinfoMapper.getDeviceListByDervice_id(device_id));
+        map.put("deviceHistoryinfo", pageInfo);
+        return map;
+    }
     /**
      * 查询设备信息（设备管理模块）
      *

@@ -164,7 +164,10 @@
        select   *  from tbl_device_data_current where `device_id`=#{device_id}
     </select>
     <select id="getListHistory" resultMap="DeviceHistoryResultMap">
-        select   *  from tbl_device_data_history where `device_id`=#{device_id} order by `data_time`
+        select   *  from tbl_device_data_history where `device_id`=#{device_id} order by `data_time`  DESC
+    </select>
+    <select id="getListHistoryByDate" resultMap="DeviceHistoryResultMap">
+        select   *  from tbl_device_data_history where `device_id`=#{device_id} and `data_time` between #{startTime} and #{endTime} order by `data_time`  DESC
     </select>
     <select id="getDeviceList" resultMap="DeviceinfoMap">
         select   *  from tbl_device_info
@@ -187,8 +190,8 @@
     <select id="getDeviceListByDervice_id" resultType="com.example.gas.entity.Deviceinfo">
         select   *  from tbl_device_info where `device_id`=#{device_id}
     </select>
-    <select id="getListDefaultNo" resultType="com.example.gas.entity.DeviceMap">
-        select `device_id`,`station_name`,`longitude`,`latitude`  from tbl_device_data_current
+    <select id="getListDefaultNo" resultType="com.example.gas.entity.DaviceInfoCurrent">
+        select *  from tbl_device_data_current
     </select>
     <select id="getListWarn" resultMap="DeviceWarninfo">
         select a.*,b.* from tbl_warn_info a left join tbl_device_data_current b on a.device_id=b.device_id

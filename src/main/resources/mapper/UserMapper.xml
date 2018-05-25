@@ -83,4 +83,8 @@
     <select id="getMenuByUserId" resultType="com.example.gas.entity.UserMenu">
         select * from tbl_user_menu_info where user_id=#{user_id}
     </select>
+    <select id="verificatUserName" resultType="com.example.gas.entity.Userinfo">
+        select  *
+        from tbl_user_info where `user_name` = #{userName}
+    </select>
 </mapper>

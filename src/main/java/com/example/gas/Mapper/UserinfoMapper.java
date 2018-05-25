@@ -35,4 +35,6 @@ public interface UserinfoMapper {
     int setTop(@Param("id")String id, @Param("set_top")String set_top);
 
     List<UserMenu> getMenuByUserId(@Param("user_id") int user_id);
+
+    Userinfo verificatUserName(@Param("userName")String userName);
 }

@@ -65,7 +65,20 @@ public class UserinfoController {
         }
         return map;
     }
-
+    /**
+     * 验证用户名是否存在
+     */
+      @RequestMapping("verificatUserName")
+      Map verificatUserName(String userName){
+          Userinfo userinfo = userinfoMapper.verificatUserName(userName);
+          Map map=new HashMap();
+          if (userinfo!=null){
+              map.put("status","success");
+          }else{
+              map.put("status","error");
+          }
+          return null;
+      }
     /**
      * 通过id查询信息
      *
