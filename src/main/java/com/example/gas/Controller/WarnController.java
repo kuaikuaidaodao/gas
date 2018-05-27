@@ -33,8 +33,8 @@ public class WarnController {
     }
 
     @RequestMapping("getList")
-    PageInfo<DeviceWarninfo> getList(int pageNo) {
-        List<DeviceWarninfo> warninfos = iWarninfoService.getList(pageNo, Common.USERPAGESIZE);
+    PageInfo<DeviceWarninfo> getList(String deviceId, int pageNo) {
+        List<DeviceWarninfo> warninfos = iWarninfoService.getList(deviceId, pageNo, Common.USERPAGESIZE);
         // 需要把Page包装成PageInfo对象才能序列化。该插件也默认实现了一个PageInf0
         PageInfo<DeviceWarninfo> pageInfo = new PageInfo<DeviceWarninfo>(warninfos);
         return pageInfo;

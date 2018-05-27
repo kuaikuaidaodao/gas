@@ -176,7 +176,7 @@
         select   *  from tbl_device_info
     </select>
     <select id="searchDeviceList" resultMap="DeviceinfoMap">
-        select   *  from tbl_device_info where `container_id`=#{container_id}
+        select * from tbl_device_info where `container_id` like CONCAT('%', #{container_id}, '%')
     </select>
     <insert id="update" >
         update  `tbl_device_info`
