@@ -49,6 +49,28 @@ public class StationController {
     }
 
     /**
+     * 站点增加
+     *
+     * @param name
+     * @param deviceId
+     * @return
+     */
+    @RequestMapping("addStationinfo")
+    int addStationinfo(String name, Long deviceId) {
+
+        Stationinfo stationinfo = new Stationinfo();
+        stationinfo.setName(name);
+        stationinfo.setDevice_id(deviceId);
+
+        Map map = deviceinfoMapper.getItude(deviceId);
+        if (map != null) {
+            stationinfo.setLatitude(map.get("latitude").toString());
+            stationinfo.setLongitude(map.get("longitude").toString());
+        }
+        return iStationinfoService.insert(stationinfo);
+    }
+
+    /**
      * 站点修改
      *
      * @param
@@ -94,6 +116,7 @@ public class StationController {
         for (Stationinfo station : stationinfos) {
             stationGroup = new StationGroup();
             stationGroup.setName(station.getName());
+            stationGroup.setDevice_id(station.getDevice_id());
             stationGroup.setList(stationinfoMapper.getListByName(station.getName()));
             stationGroups.add(stationGroup);
         }

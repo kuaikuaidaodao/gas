@@ -20,7 +20,7 @@ public interface WarninfoMapper {
 
     int saveOrUpdate(@Param("pojo") Warninfo pojo);
 
-    List<DeviceWarninfo> getList();
+    List<DeviceWarninfo> getList(@Param("deviceId") String deviceId);
 
     DeviceWarninfo getById(@Param("device_id") String device_id);
 }

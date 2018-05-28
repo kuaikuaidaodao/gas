@@ -86,6 +86,9 @@
     </insert>
     <select id="getList" resultMap="DeviceWarninfoMap">
         SELECT a.device_id,a.type,b.* from tbl_device_info  a LEFT JOIN tbl_warn_info b on a.device_id=b.device_id
+        <if test="deviceId != null and deviceId != ''">
+            where a.device_id  like CONCAT('%', #{deviceId}, '%')
+        </if>
     </select>
     <select id="getById" resultMap="DeviceWarninfoMap">
         SELECT a.device_id,a.type,b.* from tbl_device_info  a LEFT JOIN tbl_warn_info b on a.device_id=b.device_id where a.device_id=#{device_id}

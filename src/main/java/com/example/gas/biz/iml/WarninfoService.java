@@ -24,8 +24,8 @@ public class WarninfoService implements IWarninfoService {
 
 
     @Override
-    public List<DeviceWarninfo> getList(int pageNo, int pageSize) {
+    public List<DeviceWarninfo> getList(String deviceId, int pageNo, int pageSize) {
         PageHelper.startPage(pageNo, pageSize);
-        return warninfoMapper.getList();
+        return warninfoMapper.getList(deviceId);
     }
 }

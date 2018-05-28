@@ -155,10 +155,13 @@
  LEFT JOIN tbl_device_info c ON a.DEVICE_ID=c.DEVICE_ID LEFT JOIN tbl_warn_info d ON a.DEVICE_ID=d.DEVICE_ID
     </select>
     <select id="searchBydevice_idOrstation" resultMap="DeviceResultMap">
-       select a.*,b.*,c.*,d.* from tbl_device_data_current a
+       select a.*,b.*,c.*,d.*
+        from tbl_device_data_current a
         LEFT JOIN tbl_station_info b ON a.DEVICE_ID=b.device_id
- LEFT JOIN tbl_device_info c ON a.DEVICE_ID=c.DEVICE_ID LEFT JOIN tbl_warn_info d ON a.DEVICE_ID=d.DEVICE_ID where a.`device_id`=#{info}
-  or a.`station_name`=#{info}
+        LEFT JOIN tbl_device_info c ON a.DEVICE_ID=c.DEVICE_ID
+        LEFT JOIN tbl_warn_info d ON a.DEVICE_ID=d.DEVICE_ID
+        where a.`device_id` like CONCAT('%', #{info}, '%')
+        or a.`station_name` like CONCAT('%', #{info}, '%')
     </select>
     <select id="getDetail" resultMap="DeviceResultMap">
        select   *  from tbl_device_data_current where `device_id`=#{device_id}
@@ -173,7 +176,7 @@
         select   *  from tbl_device_info
     </select>
     <select id="searchDeviceList" resultMap="DeviceinfoMap">
-        select   *  from tbl_device_info where `container_id`=#{container_id}
+        select * from tbl_device_info where `container_id` like CONCAT('%', #{container_id}, '%')
     </select>
     <insert id="update" >
         update  `tbl_device_info`
