@@ -77,7 +77,7 @@ public class UserinfoController {
           }else{
               map.put("status","error");
           }
-          return null;
+          return map;
       }
     /**
      * 通过id查询信息
@@ -126,10 +126,10 @@ public class UserinfoController {
     }
 
     /**
-     * 增加
+     * 增加, List<UserMenu> list
      */
     @RequestMapping("insert")
-    int insert(Userinfo userinfo, List<UserMenu> list) {
+    int insert(Userinfo userinfo,List<UserMenu> list) {
        int k= userinfoMapper.insert(userinfo);
        if (k==1){
            System.out.println(userinfo.getIndex());
@@ -139,7 +139,7 @@ public class UserinfoController {
 
            }
        }
-        return 1;
+        return k;
     }
 
     /**

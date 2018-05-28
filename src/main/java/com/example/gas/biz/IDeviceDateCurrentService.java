@@ -22,5 +22,5 @@ public interface IDeviceDateCurrentService {
 
     List<WarnListinfo> getListWarn();
 
-    List<DeviceDateHistory> getListHistoryByDate(int pageNo, int devicepagesize, String device_id, String startTime, String endTime);
+    List<DeviceDateHistory> getListHistoryByDate(String device_id, String startTime, String endTime);
 }

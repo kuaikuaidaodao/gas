@@ -63,8 +63,7 @@ public class DeviceDateCurrentService implements IDeviceDateCurrentService {
     }
 
     @Override
-    public List<DeviceDateHistory> getListHistoryByDate(int pageNo, int pagesize, String device_id, String startTime, String endTime) {
-        PageHelper.startPage(pageNo, pagesize);
+    public List<DeviceDateHistory> getListHistoryByDate(String device_id, String startTime, String endTime) {
         return deviceinfoMapper.getListHistoryByDate(device_id,startTime,endTime);
     }
 }
