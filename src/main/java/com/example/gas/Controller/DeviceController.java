@@ -5,10 +5,18 @@ import com.example.gas.Mapper.DeviceinfoMapper;
 import com.example.gas.biz.IDeviceDateCurrentService;
 import com.example.gas.entity.*;
 import com.github.pagehelper.PageInfo;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.net.URLEncoder;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -169,19 +177,7 @@ public class DeviceController {
      */
     @RequestMapping("getListHistoryByDate")
     public Map getListHistoryByDate(String device_id,String startTime,String endTime) {
-        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        SimpleDateFormat sdf2=new SimpleDateFormat("yy/MM/dd,HH:mm:ss");
-        Date start=null;
-        Date end=null;
-        try {
-            start=sdf.parse(startTime);
-            end=sdf.parse(endTime);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        String startTimeFormart=sdf2.format(start);
-        String endTimeFormart=sdf2.format(end);
-        List<DeviceDateHistory> deviceDateHistory = iDeviceDateCurrentService.getListHistoryByDate(device_id,startTimeFormart,endTimeFormart);
+        List<DeviceDateHistory> deviceDateHistory = iDeviceDateCurrentService.getListHistoryByDate(device_id,startTime,endTime);
         Map map = new HashMap();
         map.put("deviceinfo", deviceinfoMapper.getDeviceListByDervice_id(device_id));
         map.put("deviceHistoryinfo", deviceDateHistory);
@@ -226,4 +222,130 @@ public class DeviceController {
     public int update(Deviceinfo deviceinfo) {
         return deviceinfoMapper.update(deviceinfo);
     }
+    /**
+     * 360消费贷报表导出
+     *
+     * @param
+     * @param response
+     */
+    @RequestMapping("/device_export")
+    public void LoanExport(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String device_id=request.getParameter("device_id");
+        String startTime = request.getParameter("startTime");
+        String endTime = request.getParameter("endTime");
+        // 创建一个webbook，对应一个excel文件
+        HSSFWorkbook hssfWorkbook = new HSSFWorkbook();
+        // 在webbook中添加一个sheet，对应excel表中的sheet
+        HSSFSheet sheet = hssfWorkbook.createSheet();
+        // 在sheet中添加表头第0行
+        HSSFRow row = sheet.createRow(0);
+        row.createCell(0).setCellValue("ID号");
+        row.createCell(1).setCellValue("IMEI");
+        row.createCell(2).setCellValue("设备名称");
+        row.createCell(3).setCellValue("站点名称");
+        row.createCell(4).setCellValue("介质重量(kg)");
+        row.createCell(5).setCellValue("质量(%)");
+        row.createCell(6).setCellValue("压力(MPa)");
+        row.createCell(7).setCellValue("温度(℃)");
+        row.createCell(8).setCellValue("生产商");
+        row.createCell(9).setCellValue("容器编号");
+        row.createCell(10).setCellValue("上报时间间隔(min)");
+        row.createCell(11).setCellValue("电池电压");
+        row.createCell(12).setCellValue("公称容积");
+        row.createCell(13).setCellValue("容器类型");
+        row.createCell(14).setCellValue("介质类型");
+        row.createCell(15).setCellValue("数据时间");
+        row.createCell(16).setCellValue("制造日期 ");
+        Map map=this.getListHistoryByDate(device_id,startTime,endTime);
+        List<DeviceDateHistory> deviceDateHistories=null;
+        Deviceinfo deviceinfo=null;
+        if (map!=null){
+          deviceDateHistories= (List<DeviceDateHistory>) map.get("deviceHistoryinfo");
+          deviceinfo= (Deviceinfo) map.get("deviceinfo");
+        }
+        // 写入实体数据(维度查询和二级过滤以后的数据)
+        SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMddHHmmss");
+        for (int i = 0; i < deviceDateHistories.size(); i++) {
+            row = sheet.createRow(i + 1);
+            DeviceDateHistory excelEntity = deviceDateHistories.get(i);
+                row.createCell(0).setCellValue(device_id);
+                row.createCell(1).setCellValue(device_id);
+            if (null != deviceinfo.getType()&&!"".equals(deviceinfo.getType())) {
+                row.createCell(2).setCellValue(deviceinfo.getType());
+            }
+            if (null != deviceinfo.getStation_name()&&!"".equals(deviceinfo.getStation_name())) {
+                row.createCell(3).setCellValue(deviceinfo.getStation_name());
+            }
+//            介质重量
+            if (null != excelEntity.getWeight()&&!"".equals(excelEntity.getWeight())) {
+                row.createCell(4).setCellValue(excelEntity.getWeight());
+            }
+            /**
+             * 质量百分比 暂略 5
+             */
+//            压力
+            if (null != excelEntity.getPressure_top()&&!"".equals( excelEntity.getPressure_top())) {
+                row.createCell(6).setCellValue(excelEntity.getPressure_top());
+            }
+//            温度
+            if (null!= excelEntity.getTemperature_gas()&&!"".equals(excelEntity.getTemperature_gas())) {
+                row.createCell(7).setCellValue(excelEntity.getTemperature_gas());
+            }
+//            生产商
+            if (null != deviceinfo.getManufacturer()&&!"".equals(deviceinfo.getManufacturer())) {
+                row.createCell(8).setCellValue(deviceinfo.getManufacturer());
+            }
+//            容器编号
+            if (null != deviceinfo.getContainer_num()&&!"".equals(deviceinfo.getContainer_num())) {
+                row.createCell(9).setCellValue(deviceinfo.getContainer_num());
+            }
+//            时间间隔
+            if (!"".equals(excelEntity.getData_interval())) {
+                row.createCell(10).setCellValue(excelEntity.getData_interval());
+            }
+            /**
+             * 电池电压 11
+             */
+//            公称容积
+            if (null != deviceinfo.getVolume()&&!"".equals(deviceinfo.getVolume())) {
+                row.createCell(12).setCellValue(deviceinfo.getVolume());
+            }
+//            容器类型
+            if (null != deviceinfo.getContainer_type()&&!"".equals(deviceinfo.getContainer_type())) {
+                row.createCell(13).setCellValue(deviceinfo.getContainer_type());
+            }
+//            介质类型
+            if (null != deviceinfo.getMedium()&&!"".equals(deviceinfo.getMedium())) {
+                row.createCell(14).setCellValue(deviceinfo.getMedium());
+            }
+//            数据时间
+            if (null != excelEntity.getData_time()&&!"".equals(excelEntity.getData_time())) {
+                row.createCell(15).setCellValue(excelEntity.getData_time());
+            }
+//            制造日期
+            if (null != deviceinfo.getCheck_time()&&!"".equals(deviceinfo.getCheck_time())) {
+                row.createCell(16).setCellValue(deviceinfo.getCheck_time());
+            }
+        }
+        // 浏览器端下载excel(可以另存到指定的目录，目前测试支持IE、谷歌，其他浏览器没有测试)
+        OutputStream out = null;
+        Date now=new Date();
+        try {
+            out = response.getOutputStream();
+            String fileName =sdf.format(now)+".xls";// 文件名
+            response.setContentType("application/x-msdownload");// 告诉浏览器返回数据的格式
+            response.setHeader("Content-Disposition", "attachment; filename=" + URLEncoder.encode(fileName, "UTF-8"));// 告诉浏览器返回的数据打开的方法
+            hssfWorkbook.write(out);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                out.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
 }

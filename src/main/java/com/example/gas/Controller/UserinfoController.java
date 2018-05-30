@@ -129,16 +129,16 @@ public class UserinfoController {
      * 增加, List<UserMenu> list
      */
     @RequestMapping("insert")
-    int insert(Userinfo userinfo,List<UserMenu> list) {
+    int insert(Userinfo userinfo) {
        int k= userinfoMapper.insert(userinfo);
-       if (k==1){
-           System.out.println(userinfo.getIndex());
-           for (UserMenu userMenu:list){
-               userMenu.setUser_id(userinfo.getIndex());
-               menuMapper.insert(userMenu);
-
-           }
-       }
+//       if (k==1){
+//           System.out.println(userinfo.getIndex());
+//           for (UserMenu userMenu:list){
+//               userMenu.setUser_id(userinfo.getIndex());
+//               menuMapper.insert(userMenu);
+//
+//           }
+//       }
         return k;
     }
 

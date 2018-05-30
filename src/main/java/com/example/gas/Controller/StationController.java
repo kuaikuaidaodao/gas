@@ -52,17 +52,17 @@ public class StationController {
      * 站点增加
      *
      * @param name
-     * @param deviceId
+     * @param device_id
      * @return
      */
     @RequestMapping("addStationinfo")
-    int addStationinfo(String name, Long deviceId) {
+    int addStationinfo(String name, Long device_id) {
 
         Stationinfo stationinfo = new Stationinfo();
         stationinfo.setName(name);
-        stationinfo.setDevice_id(deviceId);
+        stationinfo.setDevice_id(device_id);
 
-        Map map = deviceinfoMapper.getItude(deviceId);
+        Map map = deviceinfoMapper.getItude(device_id);
         if (map != null) {
             stationinfo.setLatitude(map.get("latitude").toString());
             stationinfo.setLongitude(map.get("longitude").toString());

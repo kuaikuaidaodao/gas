@@ -9,11 +9,11 @@ public class DeviceDateHistory {
     private String pressure_bottom;
     private String pressure_diff;
     private String level_liquid;
-    private int volume;
+    private String volume;
     private String weight;
     private float temperature_liquid;
-    private float temperature_gas;
-    private float temperature_cpu;
+    private String temperature_gas;
+    private String temperature_cpu;
     private int electricity;
     private int height;
     private float speed;
@@ -25,7 +25,7 @@ public class DeviceDateHistory {
     private String consumption_lastmonth;
     private String consumption_lastyear;
     private String data_time;
-    private int data_interval;
+    private String data_interval;
     private String station_name;
 
     public int getIndex() {
@@ -92,13 +92,7 @@ public class DeviceDateHistory {
         this.level_liquid = level_liquid;
     }
 
-    public int getVolume() {
-        return volume;
-    }
 
-    public void setVolume(int volume) {
-        this.volume = volume;
-    }
 
     public String getWeight() {
         return weight;
@@ -114,22 +108,6 @@ public class DeviceDateHistory {
 
     public void setTemperature_liquid(float temperature_liquid) {
         this.temperature_liquid = temperature_liquid;
-    }
-
-    public float getTemperature_gas() {
-        return temperature_gas;
-    }
-
-    public void setTemperature_gas(float temperature_gas) {
-        this.temperature_gas = temperature_gas;
-    }
-
-    public float getTemperature_cpu() {
-        return temperature_cpu;
-    }
-
-    public void setTemperature_cpu(float temperature_cpu) {
-        this.temperature_cpu = temperature_cpu;
     }
 
     public int getElectricity() {
@@ -220,13 +198,6 @@ public class DeviceDateHistory {
         this.data_time = data_time;
     }
 
-    public int getData_interval() {
-        return data_interval;
-    }
-
-    public void setDate_interval(int data_interval) {
-        this.data_interval = data_interval;
-    }
 
     public String getStation_name() {
         return station_name;
@@ -234,5 +205,41 @@ public class DeviceDateHistory {
 
     public void setStation_name(String station_name) {
         this.station_name = station_name;
+    }
+
+    public String getVolume() {
+        return volume;
+    }
+
+    public void setVolume(String volume) {
+        this.volume = volume;
+    }
+
+    public String getTemperature_gas() {
+        return temperature_gas;
+    }
+
+    public void setTemperature_gas(String temperature_gas) {
+        this.temperature_gas = temperature_gas;
+    }
+
+    public String getTemperature_cpu() {
+        return temperature_cpu;
+    }
+
+    public void setTemperature_cpu(String temperature_cpu) {
+        this.temperature_cpu = temperature_cpu;
+    }
+
+    public void setData_time(String data_time) {
+        this.data_time = data_time;
+    }
+
+    public String getData_interval() {
+        return data_interval;
+    }
+
+    public void setData_interval(String data_interval) {
+        this.data_interval = data_interval;
     }
 }

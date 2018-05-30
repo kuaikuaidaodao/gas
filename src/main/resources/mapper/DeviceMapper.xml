@@ -57,6 +57,7 @@
         <result column="data_time" property="data_time"/>
         <result column="date_interval" property="date_interval"/>
         <result column="station_name" property="station_name"/>
+        <result column="isonline" property="isonline"/>
         <association property="deviceinfo" javaType="com.example.gas.entity.Deviceinfo">
         <id column="device_id" property="device_id"/>
         <result column="type" property="type"/>
@@ -142,6 +143,7 @@
             <result column="data_time" property="data_time"/>
             <result column="date_interval" property="date_interval"/>
             <result column="station_name" property="station_name"/>
+            <result column="isonline" property="isonline"/>
         </association>
     </resultMap>
     <select id="getList" resultMap="DeviceResultMap">
@@ -180,11 +182,21 @@
     </select>
     <insert id="update" >
         update  `tbl_device_info`
-        set
-         `type`=#{pojo.type},`manufacturer`=#{pojo.manufacturer},`container_num`=#{pojo.container_num},`container_id`=#{pojo.container_id}
-         ,`container_type`=#{pojo.container_type},`manufacturer_time`=#{pojo.manufacturer_time} ,`volume`=#{pojo.volume},
-         `check_time`=#{pojo.check_time},`version`=#{pojo.version} ,`station_name`=#{pojo.station_name},`energy`=#{pojo.energy} ,`medium`=#{pojo.medium}
-         where `device_id`=#{pojo.device_id}
+        <set>
+            <if test="type != null"> `type`=#{type}, </if>
+            <if test="manufacturer != null">`manufacturer`=#{manufacturer}, </if>
+            <if test="container_num != null">`container_num`=#{container_num}, </if>
+            <if test="container_id != null">`container_id`=#{container_id}, </if>
+            <if test="container_type != null">`container_type`=#{container_type}, </if>
+            <if test="manufacturer_time != null">`manufacturer_time`=#{manufacturer_time}, </if>
+            <if test="check_time != null">`check_time`=#{check_time}, </if>
+            <if test="volume != null">`volume`=#{volume}, </if>
+            <if test="version != null">`version`=#{version}, </if>
+            <if test="station_name != null">`station_name`=#{station_name}, </if>
+            <if test="energy != null">`energy`=#{energy}, </if>
+            <if test="medium != null">`medium`=#{medium} </if>
+        </set>
+         where `device_id`=#{device_id}
     </insert>
     <select id="getItude" resultType="java.util.HashMap">
         select longitude,latitude from `tbl_device_data_current`

@@ -8,11 +8,11 @@ public class Deviceinfo {
     private String container_id;
     private String container_type;
     private String manufacturer_time;
-    private int volume;
+    private String volume;
     private String check_time;
     private String version;
     private String station_name;
-    private int energy;
+    private String energy;
     private String medium;
     public long getDevice_id() {
         return device_id;
@@ -70,14 +70,6 @@ public class Deviceinfo {
         this.manufacturer_time = manufacturer_time;
     }
 
-    public int getVolume() {
-        return volume;
-    }
-
-    public void setVolume(int volume) {
-        this.volume = volume;
-    }
-
     public String getCheck_time() {
         return check_time;
     }
@@ -102,14 +94,6 @@ public class Deviceinfo {
         this.station_name = station_name;
     }
 
-    public int getEnergy() {
-        return energy;
-    }
-
-    public void setEnergy(int energy) {
-        this.energy = energy;
-    }
-
     public String getMedium() {
         return medium;
     }
@@ -117,4 +101,21 @@ public class Deviceinfo {
     public void setMedium(String medium) {
         this.medium = medium;
     }
+
+    public String getVolume() {
+        return volume;
+    }
+
+    public void setVolume(String volume) {
+        this.volume = volume;
+    }
+
+    public String getEnergy() {
+        return energy;
+    }
+
+    public void setEnergy(String energy) {
+        this.energy = energy;
+    }
+
 }

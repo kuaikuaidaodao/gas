@@ -25,6 +25,7 @@ public class DaviceInfoCurrent {
     private String data_time;
     private int date_interval;
     private String station_name;
+    private String isonline;
 
     public long getDevice_id() {
         return device_id;
@@ -216,5 +217,13 @@ public class DaviceInfoCurrent {
 
     public void setStation_name(String station_name) {
         this.station_name = station_name;
+    }
+
+    public String getIsonline() {
+        return isonline;
+    }
+
+    public void setIsonline(String isonline) {
+        this.isonline = isonline;
     }
 }

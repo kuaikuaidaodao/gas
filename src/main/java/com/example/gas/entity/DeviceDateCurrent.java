@@ -25,6 +25,7 @@ public class DeviceDateCurrent {
     private String consumption_lastyear;
     private String data_time;
     private int date_interval;
+    private String isonline;
     private String station_name;
     private Stationinfo stationinfo;
     private Deviceinfo deviceinfo;
@@ -252,5 +253,21 @@ public class DeviceDateCurrent {
 
     public void setWarninfo(Warninfo warninfo) {
         this.warninfo = warninfo;
+    }
+
+    public String getData_time() {
+        return data_time;
+    }
+
+    public void setData_time(String data_time) {
+        this.data_time = data_time;
+    }
+
+    public String getIsonline() {
+        return isonline;
+    }
+
+    public void setIsonline(String isonline) {
+        this.isonline = isonline;
     }
 }
